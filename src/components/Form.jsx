@@ -1,11 +1,17 @@
-import { Button, Container, TextField } from '@mui/material'
-import React, { useState } from 'react'
+import { Button, Box, Container, TextField } from '@mui/material'
+import React, { useEffect, useState } from 'react'
 const Form = () => {
+  const [step, setStep] = useState(2)
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    phone: ''
+    phone: '',
+    address: '',
+    about: ''
   })
+  useEffect(() => {
+    console.log(step)
+  }, [step])
   const handleSubmit = async (e) => {
     try {
       e.preventDefault()
@@ -17,7 +23,9 @@ const Form = () => {
         body: JSON.stringify({
           name: formData.name,
           email: formData.email,
-          phone: formData.phone
+          phone: formData.phone,
+          address: formData.address,
+          about: formData.about
         })
       })
       const blob = await response.blob()
@@ -25,7 +33,7 @@ const Form = () => {
       const link = document.createElement('a')
       link.href = url
       link.download = 'resume.pdf' // Set desired filename
-      link.click()
+      // link.click()
 
       // Revoke the temporary URL to avoid memory leaks
       window.URL.revokeObjectURL(url)
@@ -33,29 +41,100 @@ const Form = () => {
       console.log(err)
     }
   }
+  const nextStep = () => {
+    setStep((current) => current + 1)
+  }
+  const setName = (e) => {
+    setFormData({ ...formData, name: e.target.value })
+  }
+  const setEmail = (e) => {
+    setFormData({ ...formData, email: e.target.value })
+  }
+  const setPhone = (e) => {
+    setFormData({ ...formData, phone: e.target.value })
+  }
+  const setAddress = (e) => {
+    setFormData({ ...formData, address: e.target.value })
+  }
+  const setAbout = (e) => {
+    setFormData({ ...formData, about: e.target.value })
+  }
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <TextField
-          label='Name'
-          value={formData.name}
-          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-        />
-        <TextField
-          label='E-mail'
-          value={formData.email}
-          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-        />
-        <TextField
-          label='Phone'
-          value={formData.phone}
-          onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-        />
-        <Button type='submit' variant='contained'>
-          Create Resume
-        </Button>
-      </form>
-    </div>
+    <Container maxWidth='xs'>
+      <Box marginTop={4}>
+        <form noValidate autoComplete='off' onSubmit={handleSubmit}>
+          {step === 1 && (
+            <Box
+              display={'flex'}
+              alignItems={'center'}
+              flexDirection={'column'}
+            >
+              <h1>Personal Details</h1>
+              <Box margin={1}>
+                <TextField required id='name' label='Name' onChange={setName} />
+              </Box>
+              <Box margin={1}>
+                <TextField
+                  required
+                  id='email'
+                  label='Email'
+                  type='email'
+                  onChange={setEmail}
+                />
+              </Box>
+              <Box margin={1}>
+                <TextField
+                  required
+                  id='phone'
+                  label='Phone Number'
+                  type='tel'
+                  onChange={setPhone}
+                />
+              </Box>
+              <Box margin={1}>
+                <TextField
+                  required
+                  id='address'
+                  label='Address'
+                  onChange={setAddress}
+                />
+              </Box>
+              <Box margin={1}>
+                <TextField
+                  required
+                  id='about'
+                  label='About Me'
+                  onChange={setAbout}
+                />
+              </Box>
+              <Box margin={1}>
+                <Button variant='contained' color='primary' onClick={nextStep}>
+                  Next
+                </Button>
+              </Box>
+            </Box>
+          )}
+          {step === 2 && (
+            <>
+              <Box
+                display={'flex'}
+                flexDirection={'column'}
+                alignItems={'center'}
+              >
+                <h1>Education</h1>
+                <Box margin={1}>
+                  <TextField
+                    required
+                    id='school'
+                    label='Enter Education Qualification'
+                  />
+                </Box>
+              </Box>
+            </>
+          )}
+        </form>
+      </Box>
+    </Container>
   )
 }
 
