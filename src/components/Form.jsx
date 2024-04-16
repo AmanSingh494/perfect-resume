@@ -2,24 +2,39 @@ import { Button, Box, Container, TextField } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 const Form = () => {
   const [step, setStep] = useState(1)
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    address: '',
-    about: ''
-  })
-  const [eduCount, setEduCount] = useState(3)
-  const [edu, setEdu] = useState(Array(eduCount).fill(''))
-  const [skillCount, setSkillCount] = useState(3)
-  const [skill, setSkill] = useState(Array(skillCount).fill(''))
-  const [workCount, setWorkCount] = useState(2)
-  const [work, setWork] = useState(Array(skillCount).fill(''))
-  const [linkCount, setLinkCount] = useState(3)
-  const [links, setLink] = useState(Array(skillCount).fill(''))
+  const [personalDetails, setPersonalDetails] = useState(
+    Array.from({ length: 1 }, () => ({}))
+  )
+  const [eduCount, setEduCount] = useState(1)
+  const [edu, setEdu] = useState(Array.from({ length: eduCount }, () => ({})))
+  const [skillCount, setSkillCount] = useState(1)
+  const [skill, setSkill] = useState(
+    Array.from({ length: skillCount }, () => ({}))
+  )
+  const [workCount, setWorkCount] = useState(1)
+  const [work, setWork] = useState(
+    Array.from({ length: workCount }, () => ({}))
+  )
+  const [projectCount, setProjectCount] = useState(1)
+  const [projects, setProjects] = useState(
+    Array.from({ length: projectCount }, () => ({}))
+  )
+  const [courseCount, setCourseCount] = useState(1)
+  const [course, setCourse] = useState(
+    Array.from({ length: courseCount }, () => ({}))
+  )
   const [achievementCount, setAchievementsCount] = useState(1)
-  const [achievements, setAchievements] = useState(Array(skillCount).fill(''))
-
+  const [achievements, setAchievements] = useState(
+    Array.from({ length: achievementCount }, () => ({}))
+  )
+  const [customSectionCount, setCustomSectionCount] = useState(1)
+  const [customSection, setCustomSection] = useState(
+    Array.from({ length: customSectionCount }, () => ({}))
+  )
+  const [image, setImage] = useState(null)
+  // useEffect(() => {
+  //   console.log(image)
+  // }, [image])
   const handleSubmit = async (e) => {
     try {
       e.preventDefault()
@@ -29,16 +44,15 @@ const Form = () => {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          phone: formData.phone,
-          address: formData.address,
-          about: formData.about,
+          personalDetails,
           achievements,
           edu,
           skill,
+          projects,
           work,
-          links
+          course,
+          image,
+          customSection
         })
       })
       const blob = await response.blob()
@@ -54,39 +68,54 @@ const Form = () => {
       console.log(err)
     }
   }
-  const nextStep = () => {
-    setStep((current) => current + 1)
+  const changeStep = (x) => {
+    setStep((current) => current + x)
+    console.log(edu)
   }
-  const setName = (e) => {
-    setFormData({ ...formData, name: e.target.value })
-  }
-  const setEmail = (e) => {
-    setFormData({ ...formData, email: e.target.value })
-  }
-  const setPhone = (e) => {
-    setFormData({ ...formData, phone: e.target.value })
-  }
-  const setAddress = (e) => {
-    setFormData({ ...formData, address: e.target.value })
-  }
-  const setAbout = (e) => {
-    setFormData({ ...formData, about: e.target.value })
-  }
+
   const handleInputChange = (index, e, _state, _stateChanger) => {
     const values = [..._state]
-    values[index] = e.target.value
+    const name = e.target.name
+    values[index][name] = e.target.value
     _stateChanger(values)
   }
 
   const handleAddClick = (count, countChanger, _state, _stateChanger) => {
     countChanger(count + 1)
-    _stateChanger([..._state, ''])
+    _stateChanger([..._state, {}])
+  }
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0]
+    e.preventDefault()
+    if (!file) {
+      console.log('No file uploaded')
+      return
+    } else {
+      console.log(file)
+      const formData = new FormData()
+      formData.append('image', file)
+
+      try {
+        fetch('http://localhost:5000/upload', {
+          method: 'POST',
+          body: formData
+        })
+      } catch (err) {
+        console.log(err)
+      }
+    }
   }
 
   return (
     <Container maxWidth='xs'>
       <Box marginTop={4}>
-        <form noValidate autoComplete='off' onSubmit={handleSubmit}>
+        <form
+          encType='multipart/form-data'
+          noValidate
+          autoComplete='off'
+          onSubmit={handleSubmit}
+        >
           {step === 1 && (
             <Box
               display={'flex'}
@@ -95,7 +124,21 @@ const Form = () => {
             >
               <h1>Personal Details</h1>
               <Box margin={1}>
-                <TextField required id='name' label='Name' onChange={setName} />
+                <TextField
+                  required
+                  id='name'
+                  label='Name'
+                  name='name'
+                  value={personalDetails[0].name || ''}
+                  onChange={(event) =>
+                    handleInputChange(
+                      0,
+                      event,
+                      personalDetails,
+                      setPersonalDetails
+                    )
+                  }
+                />
               </Box>
               <Box margin={1}>
                 <TextField
@@ -103,7 +146,16 @@ const Form = () => {
                   id='email'
                   label='Email'
                   type='email'
-                  onChange={setEmail}
+                  name='email'
+                  value={personalDetails[0].email || ''}
+                  onChange={(event) =>
+                    handleInputChange(
+                      0,
+                      event,
+                      personalDetails,
+                      setPersonalDetails
+                    )
+                  }
                 />
               </Box>
               <Box margin={1}>
@@ -112,7 +164,35 @@ const Form = () => {
                   id='phone'
                   label='Phone Number'
                   type='tel'
-                  onChange={setPhone}
+                  name='phone'
+                  value={personalDetails[0].phone || ''}
+                  onChange={(event) =>
+                    handleInputChange(
+                      0,
+                      event,
+                      personalDetails,
+                      setPersonalDetails
+                    )
+                  }
+                />
+              </Box>
+              <Box margin={1}>
+                <TextField
+                  required
+                  style={{ minWidth: '17vw' }}
+                  fullWidth
+                  id='dob'
+                  type='date'
+                  name='dob'
+                  value={personalDetails[0].dob || ''}
+                  onChange={(event) =>
+                    handleInputChange(
+                      0,
+                      event,
+                      personalDetails,
+                      setPersonalDetails
+                    )
+                  }
                 />
               </Box>
               <Box margin={1}>
@@ -120,27 +200,75 @@ const Form = () => {
                   required
                   id='address'
                   label='Address'
-                  onChange={setAddress}
+                  name='address'
+                  value={personalDetails[0].address || ''}
+                  onChange={(event) =>
+                    handleInputChange(
+                      0,
+                      event,
+                      personalDetails,
+                      setPersonalDetails
+                    )
+                  }
                 />
-              </Box>
-              <Box margin={1}>
-                <input
-                  type='file'
-                  name='imageUpload'
-                  accept='image/jpg, image/png'
-                />
-                <label for='imageUpload' />
               </Box>
               <Box margin={1}>
                 <TextField
                   required
                   id='about'
                   label='About Me'
-                  onChange={setAbout}
+                  name='about'
+                  value={personalDetails[0].about || ''}
+                  onChange={(event) =>
+                    handleInputChange(
+                      0,
+                      event,
+                      personalDetails,
+                      setPersonalDetails
+                    )
+                  }
                 />
               </Box>
               <Box margin={1}>
-                <Button variant='contained' color='primary' onClick={nextStep}>
+                <TextField
+                  required
+                  id='linktree'
+                  label='Linktree link'
+                  name='linktree'
+                  value={personalDetails[0].linktree || ''}
+                  onChange={(event) =>
+                    handleInputChange(
+                      0,
+                      event,
+                      personalDetails,
+                      setPersonalDetails
+                    )
+                  }
+                />
+              </Box>
+              <Box
+                margin={1}
+                padding={'19px 25px'}
+                border={'0.5px solid #b6b0b0'}
+              >
+                <input
+                  type='file'
+                  name='imageUpload'
+                  id='imageUpload'
+                  accept='image/jpg, image/png'
+                  style={{ display: 'none' }}
+                  onChange={handleImageChange}
+                />
+                <label htmlFor='imageUpload' className='imageUpload'>
+                  Upload your image here
+                </label>
+              </Box>
+              <Box margin={1}>
+                <Button
+                  variant='contained'
+                  color='primary'
+                  onClick={() => changeStep(1)}
+                >
                   Next
                 </Button>
               </Box>
@@ -156,11 +284,43 @@ const Form = () => {
                 <h1>Education</h1>
               </Box>
               {Array.from({ length: eduCount }, (_, index) => (
-                <Box margin={1}>
+                <Box margin={1} display={'flex'} gap={2}>
                   <TextField
-                    label='Education'
-                    key={index}
-                    value={edu[index] || ''}
+                    style={{ width: '200px' }}
+                    name='course'
+                    label='Course / Exam'
+                    key={`course-${index}`}
+                    value={edu[index].course || ''}
+                    onChange={(event) =>
+                      handleInputChange(index, event, edu, setEdu)
+                    }
+                  />
+                  <TextField
+                    style={{ width: '200px' }}
+                    name='institution'
+                    label='Institution'
+                    key={`institution-${index}`}
+                    value={edu[index].institution || ''}
+                    onChange={(event) =>
+                      handleInputChange(index, event, edu, setEdu)
+                    }
+                  />
+                  <TextField
+                    style={{ width: '200px' }}
+                    name='year'
+                    label='Year of passing'
+                    key={`year-${index}`}
+                    value={edu[index].year || ''}
+                    onChange={(event) =>
+                      handleInputChange(index, event, edu, setEdu)
+                    }
+                  />
+                  <TextField
+                    style={{ width: '200px' }}
+                    name='marks'
+                    label='Percentage / CGPA'
+                    key={`marks-${index}`}
+                    value={edu[index].marks || ''}
                     onChange={(event) =>
                       handleInputChange(index, event, edu, setEdu)
                     }
@@ -168,6 +328,15 @@ const Form = () => {
                 </Box>
               ))}
               <Box display={'flex'}>
+                <Box margin={1}>
+                  <Button
+                    variant='contained'
+                    color='primary'
+                    onClick={() => changeStep(-1)}
+                  >
+                    Back
+                  </Button>
+                </Box>
                 <Box margin={1}>
                   <Button
                     variant='contained'
@@ -183,7 +352,7 @@ const Form = () => {
                   <Button
                     variant='contained'
                     color='primary'
-                    onClick={nextStep}
+                    onClick={() => changeStep(1)}
                   >
                     Next
                   </Button>
@@ -198,13 +367,27 @@ const Form = () => {
               alignItems={'center'}
             >
               <h1>What Skills do you have?</h1>
-              <Box>
+              <Box
+                display={'flex'}
+                flexDirection={'column'}
+                alignItems={'center'}
+              >
                 {Array.from({ length: skillCount }, (_, index) => (
-                  <Box margin={1}>
+                  <Box margin={1} display={'flex'} gap={2}>
                     <TextField
                       label='Skill'
-                      key={index}
-                      value={skill[index] || ''}
+                      name='skill'
+                      key={`skill-${index}`}
+                      value={skill[index].skill || ''}
+                      onChange={(event) =>
+                        handleInputChange(index, event, skill, setSkill)
+                      }
+                    />
+                    <TextField
+                      label='Level'
+                      name='level'
+                      key={`level-${index}`}
+                      value={skill[index].level || ''}
                       onChange={(event) =>
                         handleInputChange(index, event, skill, setSkill)
                       }
@@ -212,6 +395,15 @@ const Form = () => {
                   </Box>
                 ))}
                 <Box display={'flex'}>
+                  <Box margin={1}>
+                    <Button
+                      variant='contained'
+                      color='primary'
+                      onClick={() => changeStep(-1)}
+                    >
+                      Back
+                    </Button>
+                  </Box>
                   <Box margin={1}>
                     <Button
                       variant='contained'
@@ -232,7 +424,7 @@ const Form = () => {
                     <Button
                       variant='contained'
                       color='primary'
-                      onClick={nextStep}
+                      onClick={() => changeStep(1)}
                     >
                       Next
                     </Button>
@@ -247,23 +439,207 @@ const Form = () => {
               flexDirection={'column'}
               alignItems={'center'}
             >
-              <Box margin={1} textAlign={'center'}>
-                <h1>Show Your Work Experience</h1>
+              <Box
+                margin={1}
+                display={'flex'}
+                flexDirection={'column'}
+                alignItems={'center'}
+                textAlign={'center'}
+              >
+                <h1>Your Projects / Internships</h1>
               </Box>
-              <Box>
-                {Array.from({ length: workCount }, (_, index) => (
-                  <Box margin={1}>
+              <Box
+                display={'flex'}
+                flexDirection={'column'}
+                alignItems={'center'}
+              >
+                {Array.from({ length: projectCount }, (_, index) => (
+                  <Box
+                    margin={1}
+                    display={'flex'}
+                    alignItems={'center'}
+                    gap={2}
+                  >
                     <TextField
-                      label='Work'
-                      key={index}
-                      value={work[index] || ''}
+                      label='Company / Project Name'
+                      name='company'
+                      key={`name-${index}`}
+                      value={projects[index].company || ''}
                       onChange={(event) =>
-                        handleInputChange(index, event, work, setWork)
+                        handleInputChange(index, event, projects, setProjects)
                       }
+                      style={{ width: '150px' }}
+                    />
+                    <TextField
+                      label='Position'
+                      name='position'
+                      key={`position-${index}`}
+                      value={projects[index].position || ''}
+                      onChange={(event) =>
+                        handleInputChange(index, event, projects, setProjects)
+                      }
+                      style={{ width: '150px' }}
+                    />
+                    <TextField
+                      label='Start'
+                      name='start'
+                      key={`start-${index}`}
+                      value={projects[index].start || ''}
+                      onChange={(event) =>
+                        handleInputChange(index, event, projects, setProjects)
+                      }
+                      style={{ width: '150px' }}
+                    />
+                    <TextField
+                      label='End'
+                      name='end'
+                      key={`end-${index}`}
+                      value={projects[index].end || ''}
+                      onChange={(event) =>
+                        handleInputChange(index, event, projects, setProjects)
+                      }
+                      style={{ width: '150px' }}
+                    />
+                    <TextField
+                      label='Experience / Acheivements'
+                      name='exp'
+                      key={`exp-${index}`}
+                      value={projects[index].exp || ''}
+                      onChange={(event) =>
+                        handleInputChange(index, event, projects, setProjects)
+                      }
+                      style={{ width: '350px' }}
                     />
                   </Box>
                 ))}
                 <Box display={'flex'}>
+                  <Box margin={1}>
+                    <Button
+                      variant='contained'
+                      color='primary'
+                      onClick={() => changeStep(-1)}
+                    >
+                      Back
+                    </Button>
+                  </Box>
+                  <Box margin={1}>
+                    <Button
+                      variant='contained'
+                      color='primary'
+                      onClick={() =>
+                        handleAddClick(
+                          projectCount,
+                          setProjectCount,
+                          projects,
+                          setProjects
+                        )
+                      }
+                    >
+                      Add input
+                    </Button>
+                  </Box>
+                  <Box margin={1}>
+                    <Button
+                      variant='contained'
+                      color='primary'
+                      onClick={() => changeStep(1)}
+                    >
+                      Next
+                    </Button>
+                  </Box>
+                </Box>
+              </Box>
+            </Box>
+          )}
+          {step === 5 && (
+            <Box
+              display={'flex'}
+              flexDirection={'column'}
+              alignItems={'center'}
+            >
+              <Box
+                margin={1}
+                display={'flex'}
+                flexDirection={'column'}
+                alignItems={'center'}
+                textAlign={'center'}
+              >
+                <h1>Your Work Experience / Projects</h1>
+              </Box>
+              <Box
+                display={'flex'}
+                flexDirection={'column'}
+                alignItems={'center'}
+              >
+                {Array.from({ length: workCount }, (_, index) => (
+                  <Box
+                    margin={1}
+                    display={'flex'}
+                    alignItems={'center'}
+                    gap={2}
+                  >
+                    <TextField
+                      label='Company Name'
+                      name='company'
+                      key={`company-${index}`}
+                      value={work[index].company || ''}
+                      onChange={(event) =>
+                        handleInputChange(index, event, work, setWork)
+                      }
+                      style={{ width: '150px' }}
+                    />
+                    <TextField
+                      label='Position'
+                      name='position'
+                      key={`position-${index}`}
+                      value={work[index].position || ''}
+                      onChange={(event) =>
+                        handleInputChange(index, event, work, setWork)
+                      }
+                      style={{ width: '150px' }}
+                    />
+                    <TextField
+                      label='Start'
+                      name='start'
+                      key={`start-${index}`}
+                      value={work[index].start || ''}
+                      onChange={(event) =>
+                        handleInputChange(index, event, work, setWork)
+                      }
+                      style={{ width: '150px' }}
+                    />
+                    <TextField
+                      label='End'
+                      name='end'
+                      key={`end-${index}`}
+                      value={work[index].end || ''}
+                      onChange={(event) =>
+                        handleInputChange(index, event, work, setWork)
+                      }
+                      style={{ width: '150px' }}
+                    />
+                    <TextField
+                      label='Experience / Acheivements'
+                      name='exp'
+                      key={`exp-${index}`}
+                      value={work[index].exp || ''}
+                      onChange={(event) =>
+                        handleInputChange(index, event, work, setWork)
+                      }
+                      style={{ width: '350px' }}
+                    />
+                  </Box>
+                ))}
+                <Box display={'flex'}>
+                  <Box margin={1}>
+                    <Button
+                      variant='contained'
+                      color='primary'
+                      onClick={() => changeStep(-1)}
+                    >
+                      Back
+                    </Button>
+                  </Box>
                   <Box margin={1}>
                     <Button
                       variant='contained'
@@ -279,7 +655,7 @@ const Form = () => {
                     <Button
                       variant='contained'
                       color='primary'
-                      onClick={nextStep}
+                      onClick={() => changeStep(1)}
                     >
                       Next
                     </Button>
@@ -288,22 +664,74 @@ const Form = () => {
               </Box>
             </Box>
           )}
-          {step === 5 && (
+          {step === 6 && (
             <Box
               display={'flex'}
               flexDirection={'column'}
               alignItems={'center'}
             >
               <Box margin={1} textAlign={'center'}>
-                <h1>Have you achieved anything?</h1>
+                <h1>Awards / Achievements</h1>
               </Box>
-              <Box>
+              <Box
+                display={'flex'}
+                alignItems={'center'}
+                justifyContent={'center'}
+                flexDirection={'column'}
+              >
                 {Array.from({ length: achievementCount }, (_, index) => (
-                  <Box margin={1}>
+                  <Box margin={1} display={'flex'} gap={2}>
                     <TextField
-                      label='Achievement'
-                      key={index}
-                      value={achievements[index] || ''}
+                      style={{ width: '200px' }}
+                      label='Achievement / Prize'
+                      name='name'
+                      key={`name-${index}`}
+                      value={achievements[index].name || ''}
+                      onChange={(event) =>
+                        handleInputChange(
+                          index,
+                          event,
+                          achievements,
+                          setAchievements
+                        )
+                      }
+                    />
+                    <TextField
+                      style={{ width: '200px' }}
+                      label='Name of the Event'
+                      name='event'
+                      key={`event-${index}`}
+                      value={achievements[index].event || ''}
+                      onChange={(event) =>
+                        handleInputChange(
+                          index,
+                          event,
+                          achievements,
+                          setAchievements
+                        )
+                      }
+                    />
+                    <TextField
+                      style={{ width: '200px' }}
+                      label='Organised by'
+                      name='organiser'
+                      key={`organiser-${index}`}
+                      value={achievements[index].organiser || ''}
+                      onChange={(event) =>
+                        handleInputChange(
+                          index,
+                          event,
+                          achievements,
+                          setAchievements
+                        )
+                      }
+                    />
+                    <TextField
+                      style={{ width: '200px' }}
+                      label='Year'
+                      name='year'
+                      key={`year-${index}`}
+                      value={achievements[index].year || ''}
                       onChange={(event) =>
                         handleInputChange(
                           index,
@@ -316,6 +744,15 @@ const Form = () => {
                   </Box>
                 ))}
                 <Box display={'flex'}>
+                  <Box margin={1}>
+                    <Button
+                      variant='contained'
+                      color='primary'
+                      onClick={() => changeStep(-1)}
+                    >
+                      Back
+                    </Button>
+                  </Box>
                   <Box margin={1}>
                     <Button
                       variant='contained'
@@ -336,7 +773,7 @@ const Form = () => {
                     <Button
                       variant='contained'
                       color='primary'
-                      onClick={nextStep}
+                      onClick={() => changeStep(1)}
                     >
                       Next
                     </Button>
@@ -345,24 +782,180 @@ const Form = () => {
               </Box>
             </Box>
           )}
-          {step === 6 && (
+
+          {step === 7 && (
+            <Box
+              display={'flex'}
+              flexDirection={'column'}
+              alignItems={'center'}
+            >
+              <Box
+                margin={1}
+                display={'flex'}
+                flexDirection={'column'}
+                alignItems={'center'}
+                textAlign={'center'}
+              >
+                <h1>Additional Qualifications and Courses</h1>
+              </Box>
+              <Box
+                display={'flex'}
+                flexDirection={'column'}
+                alignItems={'center'}
+              >
+                {Array.from({ length: courseCount }, (_, index) => (
+                  <Box
+                    margin={1}
+                    display={'flex'}
+                    alignItems={'center'}
+                    gap={2}
+                  >
+                    <TextField
+                      label='Course Name'
+                      name='course'
+                      key={`course-${index}`}
+                      value={course[index].course || ''}
+                      onChange={(event) =>
+                        handleInputChange(index, event, course, setCourse)
+                      }
+                      style={{ width: '150px' }}
+                    />
+                    <TextField
+                      label='Duration'
+                      name='duration'
+                      key={`duration-${index}`}
+                      value={course[index].duration || ''}
+                      onChange={(event) =>
+                        handleInputChange(index, event, course, setCourse)
+                      }
+                      style={{ width: '150px' }}
+                    />
+                    <TextField
+                      label='Experience / Acheivements'
+                      name='exp'
+                      key={`exp-${index}`}
+                      value={course[index].exp || ''}
+                      onChange={(event) =>
+                        handleInputChange(index, event, course, setCourse)
+                      }
+                      style={{ width: '350px' }}
+                    />
+                  </Box>
+                ))}
+                <Box display={'flex'}>
+                  <Box margin={1}>
+                    <Button
+                      variant='contained'
+                      color='primary'
+                      onClick={() => changeStep(-1)}
+                    >
+                      Back
+                    </Button>
+                  </Box>
+                  <Box margin={1}>
+                    <Button
+                      variant='contained'
+                      color='primary'
+                      onClick={() =>
+                        handleAddClick(
+                          courseCount,
+                          setCourseCount,
+                          course,
+                          setCourse
+                        )
+                      }
+                    >
+                      Add input
+                    </Button>
+                  </Box>
+                  <Box margin={1}>
+                    <Button
+                      variant='contained'
+                      color='primary'
+                      onClick={() => changeStep(1)}
+                    >
+                      Next
+                    </Button>
+                  </Box>
+                </Box>
+              </Box>
+            </Box>
+          )}
+          {step === 8 && (
             <Box
               display={'flex'}
               flexDirection={'column'}
               alignItems={'center'}
             >
               <Box margin={1} textAlign={'center'}>
-                <h1>How to connect to you?</h1>
+                <h1>You can create a Custom Section</h1>
               </Box>
-              <Box>
-                {Array.from({ length: linkCount }, (_, index) => (
-                  <Box margin={1}>
+              <Box
+                display={'flex'}
+                alignItems={'center'}
+                justifyContent={'center'}
+                flexDirection={'column'}
+              >
+                {Array.from({ length: customSectionCount }, (_, index) => (
+                  <Box margin={1} display={'flex'} gap={2}>
                     <TextField
-                      label='Links'
-                      key={index}
-                      value={links[index] || ''}
+                      style={{ width: '200px' }}
+                      label='Name of the section'
+                      name='name'
+                      key={`name-${index}`}
+                      value={customSection[index].name || ''}
                       onChange={(event) =>
-                        handleInputChange(index, event, links, setLink)
+                        handleInputChange(
+                          index,
+                          event,
+                          customSection,
+                          setCustomSection
+                        )
+                      }
+                    />
+                    <TextField
+                      style={{ width: '200px' }}
+                      label='Name of the Event'
+                      name='event'
+                      key={`event-${index}`}
+                      value={customSection[index].event || ''}
+                      onChange={(event) =>
+                        handleInputChange(
+                          index,
+                          event,
+                          customSection,
+                          setCustomSection
+                        )
+                      }
+                    />
+                    <TextField
+                      style={{ width: '200px' }}
+                      label='Organised by'
+                      name='organiser'
+                      key={`organiser-${index}`}
+                      value={customSection[index].organiser || ''}
+                      onChange={(event) =>
+                        handleInputChange(
+                          index,
+                          event,
+                          customSection,
+                          setCustomSection
+                        )
+                      }
+                    />
+                    <TextField
+                      style={{ width: '200px' }}
+                      label='Year'
+                      name='year'
+                      key={`year-${index}`}
+                      value={achievements[index].year || ''}
+                      onChange={(event) =>
+                        handleInputChange(
+                          index,
+                          event,
+                          customSection,
+                          setCustomSection
+                        )
                       }
                     />
                   </Box>
@@ -372,8 +965,22 @@ const Form = () => {
                     <Button
                       variant='contained'
                       color='primary'
+                      onClick={() => changeStep(-1)}
+                    >
+                      Back
+                    </Button>
+                  </Box>
+                  <Box margin={1}>
+                    <Button
+                      variant='contained'
+                      color='primary'
                       onClick={() =>
-                        handleAddClick(linkCount, setLinkCount, links, setLink)
+                        handleAddClick(
+                          achievementCount,
+                          setAchievementsCount,
+                          achievements,
+                          setAchievements
+                        )
                       }
                     >
                       Add input
