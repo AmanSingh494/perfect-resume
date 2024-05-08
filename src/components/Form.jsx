@@ -38,23 +38,26 @@ const Form = () => {
   const handleSubmit = async (e) => {
     try {
       e.preventDefault()
-      const response = await fetch('http://localhost:5000/submit', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          personalDetails,
-          achievements,
-          edu,
-          skill,
-          projects,
-          work,
-          course,
-          image,
-          customSection
-        })
-      })
+      const response = await fetch(
+        'https://perfect-resume-backend.onrender.com/submit',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            personalDetails,
+            achievements,
+            edu,
+            skill,
+            projects,
+            work,
+            course,
+            image,
+            customSection
+          })
+        }
+      )
       const blob = await response.blob()
       const url = window.URL.createObjectURL(blob)
       const link = document.createElement('a')
@@ -97,7 +100,7 @@ const Form = () => {
       formData.append('image', file)
 
       try {
-        fetch('http://localhost:5000/upload', {
+        fetch('https://perfect-resume-backend.onrender.com/upload', {
           method: 'POST',
           body: formData
         })
