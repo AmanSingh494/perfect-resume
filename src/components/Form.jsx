@@ -58,15 +58,19 @@ const Form = () => {
           })
         }
       )
-      const blob = await response.blob()
-      const url = window.URL.createObjectURL(blob)
-      const link = document.createElement('a')
-      link.href = url
-      link.download = 'resume.pdf' // Set desired filename
-      link.click()
+      if (response.ok) {
+        const blob = await response.blob()
+        const url = window.URL.createObjectURL(blob)
+        const link = document.createElement('a')
+        link.href = url
+        link.download = 'resume.pdf' // Set desired filename
+        link.click()
 
-      // Revoke the temporary URL to avoid memory leaks
-      window.URL.revokeObjectURL(url)
+        // Revoke the temporary URL to avoid memory leaks
+        window.URL.revokeObjectURL(url)
+      } else {
+        console.error('Request failed with status', response.status)
+      }
     } catch (err) {
       console.log(err)
     }
