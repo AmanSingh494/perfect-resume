@@ -9,8 +9,8 @@ import { Button } from '@mui/material'
 
 const Navbar = () => {
   return (
-    <AppBar position='static'>
-      <Toolbar sx={{ backgroundColor: '#0C359E' }}>
+    <AppBar position='sticky' top='0'>
+      <Toolbar sx={{ backgroundColor: 'var(--color-primary)' }}>
         <IconButton
           edge='start'
           color='inherit'

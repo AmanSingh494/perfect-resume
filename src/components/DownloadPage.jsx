@@ -1,7 +1,12 @@
 import React, { useState } from 'react'
 import { Box, Typography, Button, CircularProgress } from '@mui/material'
 
-const DownloadPage = ({ status, setIsSubmitted, setDownloadStatus }) => {
+const DownloadPage = ({
+  status,
+  setResStatus,
+  setIsSubmitted,
+  setDownloadStatus
+}) => {
   return (
     <Box
       display='flex'
@@ -24,6 +29,8 @@ const DownloadPage = ({ status, setIsSubmitted, setDownloadStatus }) => {
           color='primary'
           onClick={() => {
             setIsSubmitted(false)
+            setResStatus('Hang on, Your Resume is on the way')
+            setDownloadStatus(false)
           }}
         >
           Make Changes

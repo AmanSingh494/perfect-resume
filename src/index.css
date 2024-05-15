@@ -12,3 +12,27 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+a {
+  text-decoration: none;
+  color: black;
+}
+:root {
+  --font-ex-large: 3rem;
+  --font-large: 2rem;
+  --font-medium: 1.25rem;
+  --font-mid-medium: 1.15rem;
+  --font-small: 0.85rem;
+  --font-ex-small: 0.7rem;
+  --font-bold: 700;
+  --font-light: lighter;
+  --font-primary: 'Josefin Sans', sans-serif;
+  --color-primary: #153448;
+  --color-secondary: #3c5b6f;
+  --color-tertiary: #948979;
+  --color-quaternary: #dfd0b8;
+}

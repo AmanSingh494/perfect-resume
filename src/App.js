@@ -1,8 +1,9 @@
 import { useEffect } from 'react'
-import './App.css'
+import './index.css'
 import Form from './components/Form'
 import Navbar from './components/Navbar'
-
+import ProcessBar from './components/ProcessBar'
+import { Box } from '@mui/material'
 function App() {
   useEffect(() => {
     document.title = 'Perfect Resume'
@@ -10,7 +11,10 @@ function App() {
   return (
     <div>
       <Navbar />
-      <Form />
+      <Box display='flex' alignItems={'center'}>
+        <ProcessBar />
+        <Form />
+      </Box>
     </div>
   )
 }

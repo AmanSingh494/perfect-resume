@@ -1,6 +1,26 @@
 import { Button, Box, Container, TextField } from '@mui/material'
 import React, { useEffect, useState } from 'react'
+import styled from 'styled-components'
 import DownloadPage from './DownloadPage.jsx'
+
+const Heading = styled.p`
+  font-size: var(--font-large);
+  font-family: var(--font-primary);
+  font-weight: 600;
+`
+const NavigationButtons = styled.div`
+  display: flex;
+  gap: 10px;
+`
+const StyledButton = styled(Button)`
+  && {
+    background: var(--color-tertiary);
+    color: white;
+    &:hover {
+      background: var(--color-quaternary);
+    }
+  }
+`
 const Form = () => {
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [resStatus, setResStatus] = useState(
@@ -131,11 +151,12 @@ const Form = () => {
       {isSubmitted ? (
         <DownloadPage
           status={resStatus}
+          setResStatus={setResStatus}
           setIsSubmitted={setIsSubmitted}
           setDownloadStatus={setDownloadStatus}
         />
       ) : (
-        <Container maxWidth='xs'>
+        <Container maxWidth='sm'>
           <Box marginTop={4}>
             <form
               encType='multipart/form-data'
@@ -148,157 +169,175 @@ const Form = () => {
                   display={'flex'}
                   alignItems={'center'}
                   flexDirection={'column'}
+                  gap={'5vh'}
                 >
-                  <h1>Personal Details</h1>
-                  <Box margin={1}>
-                    <TextField
-                      required
-                      id='name'
-                      label='Name'
-                      name='name'
-                      value={personalDetails[0].name || ''}
-                      onChange={(event) =>
-                        handleInputChange(
-                          0,
-                          event,
-                          personalDetails,
-                          setPersonalDetails
-                        )
-                      }
-                    />
+                  <Heading>Personal Details</Heading>
+                  <Box display={'flex'} alignItems={'flex-start'} gap={'5vh'}>
+                    <Box
+                      display={'flex'}
+                      flexDirection={'column'}
+                      alignItems={'stretch'}
+                      gap={'3vh'}
+                    >
+                      <Box>
+                        <TextField
+                          required
+                          id='name'
+                          label='Name'
+                          name='name'
+                          value={personalDetails[0].name || ''}
+                          onChange={(event) =>
+                            handleInputChange(
+                              0,
+                              event,
+                              personalDetails,
+                              setPersonalDetails
+                            )
+                          }
+                        />
+                      </Box>
+                      <Box>
+                        <TextField
+                          required
+                          id='email'
+                          label='Email'
+                          type='email'
+                          name='email'
+                          value={personalDetails[0].email || ''}
+                          onChange={(event) =>
+                            handleInputChange(
+                              0,
+                              event,
+                              personalDetails,
+                              setPersonalDetails
+                            )
+                          }
+                        />
+                      </Box>
+                      <Box>
+                        <TextField
+                          required
+                          id='phone'
+                          label='Phone Number'
+                          type='tel'
+                          name='phone'
+                          value={personalDetails[0].phone || ''}
+                          onChange={(event) =>
+                            handleInputChange(
+                              0,
+                              event,
+                              personalDetails,
+                              setPersonalDetails
+                            )
+                          }
+                        />
+                      </Box>
+                      <Box>
+                        <TextField
+                          required
+                          fullWidth
+                          id='dob'
+                          type='date'
+                          name='dob'
+                          value={personalDetails[0].dob || ''}
+                          onChange={(event) =>
+                            handleInputChange(
+                              0,
+                              event,
+                              personalDetails,
+                              setPersonalDetails
+                            )
+                          }
+                        />
+                      </Box>
+                    </Box>
+                    <Box
+                      display={'flex'}
+                      flexDirection={'column'}
+                      alignItems={'stretch'}
+                      gap={'3vh'}
+                    >
+                      <Box>
+                        <TextField
+                          required
+                          id='address'
+                          label='Address'
+                          name='address'
+                          value={personalDetails[0].address || ''}
+                          onChange={(event) =>
+                            handleInputChange(
+                              0,
+                              event,
+                              personalDetails,
+                              setPersonalDetails
+                            )
+                          }
+                        />
+                      </Box>
+                      <Box>
+                        <TextField
+                          required
+                          id='about'
+                          label='About Me'
+                          name='about'
+                          value={personalDetails[0].about || ''}
+                          onChange={(event) =>
+                            handleInputChange(
+                              0,
+                              event,
+                              personalDetails,
+                              setPersonalDetails
+                            )
+                          }
+                        />
+                      </Box>
+                      <Box>
+                        <TextField
+                          required
+                          id='linktree'
+                          label='Linktree link'
+                          name='linktree'
+                          value={personalDetails[0].linktree || ''}
+                          onChange={(event) =>
+                            handleInputChange(
+                              0,
+                              event,
+                              personalDetails,
+                              setPersonalDetails
+                            )
+                          }
+                        />
+                      </Box>
+                      <Box padding={'19px 25px'} border={'0.5px solid #b6b0b0'}>
+                        <input
+                          type='file'
+                          name='imageUpload'
+                          id='imageUpload'
+                          accept='image/jpg, image/png'
+                          style={{ display: 'none' }}
+                          onChange={handleImageChange}
+                        />
+                        <label htmlFor='imageUpload' className='imageUpload'>
+                          Upload your image here
+                        </label>
+                      </Box>
+                    </Box>
                   </Box>
-                  <Box margin={1}>
-                    <TextField
-                      required
-                      id='email'
-                      label='Email'
-                      type='email'
-                      name='email'
-                      value={personalDetails[0].email || ''}
-                      onChange={(event) =>
-                        handleInputChange(
-                          0,
-                          event,
-                          personalDetails,
-                          setPersonalDetails
-                        )
-                      }
-                    />
-                  </Box>
-                  <Box margin={1}>
-                    <TextField
-                      required
-                      id='phone'
-                      label='Phone Number'
-                      type='tel'
-                      name='phone'
-                      value={personalDetails[0].phone || ''}
-                      onChange={(event) =>
-                        handleInputChange(
-                          0,
-                          event,
-                          personalDetails,
-                          setPersonalDetails
-                        )
-                      }
-                    />
-                  </Box>
-                  <Box margin={1}>
-                    <TextField
-                      required
-                      style={{ minWidth: '17vw' }}
-                      fullWidth
-                      id='dob'
-                      type='date'
-                      name='dob'
-                      value={personalDetails[0].dob || ''}
-                      onChange={(event) =>
-                        handleInputChange(
-                          0,
-                          event,
-                          personalDetails,
-                          setPersonalDetails
-                        )
-                      }
-                    />
-                  </Box>
-                  <Box margin={1}>
-                    <TextField
-                      required
-                      id='address'
-                      label='Address'
-                      name='address'
-                      value={personalDetails[0].address || ''}
-                      onChange={(event) =>
-                        handleInputChange(
-                          0,
-                          event,
-                          personalDetails,
-                          setPersonalDetails
-                        )
-                      }
-                    />
-                  </Box>
-                  <Box margin={1}>
-                    <TextField
-                      required
-                      id='about'
-                      label='About Me'
-                      name='about'
-                      value={personalDetails[0].about || ''}
-                      onChange={(event) =>
-                        handleInputChange(
-                          0,
-                          event,
-                          personalDetails,
-                          setPersonalDetails
-                        )
-                      }
-                    />
-                  </Box>
-                  <Box margin={1}>
-                    <TextField
-                      required
-                      id='linktree'
-                      label='Linktree link'
-                      name='linktree'
-                      value={personalDetails[0].linktree || ''}
-                      onChange={(event) =>
-                        handleInputChange(
-                          0,
-                          event,
-                          personalDetails,
-                          setPersonalDetails
-                        )
-                      }
-                    />
-                  </Box>
-                  <Box
-                    margin={1}
-                    padding={'19px 25px'}
-                    border={'0.5px solid #b6b0b0'}
-                  >
-                    <input
-                      type='file'
-                      name='imageUpload'
-                      id='imageUpload'
-                      accept='image/jpg, image/png'
-                      style={{ display: 'none' }}
-                      onChange={handleImageChange}
-                    />
-                    <label htmlFor='imageUpload' className='imageUpload'>
-                      Upload your image here
-                    </label>
-                  </Box>
-                  <Box margin={1}>
-                    <Button
-                      variant='contained'
-                      color='primary'
+
+                  <NavigationButtons>
+                    <StyledButton
+                      sx={{
+                        background: 'var(--color-tertiary)',
+                        color: 'white',
+                        ':hover': {
+                          background: 'var(--color-quaternary)'
+                        }
+                      }}
                       onClick={() => changeStep(1)}
                     >
                       Next
-                    </Button>
-                  </Box>
+                    </StyledButton>
+                  </NavigationButtons>
                 </Box>
               )}
               {step === 2 && (
@@ -306,12 +345,13 @@ const Form = () => {
                   display={'flex'}
                   flexDirection={'column'}
                   alignItems={'center'}
+                  gap={'5vh'}
                 >
-                  <Box margin={1}>
-                    <h1>Education</h1>
+                  <Box>
+                    <Heading>Education</Heading>
                   </Box>
                   {Array.from({ length: eduCount }, (_, index) => (
-                    <Box margin={1} display={'flex'} gap={2}>
+                    <Box display={'flex'} gap={2}>
                       <TextField
                         style={{ width: '200px' }}
                         name='course'
@@ -354,37 +394,27 @@ const Form = () => {
                       />
                     </Box>
                   ))}
-                  <Box display={'flex'}>
-                    <Box margin={1}>
-                      <Button
-                        variant='contained'
-                        color='primary'
-                        onClick={() => changeStep(-1)}
-                      >
+                  <NavigationButtons>
+                    <Box>
+                      <StyledButton onClick={() => changeStep(-1)}>
                         Back
-                      </Button>
+                      </StyledButton>
                     </Box>
-                    <Box margin={1}>
-                      <Button
-                        variant='contained'
-                        color='primary'
+                    <Box>
+                      <StyledButton
                         onClick={() =>
                           handleAddClick(eduCount, setEduCount, edu, setEdu)
                         }
                       >
                         Add input
-                      </Button>
+                      </StyledButton>
                     </Box>
-                    <Box margin={1}>
-                      <Button
-                        variant='contained'
-                        color='primary'
-                        onClick={() => changeStep(1)}
-                      >
+                    <Box>
+                      <StyledButton onClick={() => changeStep(1)}>
                         Next
-                      </Button>
+                      </StyledButton>
                     </Box>
-                  </Box>
+                  </NavigationButtons>
                 </Box>
               )}
               {step === 3 && (
@@ -392,15 +422,17 @@ const Form = () => {
                   display={'flex'}
                   flexDirection={'column'}
                   alignItems={'center'}
+                  gap={'5vh'}
                 >
-                  <h1>What Skills do you have?</h1>
+                  <Heading>What Skills do you have?</Heading>
                   <Box
                     display={'flex'}
                     flexDirection={'column'}
                     alignItems={'center'}
+                    gap={2}
                   >
                     {Array.from({ length: skillCount }, (_, index) => (
-                      <Box margin={1} display={'flex'} gap={2}>
+                      <Box display={'flex'} gap={2}>
                         <TextField
                           label='Skill'
                           name='skill'
@@ -420,44 +452,34 @@ const Form = () => {
                           }
                         />
                       </Box>
-                    ))}
-                    <Box display={'flex'}>
-                      <Box margin={1}>
-                        <Button
-                          variant='contained'
-                          color='primary'
-                          onClick={() => changeStep(-1)}
-                        >
-                          Back
-                        </Button>
-                      </Box>
-                      <Box margin={1}>
-                        <Button
-                          variant='contained'
-                          color='primary'
-                          onClick={() =>
-                            handleAddClick(
-                              skillCount,
-                              setSkillCount,
-                              skill,
-                              setSkill
-                            )
-                          }
-                        >
-                          Add input
-                        </Button>
-                      </Box>
-                      <Box margin={1}>
-                        <Button
-                          variant='contained'
-                          color='primary'
-                          onClick={() => changeStep(1)}
-                        >
-                          Next
-                        </Button>
-                      </Box>
-                    </Box>
+                    ))}{' '}
                   </Box>
+                  <NavigationButtons>
+                    <Box>
+                      <StyledButton onClick={() => changeStep(-1)}>
+                        Back
+                      </StyledButton>
+                    </Box>
+                    <Box>
+                      <StyledButton
+                        onClick={() =>
+                          handleAddClick(
+                            skillCount,
+                            setSkillCount,
+                            skill,
+                            setSkill
+                          )
+                        }
+                      >
+                        Add input
+                      </StyledButton>
+                    </Box>
+                    <Box>
+                      <StyledButton onClick={() => changeStep(1)}>
+                        Next
+                      </StyledButton>
+                    </Box>
+                  </NavigationButtons>
                 </Box>
               )}
               {step === 4 && (
@@ -465,28 +487,24 @@ const Form = () => {
                   display={'flex'}
                   flexDirection={'column'}
                   alignItems={'center'}
+                  gap={'5vh'}
                 >
                   <Box
-                    margin={1}
                     display={'flex'}
                     flexDirection={'column'}
                     alignItems={'center'}
                     textAlign={'center'}
                   >
-                    <h1>Your Projects / Internships</h1>
+                    <Heading>Your Projects / Internships</Heading>
                   </Box>
                   <Box
                     display={'flex'}
                     flexDirection={'column'}
                     alignItems={'center'}
+                    gap={2}
                   >
                     {Array.from({ length: projectCount }, (_, index) => (
-                      <Box
-                        margin={1}
-                        display={'flex'}
-                        alignItems={'center'}
-                        gap={2}
-                      >
+                      <Box display={'flex'} alignItems={'center'} gap={2}>
                         <TextField
                           label='Company / Project Name'
                           name='company'
@@ -500,7 +518,7 @@ const Form = () => {
                               setProjects
                             )
                           }
-                          style={{ width: '150px' }}
+                          style={{ width: '100px' }}
                         />
                         <TextField
                           label='Position'
@@ -515,7 +533,7 @@ const Form = () => {
                               setProjects
                             )
                           }
-                          style={{ width: '150px' }}
+                          style={{ width: '100px' }}
                         />
                         <TextField
                           label='Start'
@@ -530,7 +548,7 @@ const Form = () => {
                               setProjects
                             )
                           }
-                          style={{ width: '150px' }}
+                          style={{ width: '100px' }}
                         />
                         <TextField
                           label='End'
@@ -545,7 +563,7 @@ const Form = () => {
                               setProjects
                             )
                           }
-                          style={{ width: '150px' }}
+                          style={{ width: '100px' }}
                         />
                         <TextField
                           label='Experience / Acheivements'
@@ -560,47 +578,37 @@ const Form = () => {
                               setProjects
                             )
                           }
-                          style={{ width: '350px' }}
+                          style={{ width: '250px' }}
                         />
                       </Box>
-                    ))}
-                    <Box display={'flex'}>
-                      <Box margin={1}>
-                        <Button
-                          variant='contained'
-                          color='primary'
-                          onClick={() => changeStep(-1)}
-                        >
-                          Back
-                        </Button>
-                      </Box>
-                      <Box margin={1}>
-                        <Button
-                          variant='contained'
-                          color='primary'
-                          onClick={() =>
-                            handleAddClick(
-                              projectCount,
-                              setProjectCount,
-                              projects,
-                              setProjects
-                            )
-                          }
-                        >
-                          Add input
-                        </Button>
-                      </Box>
-                      <Box margin={1}>
-                        <Button
-                          variant='contained'
-                          color='primary'
-                          onClick={() => changeStep(1)}
-                        >
-                          Next
-                        </Button>
-                      </Box>
-                    </Box>
+                    ))}{' '}
                   </Box>
+                  <NavigationButtons>
+                    <Box>
+                      <StyledButton onClick={() => changeStep(-1)}>
+                        Back
+                      </StyledButton>
+                    </Box>
+                    <Box>
+                      <StyledButton
+                        onClick={() =>
+                          handleAddClick(
+                            projectCount,
+                            setProjectCount,
+                            projects,
+                            setProjects
+                          )
+                        }
+                      >
+                        Add input
+                      </StyledButton>
+                    </Box>
+                    <Box>
+                      <StyledButton onClick={() => changeStep(1)}>
+                        Next
+                      </StyledButton>
+                    </Box>
+                  </NavigationButtons>
                 </Box>
               )}
               {step === 5 && (
@@ -608,28 +616,24 @@ const Form = () => {
                   display={'flex'}
                   flexDirection={'column'}
                   alignItems={'center'}
+                  gap={'5vh'}
                 >
                   <Box
-                    margin={1}
                     display={'flex'}
                     flexDirection={'column'}
                     alignItems={'center'}
                     textAlign={'center'}
                   >
-                    <h1>Your Work Experience / Projects</h1>
+                    <Heading>Your Work Experience / Projects</Heading>
                   </Box>
                   <Box
                     display={'flex'}
                     flexDirection={'column'}
                     alignItems={'center'}
+                    gap={2}
                   >
                     {Array.from({ length: workCount }, (_, index) => (
-                      <Box
-                        margin={1}
-                        display={'flex'}
-                        alignItems={'center'}
-                        gap={2}
-                      >
+                      <Box display={'flex'} alignItems={'center'} gap={2}>
                         <TextField
                           label='Company Name'
                           name='company'
@@ -638,7 +642,7 @@ const Form = () => {
                           onChange={(event) =>
                             handleInputChange(index, event, work, setWork)
                           }
-                          style={{ width: '150px' }}
+                          style={{ width: '100px' }}
                         />
                         <TextField
                           label='Position'
@@ -648,7 +652,7 @@ const Form = () => {
                           onChange={(event) =>
                             handleInputChange(index, event, work, setWork)
                           }
-                          style={{ width: '150px' }}
+                          style={{ width: '100px' }}
                         />
                         <TextField
                           label='Start'
@@ -658,7 +662,7 @@ const Form = () => {
                           onChange={(event) =>
                             handleInputChange(index, event, work, setWork)
                           }
-                          style={{ width: '150px' }}
+                          style={{ width: '100px' }}
                         />
                         <TextField
                           label='End'
@@ -668,7 +672,7 @@ const Form = () => {
                           onChange={(event) =>
                             handleInputChange(index, event, work, setWork)
                           }
-                          style={{ width: '150px' }}
+                          style={{ width: '100px' }}
                         />
                         <TextField
                           label='Experience / Acheivements'
@@ -678,47 +682,32 @@ const Form = () => {
                           onChange={(event) =>
                             handleInputChange(index, event, work, setWork)
                           }
-                          style={{ width: '350px' }}
+                          style={{ width: '250px' }}
                         />
                       </Box>
-                    ))}
-                    <Box display={'flex'}>
-                      <Box margin={1}>
-                        <Button
-                          variant='contained'
-                          color='primary'
-                          onClick={() => changeStep(-1)}
-                        >
-                          Back
-                        </Button>
-                      </Box>
-                      <Box margin={1}>
-                        <Button
-                          variant='contained'
-                          color='primary'
-                          onClick={() =>
-                            handleAddClick(
-                              workCount,
-                              setWorkCount,
-                              work,
-                              setWork
-                            )
-                          }
-                        >
-                          Add input
-                        </Button>
-                      </Box>
-                      <Box margin={1}>
-                        <Button
-                          variant='contained'
-                          color='primary'
-                          onClick={() => changeStep(1)}
-                        >
-                          Next
-                        </Button>
-                      </Box>
-                    </Box>
+                    ))}{' '}
                   </Box>
+                  <NavigationButtons>
+                    <Box>
+                      <StyledButton onClick={() => changeStep(-1)}>
+                        Back
+                      </StyledButton>
+                    </Box>
+                    <Box>
+                      <StyledButton
+                        onClick={() =>
+                          handleAddClick(workCount, setWorkCount, work, setWork)
+                        }
+                      >
+                        Add input
+                      </StyledButton>
+                    </Box>
+                    <Box>
+                      <StyledButton onClick={() => changeStep(1)}>
+                        Next
+                      </StyledButton>
+                    </Box>
+                  </NavigationButtons>
                 </Box>
               )}
               {step === 6 && (
@@ -726,18 +715,20 @@ const Form = () => {
                   display={'flex'}
                   flexDirection={'column'}
                   alignItems={'center'}
+                  gap={'5vh'}
                 >
-                  <Box margin={1} textAlign={'center'}>
-                    <h1>Awards / Achievements</h1>
+                  <Box textAlign={'center'}>
+                    <Heading>Awards / Achievements</Heading>
                   </Box>
                   <Box
                     display={'flex'}
                     alignItems={'center'}
                     justifyContent={'center'}
                     flexDirection={'column'}
+                    gap={2}
                   >
                     {Array.from({ length: achievementCount }, (_, index) => (
-                      <Box margin={1} display={'flex'} gap={2}>
+                      <Box display={'flex'} gap={2}>
                         <TextField
                           style={{ width: '200px' }}
                           label='Achievement / Prize'
@@ -799,44 +790,34 @@ const Form = () => {
                           }
                         />
                       </Box>
-                    ))}
-                    <Box display={'flex'}>
-                      <Box margin={1}>
-                        <Button
-                          variant='contained'
-                          color='primary'
-                          onClick={() => changeStep(-1)}
-                        >
-                          Back
-                        </Button>
-                      </Box>
-                      <Box margin={1}>
-                        <Button
-                          variant='contained'
-                          color='primary'
-                          onClick={() =>
-                            handleAddClick(
-                              achievementCount,
-                              setAchievementsCount,
-                              achievements,
-                              setAchievements
-                            )
-                          }
-                        >
-                          Add input
-                        </Button>
-                      </Box>
-                      <Box margin={1}>
-                        <Button
-                          variant='contained'
-                          color='primary'
-                          onClick={() => changeStep(1)}
-                        >
-                          Next
-                        </Button>
-                      </Box>
-                    </Box>
+                    ))}{' '}
                   </Box>
+                  <NavigationButtons>
+                    <Box>
+                      <StyledButton onClick={() => changeStep(-1)}>
+                        Back
+                      </StyledButton>
+                    </Box>
+                    <Box>
+                      <StyledButton
+                        onClick={() =>
+                          handleAddClick(
+                            achievementCount,
+                            setAchievementsCount,
+                            achievements,
+                            setAchievements
+                          )
+                        }
+                      >
+                        Add input
+                      </StyledButton>
+                    </Box>
+                    <Box>
+                      <StyledButton onClick={() => changeStep(1)}>
+                        Next
+                      </StyledButton>
+                    </Box>
+                  </NavigationButtons>
                 </Box>
               )}
 
@@ -845,28 +826,24 @@ const Form = () => {
                   display={'flex'}
                   flexDirection={'column'}
                   alignItems={'center'}
+                  gap={'5vh'}
                 >
                   <Box
-                    margin={1}
                     display={'flex'}
                     flexDirection={'column'}
                     alignItems={'center'}
                     textAlign={'center'}
                   >
-                    <h1>Additional Qualifications and Courses</h1>
+                    <Heading>Additional Qualifications and Courses</Heading>
                   </Box>
                   <Box
                     display={'flex'}
                     flexDirection={'column'}
                     alignItems={'center'}
+                    gap={2}
                   >
                     {Array.from({ length: courseCount }, (_, index) => (
-                      <Box
-                        margin={1}
-                        display={'flex'}
-                        alignItems={'center'}
-                        gap={2}
-                      >
+                      <Box display={'flex'} alignItems={'center'} gap={2}>
                         <TextField
                           label='Course Name'
                           name='course'
@@ -899,53 +876,42 @@ const Form = () => {
                         />
                       </Box>
                     ))}
-                    <Box display={'flex'}>
-                      <Box margin={1}>
-                        <Button
-                          variant='contained'
-                          color='primary'
-                          onClick={() => changeStep(-1)}
-                        >
-                          Back
-                        </Button>
-                      </Box>
-                      <Box margin={1}>
-                        <Button
-                          variant='contained'
-                          color='primary'
-                          onClick={() =>
-                            handleAddClick(
-                              courseCount,
-                              setCourseCount,
-                              course,
-                              setCourse
-                            )
-                          }
-                        >
-                          Add input
-                        </Button>
-                      </Box>
-                      <Box margin={1}>
-                        <Button
-                          variant='contained'
-                          color='primary'
-                          onClick={() => changeStep(1)}
-                        >
-                          Next
-                        </Button>
-                      </Box>
-                    </Box>
                   </Box>
+                  <NavigationButtons>
+                    <Box>
+                      <StyledButton onClick={() => changeStep(-1)}>
+                        Back
+                      </StyledButton>
+                    </Box>
+                    <Box>
+                      <StyledButton
+                        onClick={() =>
+                          handleAddClick(
+                            courseCount,
+                            setCourseCount,
+                            course,
+                            setCourse
+                          )
+                        }
+                      >
+                        Add input
+                      </StyledButton>
+                    </Box>
+                    <Box>
+                      <StyledButton onClick={handleSubmit}>Submit</StyledButton>
+                    </Box>
+                  </NavigationButtons>
                 </Box>
               )}
-              {step === 8 && (
+              {/* {step === 8 && (
                 <Box
                   display={'flex'}
                   flexDirection={'column'}
                   alignItems={'center'}
+                  gap={'5vh'}
                 >
-                  <Box margin={1} textAlign={'center'}>
-                    <h1>You can create a Custom Section</h1>
+                  <Box textAlign={'center'}>
+                    <Heading>You can create a Custom Section</Heading>
                   </Box>
                   <Box
                     display={'flex'}
@@ -954,7 +920,7 @@ const Form = () => {
                     flexDirection={'column'}
                   >
                     {Array.from({ length: customSectionCount }, (_, index) => (
-                      <Box margin={1} display={'flex'} gap={2}>
+                      <Box display={'flex'} gap={2}>
                         <TextField
                           style={{ width: '200px' }}
                           label='Name of the section'
@@ -1018,19 +984,19 @@ const Form = () => {
                       </Box>
                     ))}
                     <Box display={'flex'}>
-                      <Box margin={1}>
-                        <Button
-                          variant='contained'
-                          color='primary'
+                      <Box>
+                        <StyledButton
+                          
+                          
                           onClick={() => changeStep(-1)}
                         >
                           Back
-                        </Button>
+                        </StyledButton>
                       </Box>
-                      <Box margin={1}>
-                        <Button
-                          variant='contained'
-                          color='primary'
+                      <Box>
+                        <StyledButton
+                          
+                          
                           onClick={() =>
                             handleAddClick(
                               achievementCount,
@@ -1041,21 +1007,21 @@ const Form = () => {
                           }
                         >
                           Add input
-                        </Button>
+                        </StyledButton>
                       </Box>
-                      <Box margin={1}>
-                        <Button
-                          variant='contained'
-                          color='primary'
+                      <Box>
+                        <StyledButton
+                          
+                          
                           onClick={handleSubmit}
                         >
                           Submit
-                        </Button>
+                        </StyledButton>
                       </Box>
                     </Box>
                   </Box>
                 </Box>
-              )}
+              )} */}
             </form>
           </Box>
         </Container>
