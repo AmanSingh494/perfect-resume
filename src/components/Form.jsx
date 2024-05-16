@@ -21,14 +21,13 @@ const StyledButton = styled(Button)`
     }
   }
 `
-const Form = () => {
+const Form = ({ step, setStep }) => {
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [resStatus, setResStatus] = useState(
     'Hang on, Your Resume is on the way'
   )
   const [downloadStatus, setDownloadStatus] = useState(false)
   const [downloadUrl, setDownloadUrl] = useState(null)
-  const [step, setStep] = useState(1)
   const [personalDetails, setPersonalDetails] = useState(
     Array.from({ length: 1 }, () => ({}))
   )
