@@ -24,7 +24,7 @@ a {
 :root {
   --font-ex-large: 3rem;
   --font-large: 2rem;
-  --font-medium: 1.25rem;
+  --font-medium: 1.5rem;
   --font-mid-medium: 1.15rem;
   --font-small: 0.85rem;
   --font-ex-small: 0.7rem;
@@ -35,4 +35,14 @@ a {
   --color-secondary: #3c5b6f;
   --color-tertiary: #948979;
   --color-quaternary: #dfd0b8;
+}
+@media (max-width: 768px) {
+  :root {
+    --font-ex-large: 2.5rem;
+    --font-large: 1.8rem;
+    --font-medium: 1.3rem;
+    --font-mid-medium: 1.05rem;
+    --font-small: 0.75rem;
+    --font-ex-small: 0.6rem;
+  }
 }

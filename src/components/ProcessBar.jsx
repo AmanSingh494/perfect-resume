@@ -16,6 +16,9 @@ const Sidebar = styled(Box)`
   padding: 2vh 4vw;
   height: calc(100vh - 60px);
   box-sizing: border-box;
+  @media (max-width: 768px) {
+    display: none;
+  }
 `
 
 const StepContainer = styled(Box)`
@@ -39,9 +42,9 @@ const StepName = styled(Typography)`
 `
 
 const blink = keyframes`
-  0% { background-color: white; }
-  50% {  background-color: var(--color-secondary); }
-  100% { background-color: white;}
+  0% { background-color:  var(--color-secondary);; }
+  50% {  background-color: white; }
+  100% { background-color:  var(--color-secondary);;}
 `
 
 const Circle = styled(Box).withConfig({
@@ -51,16 +54,15 @@ const Circle = styled(Box).withConfig({
   width: 25px;
   height: 25px;
   border-radius: 50%;
-  background-color: ${({ active }) =>
-    active ? 'white' : 'var(--color-secondary)'};
+  background-color: var(--color-secondary);
   border: 2px solid white;
   margin-right: 10px;
   animation: ${({ active }) =>
     active
       ? css`
-          ${blink} 4s infinite
+          ${blink} 3s infinite
         `
-      : 'linear'};
+      : 'none'};
 `
 
 const Step = styled(Box)`
@@ -130,7 +132,7 @@ const ProcessBar = ({ step, setStep }) => {
     'Personal Details',
     'Education',
     'Skills',
-    'Projects or internships',
+    'Projects or Internships',
     'Work Experience',
     'Achievements',
     'Additional Courses'
@@ -142,22 +144,31 @@ const ProcessBar = ({ step, setStep }) => {
   const [top, setTop] = useState(0)
   const [height, setHeight] = useState(0)
 
-  useEffect(() => {
+  // update the positions of the circles when the component is mounted
+  // create a function to update the positions of the circles whenever the screen size changes using event listener
+  const updatePositions = () => {
     if (circle1Ref.current && circle2Ref.current) {
       const circle1Pos = circle1Ref.current.getBoundingClientRect().top
       const circle2Pos = circle2Ref.current.getBoundingClientRect().top
-      setTop(circle1Pos)
+      setTop(circle1Pos + 10)
       setHeight(circle2Pos - circle1Pos)
     }
+  }
+  useEffect(() => {
+    updatePositions()
+    // Add event listener for window resize
+    window.addEventListener('resize', updatePositions)
+    // Cleanup function to remove event listener
+    return () => window.removeEventListener('resize', updatePositions)
   }, [])
-
   return (
     <Sidebar>
-      {steps.map((step, index) => (
+      {steps.map((currentStep, index) => (
         <StepContainer
           key={index}
           onClick={() => {
             setStep(index + 1)
+            console.log(step)
           }}
         >
           <Circle
@@ -166,7 +177,7 @@ const ProcessBar = ({ step, setStep }) => {
           />
           <Step>
             <StepNumber>{`Step ${index + 1}`}</StepNumber>
-            <StepName>{step}</StepName>
+            <StepName>{currentStep}</StepName>
           </Step>
         </StepContainer>
       ))}

@@ -3,14 +3,37 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import DownloadPage from './DownloadPage.jsx'
 
+const Cont = styled.div`
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 5vh;
+`
+const InputBox = styled.div`
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  justify-content: center;
+  @media (max-width: 768px) {
+    width: 65vw;
+    flex-direction: column;
+    border: 2px solid black;
+    padding: 20px;
+    border-radius: 10px;
+  }
+`
 const Heading = styled.p`
   font-size: var(--font-large);
   font-family: var(--font-primary);
   font-weight: 600;
+  text-align: center;
 `
 const NavigationButtons = styled.div`
   display: flex;
   gap: 10px;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
 `
 const StyledButton = styled(Button)`
   && {
@@ -19,6 +42,40 @@ const StyledButton = styled(Button)`
     &:hover {
       background: var(--color-quaternary);
     }
+  }
+`
+const DeleteBtn = styled.span`
+  background: var(--color-primary);
+  color: white;
+  border-radius: 33px;
+  padding: 7px;
+  border: 2px solid var(--color-primary);
+  transition: all 0.5s linear;
+  cursor: pointer;
+  &:hover {
+    background-color: white;
+    color: var(--color-primary);
+  }
+  @media (max-width: 768px) {
+    position: relative;
+    top: -26px;
+    left: 60vw;
+  }
+`
+const ResponsiveTextfield = styled(TextField)(({ width, responsiveWidth }) => ({
+  '&&': {
+    width: width,
+    '@media (max-width:768px)': {
+      width: responsiveWidth
+    }
+  }
+}))
+const ResponsiveDiv = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  @media (max-width: 768px) {
+    display: block;
   }
 `
 const Form = ({ step, setStep }) => {
@@ -53,11 +110,11 @@ const Form = ({ step, setStep }) => {
   const [achievements, setAchievements] = useState(
     Array.from({ length: achievementCount }, () => ({}))
   )
-  const [customSectionCount, setCustomSectionCount] = useState(1)
-  const [customSection, setCustomSection] = useState(
-    Array.from({ length: customSectionCount }, () => ({}))
-  )
-  const [image, setImage] = useState(null)
+  // const [customSectionCount, setCustomSectionCount] = useState(1)
+  // const [customSection, setCustomSection] = useState(
+  //   Array.from({ length: customSectionCount }, () => ({}))
+  // )
+  // const [image, setImage] = useState(null)
 
   //use effect for download functionality
   useEffect(() => {
@@ -89,9 +146,7 @@ const Form = ({ step, setStep }) => {
           skill,
           projects,
           work,
-          course,
-          image,
-          customSection
+          course
         })
       })
       if (response.ok) {
@@ -109,7 +164,6 @@ const Form = ({ step, setStep }) => {
   }
   const changeStep = (x) => {
     setStep((current) => current + x)
-    console.log(edu)
   }
 
   const handleInputChange = (index, e, _state, _stateChanger) => {
@@ -123,7 +177,18 @@ const Form = ({ step, setStep }) => {
     countChanger(count + 1)
     _stateChanger([..._state, {}])
   }
-
+  const handleDeleteClick = (
+    count,
+    countChanger,
+    index,
+    _state,
+    _stateChanger
+  ) => {
+    countChanger(count - 1)
+    const values = [..._state]
+    values.splice(index, 1)
+    _stateChanger(values)
+  }
   const handleImageChange = (e) => {
     const file = e.target.files[0]
     e.preventDefault()
@@ -164,14 +229,14 @@ const Form = ({ step, setStep }) => {
               onSubmit={handleSubmit}
             >
               {step === 1 && (
-                <Box
-                  display={'flex'}
-                  alignItems={'center'}
-                  flexDirection={'column'}
-                  gap={'5vh'}
-                >
+                <Cont>
                   <Heading>Personal Details</Heading>
-                  <Box display={'flex'} alignItems={'flex-start'} gap={'5vh'}>
+                  <Box
+                    display={'flex'}
+                    flexDirection={'column'}
+                    alignItems={'flex-start'}
+                    gap={'5vh'}
+                  >
                     <Box
                       display={'flex'}
                       flexDirection={'column'}
@@ -337,61 +402,72 @@ const Form = ({ step, setStep }) => {
                       Next
                     </StyledButton>
                   </NavigationButtons>
-                </Box>
+                </Cont>
               )}
               {step === 2 && (
-                <Box
-                  display={'flex'}
-                  flexDirection={'column'}
-                  alignItems={'center'}
-                  gap={'5vh'}
-                >
+                <Cont>
                   <Box>
                     <Heading>Education</Heading>
                   </Box>
                   {Array.from({ length: eduCount }, (_, index) => (
-                    <Box display={'flex'} gap={2}>
-                      <TextField
-                        style={{ width: '200px' }}
-                        name='course'
-                        label='Course / Exam'
-                        key={`course-${index}`}
-                        value={edu[index].course || ''}
-                        onChange={(event) =>
-                          handleInputChange(index, event, edu, setEdu)
-                        }
-                      />
-                      <TextField
-                        style={{ width: '200px' }}
-                        name='institution'
-                        label='Institution'
-                        key={`institution-${index}`}
-                        value={edu[index].institution || ''}
-                        onChange={(event) =>
-                          handleInputChange(index, event, edu, setEdu)
-                        }
-                      />
-                      <TextField
-                        style={{ width: '200px' }}
-                        name='year'
-                        label='Year of passing'
-                        key={`year-${index}`}
-                        value={edu[index].year || ''}
-                        onChange={(event) =>
-                          handleInputChange(index, event, edu, setEdu)
-                        }
-                      />
-                      <TextField
-                        style={{ width: '200px' }}
-                        name='marks'
-                        label='Percentage / CGPA'
-                        key={`marks-${index}`}
-                        value={edu[index].marks || ''}
-                        onChange={(event) =>
-                          handleInputChange(index, event, edu, setEdu)
-                        }
-                      />
-                    </Box>
+                    <ResponsiveDiv>
+                      <InputBox>
+                        <TextField
+                          style={{ width: '150px' }}
+                          name='course'
+                          label='Course / Exam'
+                          key={`course-${index}`}
+                          value={edu[index].course || ''}
+                          onChange={(event) =>
+                            handleInputChange(index, event, edu, setEdu)
+                          }
+                        />
+                        <TextField
+                          style={{ width: '150px' }}
+                          name='institution'
+                          label='Institution'
+                          key={`institution-${index}`}
+                          value={edu[index].institution || ''}
+                          onChange={(event) =>
+                            handleInputChange(index, event, edu, setEdu)
+                          }
+                        />
+                        <TextField
+                          style={{ width: '150px' }}
+                          name='year'
+                          label='Year of passing'
+                          key={`year-${index}`}
+                          value={edu[index].year || ''}
+                          onChange={(event) =>
+                            handleInputChange(index, event, edu, setEdu)
+                          }
+                        />
+                        <TextField
+                          style={{ width: '150px' }}
+                          name='marks'
+                          label='Percentage / CGPA'
+                          key={`marks-${index}`}
+                          value={edu[index].marks || ''}
+                          onChange={(event) =>
+                            handleInputChange(index, event, edu, setEdu)
+                          }
+                        />
+                      </InputBox>
+                      <DeleteBtn
+                        className='material-symbols-outlined'
+                        onClick={() => {
+                          handleDeleteClick(
+                            eduCount,
+                            setEduCount,
+                            index,
+                            edu,
+                            setEdu
+                          )
+                        }}
+                      >
+                        delete
+                      </DeleteBtn>
+                    </ResponsiveDiv>
                   ))}
                   <NavigationButtons>
                     <Box>
@@ -414,15 +490,10 @@ const Form = ({ step, setStep }) => {
                       </StyledButton>
                     </Box>
                   </NavigationButtons>
-                </Box>
+                </Cont>
               )}
               {step === 3 && (
-                <Box
-                  display={'flex'}
-                  flexDirection={'column'}
-                  alignItems={'center'}
-                  gap={'5vh'}
-                >
+                <Cont>
                   <Heading>What Skills do you have?</Heading>
                   <Box
                     display={'flex'}
@@ -431,26 +502,42 @@ const Form = ({ step, setStep }) => {
                     gap={2}
                   >
                     {Array.from({ length: skillCount }, (_, index) => (
-                      <Box display={'flex'} gap={2}>
-                        <TextField
-                          label='Skill'
-                          name='skill'
-                          key={`skill-${index}`}
-                          value={skill[index].skill || ''}
-                          onChange={(event) =>
-                            handleInputChange(index, event, skill, setSkill)
-                          }
-                        />
-                        <TextField
-                          label='Level'
-                          name='level'
-                          key={`level-${index}`}
-                          value={skill[index].level || ''}
-                          onChange={(event) =>
-                            handleInputChange(index, event, skill, setSkill)
-                          }
-                        />
-                      </Box>
+                      <ResponsiveDiv>
+                        <InputBox>
+                          <TextField
+                            label='Skill'
+                            name='skill'
+                            key={`skill-${index}`}
+                            value={skill[index].skill || ''}
+                            onChange={(event) =>
+                              handleInputChange(index, event, skill, setSkill)
+                            }
+                          />
+                          <TextField
+                            label='Level'
+                            name='level'
+                            key={`level-${index}`}
+                            value={skill[index].level || ''}
+                            onChange={(event) =>
+                              handleInputChange(index, event, skill, setSkill)
+                            }
+                          />
+                        </InputBox>
+                        <DeleteBtn
+                          className='material-symbols-outlined'
+                          onClick={() => {
+                            handleDeleteClick(
+                              skillCount,
+                              setSkillCount,
+                              index,
+                              skill,
+                              setSkill
+                            )
+                          }}
+                        >
+                          delete
+                        </DeleteBtn>
+                      </ResponsiveDiv>
                     ))}{' '}
                   </Box>
                   <NavigationButtons>
@@ -479,15 +566,10 @@ const Form = ({ step, setStep }) => {
                       </StyledButton>
                     </Box>
                   </NavigationButtons>
-                </Box>
+                </Cont>
               )}
               {step === 4 && (
-                <Box
-                  display={'flex'}
-                  flexDirection={'column'}
-                  alignItems={'center'}
-                  gap={'5vh'}
-                >
+                <Cont>
                   <Box
                     display={'flex'}
                     flexDirection={'column'}
@@ -503,83 +585,103 @@ const Form = ({ step, setStep }) => {
                     gap={2}
                   >
                     {Array.from({ length: projectCount }, (_, index) => (
-                      <Box display={'flex'} alignItems={'center'} gap={2}>
-                        <TextField
-                          label='Company / Project Name'
-                          name='company'
-                          key={`name-${index}`}
-                          value={projects[index].company || ''}
-                          onChange={(event) =>
-                            handleInputChange(
+                      <ResponsiveDiv>
+                        <InputBox>
+                          <ResponsiveTextfield
+                            label='Company / Project Name'
+                            name='company'
+                            key={`name-${index}`}
+                            value={projects[index].company || ''}
+                            onChange={(event) =>
+                              handleInputChange(
+                                index,
+                                event,
+                                projects,
+                                setProjects
+                              )
+                            }
+                            width='100px'
+                            responsiveWidth='200px'
+                          />
+                          <ResponsiveTextfield
+                            label='Position'
+                            name='position'
+                            key={`position-${index}`}
+                            value={projects[index].position || ''}
+                            onChange={(event) =>
+                              handleInputChange(
+                                index,
+                                event,
+                                projects,
+                                setProjects
+                              )
+                            }
+                            width='100px'
+                            responsiveWidth='200px'
+                          />
+                          <ResponsiveTextfield
+                            label='Start'
+                            name='start'
+                            key={`start-${index}`}
+                            value={projects[index].start || ''}
+                            onChange={(event) =>
+                              handleInputChange(
+                                index,
+                                event,
+                                projects,
+                                setProjects
+                              )
+                            }
+                            width='100px'
+                            responsiveWidth='200px'
+                          />
+                          <ResponsiveTextfield
+                            label='End'
+                            name='end'
+                            key={`end-${index}`}
+                            value={projects[index].end || ''}
+                            onChange={(event) =>
+                              handleInputChange(
+                                index,
+                                event,
+                                projects,
+                                setProjects
+                              )
+                            }
+                            width='100px'
+                            responsiveWidth='200px'
+                          />
+                          <TextField
+                            label='Experience / Acheivements'
+                            name='exp'
+                            key={`exp-${index}`}
+                            value={projects[index].exp || ''}
+                            onChange={(event) =>
+                              handleInputChange(
+                                index,
+                                event,
+                                projects,
+                                setProjects
+                              )
+                            }
+                            style={{ width: '200px' }}
+                          />
+                        </InputBox>
+                        <DeleteBtn
+                          className='material-symbols-outlined'
+                          onClick={() => {
+                            handleDeleteClick(
+                              projectCount,
+                              setProjectCount,
                               index,
-                              event,
                               projects,
                               setProjects
                             )
-                          }
-                          style={{ width: '100px' }}
-                        />
-                        <TextField
-                          label='Position'
-                          name='position'
-                          key={`position-${index}`}
-                          value={projects[index].position || ''}
-                          onChange={(event) =>
-                            handleInputChange(
-                              index,
-                              event,
-                              projects,
-                              setProjects
-                            )
-                          }
-                          style={{ width: '100px' }}
-                        />
-                        <TextField
-                          label='Start'
-                          name='start'
-                          key={`start-${index}`}
-                          value={projects[index].start || ''}
-                          onChange={(event) =>
-                            handleInputChange(
-                              index,
-                              event,
-                              projects,
-                              setProjects
-                            )
-                          }
-                          style={{ width: '100px' }}
-                        />
-                        <TextField
-                          label='End'
-                          name='end'
-                          key={`end-${index}`}
-                          value={projects[index].end || ''}
-                          onChange={(event) =>
-                            handleInputChange(
-                              index,
-                              event,
-                              projects,
-                              setProjects
-                            )
-                          }
-                          style={{ width: '100px' }}
-                        />
-                        <TextField
-                          label='Experience / Acheivements'
-                          name='exp'
-                          key={`exp-${index}`}
-                          value={projects[index].exp || ''}
-                          onChange={(event) =>
-                            handleInputChange(
-                              index,
-                              event,
-                              projects,
-                              setProjects
-                            )
-                          }
-                          style={{ width: '250px' }}
-                        />
-                      </Box>
+                          }}
+                        >
+                          delete
+                        </DeleteBtn>
+                      </ResponsiveDiv>
                     ))}{' '}
                   </Box>
                   <NavigationButtons>
@@ -608,15 +710,10 @@ const Form = ({ step, setStep }) => {
                       </StyledButton>
                     </Box>
                   </NavigationButtons>
-                </Box>
+                </Cont>
               )}
               {step === 5 && (
-                <Box
-                  display={'flex'}
-                  flexDirection={'column'}
-                  alignItems={'center'}
-                  gap={'5vh'}
-                >
+                <Cont>
                   <Box
                     display={'flex'}
                     flexDirection={'column'}
@@ -632,58 +729,78 @@ const Form = ({ step, setStep }) => {
                     gap={2}
                   >
                     {Array.from({ length: workCount }, (_, index) => (
-                      <Box display={'flex'} alignItems={'center'} gap={2}>
-                        <TextField
-                          label='Company Name'
-                          name='company'
-                          key={`company-${index}`}
-                          value={work[index].company || ''}
-                          onChange={(event) =>
-                            handleInputChange(index, event, work, setWork)
-                          }
-                          style={{ width: '100px' }}
-                        />
-                        <TextField
-                          label='Position'
-                          name='position'
-                          key={`position-${index}`}
-                          value={work[index].position || ''}
-                          onChange={(event) =>
-                            handleInputChange(index, event, work, setWork)
-                          }
-                          style={{ width: '100px' }}
-                        />
-                        <TextField
-                          label='Start'
-                          name='start'
-                          key={`start-${index}`}
-                          value={work[index].start || ''}
-                          onChange={(event) =>
-                            handleInputChange(index, event, work, setWork)
-                          }
-                          style={{ width: '100px' }}
-                        />
-                        <TextField
-                          label='End'
-                          name='end'
-                          key={`end-${index}`}
-                          value={work[index].end || ''}
-                          onChange={(event) =>
-                            handleInputChange(index, event, work, setWork)
-                          }
-                          style={{ width: '100px' }}
-                        />
-                        <TextField
-                          label='Experience / Acheivements'
-                          name='exp'
-                          key={`exp-${index}`}
-                          value={work[index].exp || ''}
-                          onChange={(event) =>
-                            handleInputChange(index, event, work, setWork)
-                          }
-                          style={{ width: '250px' }}
-                        />
-                      </Box>
+                      <ResponsiveDiv>
+                        <InputBox>
+                          <ResponsiveTextfield
+                            label='Company Name'
+                            name='company'
+                            key={`company-${index}`}
+                            value={work[index].company || ''}
+                            onChange={(event) =>
+                              handleInputChange(index, event, work, setWork)
+                            }
+                            width='100px'
+                            responsiveWidth='200px'
+                          />
+                          <ResponsiveTextfield
+                            label='Position'
+                            name='position'
+                            key={`position-${index}`}
+                            value={work[index].position || ''}
+                            onChange={(event) =>
+                              handleInputChange(index, event, work, setWork)
+                            }
+                            width='100px'
+                            responsiveWidth='200px'
+                          />
+                          <ResponsiveTextfield
+                            label='Start'
+                            name='start'
+                            key={`start-${index}`}
+                            value={work[index].start || ''}
+                            onChange={(event) =>
+                              handleInputChange(index, event, work, setWork)
+                            }
+                            width='100px'
+                            responsiveWidth='200px'
+                          />
+                          <ResponsiveTextfield
+                            label='End'
+                            name='end'
+                            key={`end-${index}`}
+                            value={work[index].end || ''}
+                            onChange={(event) =>
+                              handleInputChange(index, event, work, setWork)
+                            }
+                            width='100px'
+                            responsiveWidth='200px'
+                          />
+                          <TextField
+                            label='Experience / Acheivements'
+                            name='exp'
+                            key={`exp-${index}`}
+                            value={work[index].exp || ''}
+                            onChange={(event) =>
+                              handleInputChange(index, event, work, setWork)
+                            }
+                            style={{ width: '200px' }}
+                          />
+                        </InputBox>
+                        <DeleteBtn
+                          className='material-symbols-outlined'
+                          onClick={() => {
+                            handleDeleteClick(
+                              workCount,
+                              setWorkCount,
+                              index,
+                              work,
+                              setWork
+                            )
+                          }}
+                        >
+                          delete
+                        </DeleteBtn>
+                      </ResponsiveDiv>
                     ))}{' '}
                   </Box>
                   <NavigationButtons>
@@ -707,15 +824,10 @@ const Form = ({ step, setStep }) => {
                       </StyledButton>
                     </Box>
                   </NavigationButtons>
-                </Box>
+                </Cont>
               )}
               {step === 6 && (
-                <Box
-                  display={'flex'}
-                  flexDirection={'column'}
-                  alignItems={'center'}
-                  gap={'5vh'}
-                >
+                <Cont>
                   <Box textAlign={'center'}>
                     <Heading>Awards / Achievements</Heading>
                   </Box>
@@ -727,68 +839,84 @@ const Form = ({ step, setStep }) => {
                     gap={2}
                   >
                     {Array.from({ length: achievementCount }, (_, index) => (
-                      <Box display={'flex'} gap={2}>
-                        <TextField
-                          style={{ width: '200px' }}
-                          label='Achievement / Prize'
-                          name='name'
-                          key={`name-${index}`}
-                          value={achievements[index].name || ''}
-                          onChange={(event) =>
-                            handleInputChange(
+                      <ResponsiveDiv>
+                        <InputBox>
+                          <TextField
+                            style={{ width: '150px' }}
+                            label='Achievement / Prize'
+                            name='name'
+                            key={`name-${index}`}
+                            value={achievements[index].name || ''}
+                            onChange={(event) =>
+                              handleInputChange(
+                                index,
+                                event,
+                                achievements,
+                                setAchievements
+                              )
+                            }
+                          />
+                          <TextField
+                            style={{ width: '150px' }}
+                            label='Name of the Event'
+                            name='event'
+                            key={`event-${index}`}
+                            value={achievements[index].event || ''}
+                            onChange={(event) =>
+                              handleInputChange(
+                                index,
+                                event,
+                                achievements,
+                                setAchievements
+                              )
+                            }
+                          />
+                          <TextField
+                            style={{ width: '150px' }}
+                            label='Organised by'
+                            name='organiser'
+                            key={`organiser-${index}`}
+                            value={achievements[index].organiser || ''}
+                            onChange={(event) =>
+                              handleInputChange(
+                                index,
+                                event,
+                                achievements,
+                                setAchievements
+                              )
+                            }
+                          />
+                          <TextField
+                            style={{ width: '150px' }}
+                            label='Year'
+                            name='year'
+                            key={`year-${index}`}
+                            value={achievements[index].year || ''}
+                            onChange={(event) =>
+                              handleInputChange(
+                                index,
+                                event,
+                                achievements,
+                                setAchievements
+                              )
+                            }
+                          />
+                        </InputBox>
+                        <DeleteBtn
+                          className='material-symbols-outlined'
+                          onClick={() => {
+                            handleDeleteClick(
+                              achievementCount,
+                              setAchievementsCount,
                               index,
-                              event,
                               achievements,
                               setAchievements
                             )
-                          }
-                        />
-                        <TextField
-                          style={{ width: '200px' }}
-                          label='Name of the Event'
-                          name='event'
-                          key={`event-${index}`}
-                          value={achievements[index].event || ''}
-                          onChange={(event) =>
-                            handleInputChange(
-                              index,
-                              event,
-                              achievements,
-                              setAchievements
-                            )
-                          }
-                        />
-                        <TextField
-                          style={{ width: '200px' }}
-                          label='Organised by'
-                          name='organiser'
-                          key={`organiser-${index}`}
-                          value={achievements[index].organiser || ''}
-                          onChange={(event) =>
-                            handleInputChange(
-                              index,
-                              event,
-                              achievements,
-                              setAchievements
-                            )
-                          }
-                        />
-                        <TextField
-                          style={{ width: '200px' }}
-                          label='Year'
-                          name='year'
-                          key={`year-${index}`}
-                          value={achievements[index].year || ''}
-                          onChange={(event) =>
-                            handleInputChange(
-                              index,
-                              event,
-                              achievements,
-                              setAchievements
-                            )
-                          }
-                        />
-                      </Box>
+                          }}
+                        >
+                          delete
+                        </DeleteBtn>
+                      </ResponsiveDiv>
                     ))}{' '}
                   </Box>
                   <NavigationButtons>
@@ -817,16 +945,11 @@ const Form = ({ step, setStep }) => {
                       </StyledButton>
                     </Box>
                   </NavigationButtons>
-                </Box>
+                </Cont>
               )}
 
               {step === 7 && (
-                <Box
-                  display={'flex'}
-                  flexDirection={'column'}
-                  alignItems={'center'}
-                  gap={'5vh'}
-                >
+                <Cont>
                   <Box
                     display={'flex'}
                     flexDirection={'column'}
@@ -842,38 +965,54 @@ const Form = ({ step, setStep }) => {
                     gap={2}
                   >
                     {Array.from({ length: courseCount }, (_, index) => (
-                      <Box display={'flex'} alignItems={'center'} gap={2}>
-                        <TextField
-                          label='Course Name'
-                          name='course'
-                          key={`course-${index}`}
-                          value={course[index].course || ''}
-                          onChange={(event) =>
-                            handleInputChange(index, event, course, setCourse)
-                          }
-                          style={{ width: '150px' }}
-                        />
-                        <TextField
-                          label='Duration'
-                          name='duration'
-                          key={`duration-${index}`}
-                          value={course[index].duration || ''}
-                          onChange={(event) =>
-                            handleInputChange(index, event, course, setCourse)
-                          }
-                          style={{ width: '150px' }}
-                        />
-                        <TextField
-                          label='Experience / Acheivements'
-                          name='exp'
-                          key={`exp-${index}`}
-                          value={course[index].exp || ''}
-                          onChange={(event) =>
-                            handleInputChange(index, event, course, setCourse)
-                          }
-                          style={{ width: '350px' }}
-                        />
-                      </Box>
+                      <ResponsiveDiv>
+                        <InputBox>
+                          <TextField
+                            label='Course Name'
+                            name='course'
+                            key={`course-${index}`}
+                            value={course[index].course || ''}
+                            onChange={(event) =>
+                              handleInputChange(index, event, course, setCourse)
+                            }
+                            style={{ width: '150px' }}
+                          />
+                          <TextField
+                            label='Duration'
+                            name='duration'
+                            key={`duration-${index}`}
+                            value={course[index].duration || ''}
+                            onChange={(event) =>
+                              handleInputChange(index, event, course, setCourse)
+                            }
+                            style={{ width: '150px' }}
+                          />
+                          <TextField
+                            label='Experience / Acheivements'
+                            name='exp'
+                            key={`exp-${index}`}
+                            value={course[index].exp || ''}
+                            onChange={(event) =>
+                              handleInputChange(index, event, course, setCourse)
+                            }
+                            style={{ width: '200px' }}
+                          />
+                        </InputBox>
+                        <DeleteBtn
+                          className='material-symbols-outlined'
+                          onClick={() => {
+                            handleDeleteClick(
+                              courseCount,
+                              setCourseCount,
+                              index,
+                              course,
+                              setCourse
+                            )
+                          }}
+                        >
+                          delete
+                        </DeleteBtn>
+                      </ResponsiveDiv>
                     ))}
                   </Box>
                   <NavigationButtons>
@@ -900,15 +1039,10 @@ const Form = ({ step, setStep }) => {
                       <StyledButton onClick={handleSubmit}>Submit</StyledButton>
                     </Box>
                   </NavigationButtons>
-                </Box>
+                </Cont>
               )}
               {/* {step === 8 && (
-                <Box
-                  display={'flex'}
-                  flexDirection={'column'}
-                  alignItems={'center'}
-                  gap={'5vh'}
-                >
+                <Cont>
                   <Box textAlign={'center'}>
                     <Heading>You can create a Custom Section</Heading>
                   </Box>
