@@ -104,26 +104,27 @@ const Rectangle3 = styled.div`
 `
 const PathBlack = styled.div.withConfig({
   shouldForwardProp: (prop, defaultValidatorFn) =>
-    !['top', 'height'].includes(prop) && defaultValidatorFn(prop)
+    !['top', 'height', 'left'].includes(prop) && defaultValidatorFn(prop)
 })`
   width: 4px;
   background-color: var(--color-primary);
   height: ${({ height }) => `calc(6*${height}px )`};
   position: absolute;
   top: ${({ top, height }) => `${top - height}px`};
-  left: 4.8vw;
+  left: ${({ left }) => `${left}px`};
   z-index: -1;
 `
 const PathWhite = styled.div.withConfig({
   shouldForwardProp: (prop, defaultValidatorFn) =>
-    !['top', 'height', 'step'].includes(prop) && defaultValidatorFn(prop)
+    !['top', 'height', 'step', 'left'].includes(prop) &&
+    defaultValidatorFn(prop)
 })`
   width: 4px;
   background-color: white;
   height: ${({ height, step }) => `calc(${step - 1}*${height}px )`};
   position: absolute;
   top: ${({ top, height }) => `${top - height}px`};
-  left: 4.8vw;
+  left: ${({ left }) => `${left}px`};
   z-index: -1;
   transition: height 1s linear;
 `
@@ -142,6 +143,7 @@ const ProcessBar = ({ step, setStep }) => {
   const circle1Ref = useRef(null)
   const circle2Ref = useRef(null)
   const [top, setTop] = useState(0)
+  const [left, setLeft] = useState(0)
   const [height, setHeight] = useState(0)
 
   // update the positions of the circles when the component is mounted
@@ -150,6 +152,8 @@ const ProcessBar = ({ step, setStep }) => {
     if (circle1Ref.current && circle2Ref.current) {
       const circle1Pos = circle1Ref.current.getBoundingClientRect().top
       const circle2Pos = circle2Ref.current.getBoundingClientRect().top
+      const leftPos = circle1Ref.current.getBoundingClientRect().left
+      setLeft(leftPos + 10)
       setTop(circle1Pos + 10)
       setHeight(circle2Pos - circle1Pos)
     }
@@ -181,8 +185,8 @@ const ProcessBar = ({ step, setStep }) => {
           </Step>
         </StepContainer>
       ))}
-      <PathBlack top={top} height={height} />
-      <PathWhite top={top} height={height} step={step} />
+      <PathBlack top={top} height={height} left={left} />
+      <PathWhite top={top} height={height} step={step} left={left} />
 
       <Rectangle1 />
       <Rectangle2 />
