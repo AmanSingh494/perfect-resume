@@ -5,6 +5,8 @@ import Navbar from './components/Navbar'
 import ProcessBar from './components/ProcessBar'
 import { Box } from '@mui/material'
 import styled from 'styled-components'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import LandingPage from './components/LandingPage'
 const Main = styled.div`
   display: flex;
   flex-direction: column;
@@ -15,13 +17,33 @@ function App() {
     document.title = 'Perfect Resume'
   }, [])
   return (
-    <Main>
-      <Navbar />
-      <Box display='flex' alignItems={'center'}>
-        <ProcessBar step={step} setStep={setStep} />
-        <Form step={step} setStep={setStep} />
-      </Box>
-    </Main>
+    <BrowserRouter>
+      <Main>
+        <Routes>
+          <Route
+            path='/'
+            element={
+              <>
+                <Navbar current={'home'} />
+                <LandingPage />
+              </>
+            }
+          />
+          <Route
+            path='/create-resume'
+            element={
+              <>
+                <Navbar current={'create-resume'} />
+                <Box display='flex' alignItems={'center'}>
+                  <ProcessBar step={step} setStep={setStep} />
+                  <Form step={step} setStep={setStep} />
+                </Box>
+              </>
+            }
+          />
+        </Routes>
+      </Main>
+    </BrowserRouter>
   )
 }
 
