@@ -7,9 +7,11 @@ import { Box } from '@mui/material'
 import styled from 'styled-components'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import LandingPage from './components/LandingPage'
+import Footer from './components/Footer'
 const Main = styled.div`
   display: flex;
   flex-direction: column;
+  position: relative;
 `
 function App() {
   const [step, setStep] = useState(1)
@@ -42,6 +44,7 @@ function App() {
             }
           />
         </Routes>
+        <Footer />
       </Main>
     </BrowserRouter>
   )

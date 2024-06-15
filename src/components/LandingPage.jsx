@@ -3,6 +3,8 @@ import styled from 'styled-components'
 import interviewImage from '../assets/img/interview-image.jpg'
 import bagOpen from '../assets/img/bag-open.jpg'
 import bagClose from '../assets/img/bag-close.jpg'
+import resumeExample1 from '../assets/img/resume-example1.jpg'
+import resumeExample2 from '../assets/img/resume-example2.jpg'
 import paper from '../assets/img/parchment-yellow.png'
 
 const LandingPageDiv = styled.div`
@@ -130,8 +132,20 @@ const ExamplesImgDiv = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 100px;
+  position: relative;
 `
-
+const ExampleImg = styled.img`
+  height: 300px;
+  border: 2px solid var(--color-primary);
+  transition: all 0.3s linear;
+  z-index: 5;
+  &:hover {
+    transform: scale(1.8);
+    position: relative;
+    top: 0px;
+  }
+`
 const LandingPage = () => {
   //setting up refs for manipulating the dom
   const bagOpenRef = useRef(null)
@@ -164,22 +178,33 @@ const LandingPage = () => {
             console.log('down')
             reasonHeadingRef.current.style.animation =
               'textSlideShow 0.5s linear forwards'
+
+            paperDivRef.current.style.animation =
+              'movePaper 1s ease-in-out forwards'
+
+            bagCloseRef.current.style.opacity = 0
+            bagOpenRef.current.style.opacity = 1
           } else {
             console.log('up')
             reasonHeadingRef.current.style.animation =
               'textSlideHide 0.5s linear forwards'
+            paperDivRef.current.style.animation =
+              'movePaperBack 1s ease-in-out forwards'
+            bagCloseRef.current.style.opacity = 1
+            bagOpenRef.current.style.opacity = 0
           }
         }
       }
     }
+
     window.addEventListener('scroll', scrollTextAnimation)
-    const scrollTimer = setTimeout(() => {
-      // Scroll to the bottom of the page
-      window.scrollTo({
-        top: window.innerHeight,
-        behavior: 'smooth' // For a smooth scroll
-      })
-    }, 2000) // 2000 milliseconds = 2 seconds
+    // const scrollTimer = setTimeout(() => {
+    //   // Scroll to the bottom of the page
+    //   window.scrollTo({
+    //     top: window.innerHeight,
+    //     behavior: 'smooth' // For a smooth scroll
+    //   })
+    // }, 2000) // 2000 milliseconds = 2 seconds
 
     //timer for bag opening animation effect using useref hook
 
@@ -199,7 +224,7 @@ const LandingPage = () => {
 
     // Cleanup the timer if the component unmounts before the timer fires
     return () => {
-      clearTimeout(scrollTimer)
+      // clearTimeout(scrollTimer)
       clearTimeout(openTimer)
       clearTimeout(paperDivTimer)
       window.removeEventListener('scroll', scrollTextAnimation)
@@ -248,6 +273,10 @@ const LandingPage = () => {
                 <span class='material-symbols-outlined'>nearby</span>
                 <p>ONE CLICK DOWNLOAD</p>
               </PaperText>
+              <PaperText>
+                <span class='material-symbols-outlined'>nearby</span>
+                <p>NO WATERMARK ON RESUME</p>
+              </PaperText>
             </PaperTextDiv>
             <PaperImg src={paper} alt='white-parchment with text on it' />
           </PaperDiv>
@@ -258,9 +287,12 @@ const LandingPage = () => {
       <ExamplesContainer>
         <ExamplesHeading>A FEW EXAMPLES</ExamplesHeading>
         <ExamplesImgDiv>
-          {/* <img src={interviewImage} alt='interview' />
-          <img src={interviewImage} alt='interview' />
-          <img src={interviewImage} alt='interview' /> */}
+          <a href={resumeExample1} target='_blank' rel='noopener noreferrer'>
+            <ExampleImg src={resumeExample1} alt='resumeExample1' />
+          </a>
+          <a href={resumeExample2} target='_blank' rel='noopener noreferrer'>
+            <ExampleImg src={resumeExample2} alt='resumeExample2' />
+          </a>
         </ExamplesImgDiv>
       </ExamplesContainer>
     </LandingPageDiv>

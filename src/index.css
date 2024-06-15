@@ -60,6 +60,17 @@ a {
     transform: translateY(0) scale(1);
   }
 }
+@keyframes movePaperBack {
+  0% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-300px) scale(0.5);
+  }
+  100% {
+    transform: translateY(0) scale(0);
+  }
+}
 
 /* text slide animation */
 @keyframes textSlideShow {
