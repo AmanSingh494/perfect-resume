@@ -6,7 +6,9 @@ import bagClose from '../assets/img/bag-close.jpg'
 import resumeExample1 from '../assets/img/resume-example1.jpg'
 import resumeExample2 from '../assets/img/resume-example2.jpg'
 import paper from '../assets/img/parchment-yellow.png'
-
+import landingPageBackgroundImg from '../assets/img/landing-page-background-img.png'
+import { Button } from '@mui/material'
+import { Link } from 'react-router-dom'
 const LandingPageDiv = styled.div`
   display: flex;
   flex-direction: column;
@@ -15,26 +17,38 @@ const LandingPageDiv = styled.div`
 `
 const StyledBackground = styled.img`
   position: absolute;
-  top: 22vh;
-  opacity: 0.4;
+  top: 13vh;
+  opacity: 0.2;
   z-index: -1;
-  transition: all 0.3s linear;
+  /* max-width: 70vw; */
+  height: 80vh;
+  @media (max-width: 768px) {
+    top: 32vh;
+    height: 40vh;
+    display: none;
+  }
 `
 const PrimaryText = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 20px;
-  height: 90vh;
-  transition: all 0.3s linear;
+  height: 80vh;
+  padding: 0 10px;
+  @media (max-width: 768px) {
+    align-items: flex-start;
+  }
 `
 const PrimeHeading = styled.h1`
   font-size: var(--font-ex-large);
   font-family: var(--font-primary);
-  font-weight: var(--font-mid-bold);
+  font-weight: var(--font-ex-bold);
   color: var(--color-primary);
   text-align: center;
+  @media (max-width: 768px) {
+    text-align: start;
+    font-size: 3.5rem;
+  }
 `
 const PrimarySubHeading = styled.h3`
   font-size: var(--font-medium);
@@ -42,8 +56,28 @@ const PrimarySubHeading = styled.h3`
   font-weight: 670;
   color: var(--color-primary);
   text-align: center;
+  @media (max-width: 768px) {
+    font-size: 1.7rem;
+    text-align: start;
+  }
 `
-
+const PrimaryDescription = styled.h4`
+  font-size: var(--font-small);
+  font-family: var(--font-primary);
+  color: #636363;
+  text-align: center;
+  width: 70vw;
+  line-height: 15px;
+  padding: 10px 0;
+  @media (max-width: 768px) {
+    padding: 30px 0;
+    width: 90vw;
+    text-align: start;
+    font-size: 1rem;
+    line-height: 17px;
+    letter-spacing: 0.7px;
+  }
+`
 //Reason section
 const ReasonContainer = styled.div`
   display: flex;
@@ -66,6 +100,7 @@ const ReasonHeading = styled.h1`
 const BagOpenDiv = styled.div`
   position: absolute;
   top: 40px;
+  transition: all 0.3s linear;
 `
 const BagCloseDiv = styled.div`
   position: absolute;
@@ -85,10 +120,14 @@ const PaperDiv = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 65vh;
   width: 30vw;
   transform: scale(0);
   transition: all 1s linear;
+  height: 65vh;
+  @media (max-width: 768px) {
+    width: 80vw;
+    height: 55vh;
+  }
 `
 const PaperTextDiv = styled.div`
   display: flex;
@@ -110,6 +149,10 @@ const PaperImg = styled.img`
   width: 30vw;
   top: 0;
   z-index: -5;
+  @media (max-width: 768px) {
+    width: 95vw;
+    height: 55vh;
+  }
 `
 
 //Examples Section
@@ -118,8 +161,8 @@ const ExamplesContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 10vh 0;
-  gap: 20px;
+  padding: 15vh 0;
+  gap: 35px;
 `
 const ExamplesHeading = styled.h1`
   font-size: var(--font-large);
@@ -134,6 +177,10 @@ const ExamplesImgDiv = styled.div`
   justify-content: center;
   gap: 100px;
   position: relative;
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 30px;
+  }
 `
 const ExampleImg = styled.img`
   height: 300px;
@@ -144,6 +191,53 @@ const ExampleImg = styled.img`
     transform: scale(1.8);
     position: relative;
     top: 0px;
+  }
+`
+
+//usage guidelines section
+const UsageContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+`
+const UsageHeading = styled.h1`
+  font-size: var(--font-large);
+  font-family: var(--font-primary);
+  font-weight: var(--font-mid-bold);
+  color: var(--color-primary);
+  text-align: center;
+`
+const UsagePointsDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  width: 50vw;
+`
+const UsagePoints = styled.p`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  /* font-size: var(--font-medium); */
+  font-family: var(--font-primary);
+  font-weight: var(--font-mid-bold);
+  color: var(--color-primary);
+  text-align: center;
+`
+const StyledButton = styled(Button)`
+  && {
+    background: var(--color-tertiary);
+    color: white;
+    &:hover {
+      background: var(--color-quaternary);
+    }
+    @media (max-width: 768px) {
+      font-size: 1.2rem;
+    }
   }
 `
 const LandingPage = () => {
@@ -173,6 +267,9 @@ const LandingPage = () => {
           console.log('scroll position in the range of reason container')
           const direction =
             window.scrollY > lastScrollYRef.current ? 'down' : 'up'
+          // const scrollMeasure = Math.abs(
+          //   window.scrollY - lastScrollYRef.current
+          // )
           lastScrollYRef.current = window.scrollY
           if (direction === 'down') {
             console.log('down')
@@ -190,8 +287,10 @@ const LandingPage = () => {
               'textSlideHide 0.5s linear forwards'
             paperDivRef.current.style.animation =
               'movePaperBack 1s ease-in-out forwards'
-            bagCloseRef.current.style.opacity = 1
-            bagOpenRef.current.style.opacity = 0
+            setTimeout(() => {
+              bagCloseRef.current.style.opacity = 1
+              bagOpenRef.current.style.opacity = 0
+            }, 500)
           }
         }
       }
@@ -233,10 +332,22 @@ const LandingPage = () => {
 
   return (
     <LandingPageDiv>
-      <StyledBackground src={interviewImage} />
+      <StyledBackground src={landingPageBackgroundImg} />
       <PrimaryText ref={primartyTextRef}>
-        <PrimeHeading>WELCOME TO PERFECT RESUME</PrimeHeading>
+        <PrimeHeading>
+          WELCOME <p>TO</p> PERFECT RESUME
+        </PrimeHeading>
         <PrimarySubHeading>RESUME MADE EASY</PrimarySubHeading>
+        <PrimaryDescription>
+          PERFECT RESUME IS AN EASY TO USE TOOL THROUGH WHICH YOU CAN CONVERT
+          THE HEFTY TASK OF CREATING A RESUME INTO A SIMPLE AND EFFICIENT ONE.
+          IT IS A ONE STOP SOLUTION FOR ALL YOUR RESUME NEEDS.
+        </PrimaryDescription>
+        <StyledButton>
+          <Link style={{ color: 'white' }} to='/create-resume'>
+            GET STARTED
+          </Link>
+        </StyledButton>
       </PrimaryText>
 
       {/* Reason Section */}
@@ -295,6 +406,28 @@ const LandingPage = () => {
           </a>
         </ExamplesImgDiv>
       </ExamplesContainer>
+
+      {/* Usage Guidelines Section */}
+      <UsageContainer>
+        <UsageHeading>HOW TO GET THE MOST OUT OF PERFECT RESUME ?</UsageHeading>
+        <UsagePointsDiv>
+          <UsagePoints>
+            <span class='material-symbols-outlined'>nearby</span>
+            <p>
+              MAKE SURE TO BE READY WITH ALL YOUR PERSONAL AND ACADEMIC DETAILS,
+              YOUR WORK EXPERIENCE AND WORK EXPERIENCE
+            </p>
+          </UsagePoints>
+          <UsagePoints>
+            <span class='material-symbols-outlined'>nearby</span>
+            <p>SELECT A TEMPLATE</p>
+          </UsagePoints>
+          <UsagePoints>
+            <span class='material-symbols-outlined'>nearby</span>
+            <p>DOWNLOAD YOUR RESUME</p>
+          </UsagePoints>
+        </UsagePointsDiv>
+      </UsageContainer>
     </LandingPageDiv>
   )
 }

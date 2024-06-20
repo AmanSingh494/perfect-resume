@@ -2,12 +2,15 @@ import React, { useState } from 'react'
 import { Button } from '@mui/material'
 import HamburgerMenu from 'react-hamburger-menu'
 import styled from 'styled-components'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import perfectResumeLogo from '../assets/img/perfect-resume-logo.png'
 // import MenuIcon from '@mui/icons-material/Menu'
 // Import other components you might need (e.g., Button, Link)
-const LogoText = styled.p`
-  font-size: var(--font-medium);
-  color: 'white';
+const LogoImg = styled.img`
+  height: 45px;
+  @media (max-width: 768px) {
+    height: 55px;
+  }
 `
 const AppBar = styled.div`
   position: sticky;
@@ -15,14 +18,15 @@ const AppBar = styled.div`
   left: 0;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   background-color: var(--color-primary);
   color: white;
-  padding: 12px 50px;
+  padding: 8px 50px;
   box-shadow: 0px 0px 12px 1px #000000;
   gap: 7vw;
   z-index: 10;
   @media (max-width: 768px) {
-    padding: 20px 14px;
+    padding: 10px 14px;
     align-items: center;
   }
 `
@@ -55,15 +59,19 @@ const StyledButton = styled(Button)`
 `
 const Navbar = ({ current }) => {
   const [open, setOpen] = useState(false)
+  const navigate = useNavigate()
   return (
     <AppBar>
-      {/* <IconButton edge='start' color='inherit' aria-label='menu' sx={{ mr: 2 }}>
-        {/* <MenuIcon /> */}
-      {/* </IconButton> */}
-      <LogoText>Perfect Resume</LogoText>
-      {/* Add your navigation links here */}
+      <LogoImg src={perfectResumeLogo} alt='logo' />
       <LinksContainer>
-        <Button color='inherit'>Home</Button>
+        <Button
+          color='inherit'
+          onClick={() => {
+            navigate('/')
+          }}
+        >
+          Home
+        </Button>
         <Button color='inherit'>About</Button>
         <Button color='inherit'>Contact</Button>
       </LinksContainer>

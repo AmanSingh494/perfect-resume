@@ -1,5 +1,5 @@
 import { Button, Box, Container, TextField } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import DownloadPage from './DownloadPage.jsx'
 
@@ -79,6 +79,7 @@ const ResponsiveDiv = styled.div`
   }
 `
 const Form = ({ step, setStep }) => {
+  const formRef = useRef(null)
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [resStatus, setResStatus] = useState(
     'Hang on, Your Resume is on the way'
@@ -220,7 +221,7 @@ const Form = ({ step, setStep }) => {
           setDownloadStatus={setDownloadStatus}
         />
       ) : (
-        <Container maxWidth='sm'>
+        <Container maxWidth='sm' sx={{ padding: '20px' }}>
           <Box marginTop={4}>
             <form
               encType='multipart/form-data'
@@ -372,7 +373,7 @@ const Form = ({ step, setStep }) => {
                           }
                         />
                       </Box>
-                      <Box padding={'19px 25px'} border={'0.5px solid #b6b0b0'}>
+                      {/* <Box padding={'19px 25px'} border={'0.5px solid #b6b0b0'}>
                         <input
                           type='file'
                           name='imageUpload'
@@ -384,7 +385,7 @@ const Form = ({ step, setStep }) => {
                         <label htmlFor='imageUpload' className='imageUpload'>
                           Upload your image here
                         </label>
-                      </Box>
+                      </Box> */}
                     </Box>
                   </Box>
 
