@@ -1,6 +1,15 @@
 import React, { useState } from 'react'
 import { Box, Typography, Button, CircularProgress } from '@mui/material'
-
+import styled from 'styled-components'
+const DownloadPageBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+  gap: 20px;
+  text-align: center;
+`
 const DownloadPage = ({
   status,
   setResStatus,
@@ -8,14 +17,7 @@ const DownloadPage = ({
   setDownloadStatus
 }) => {
   return (
-    <Box
-      display='flex'
-      flexDirection='column'
-      justifyContent='center'
-      alignItems='center'
-      minHeight='80vh'
-      gap='20px'
-    >
+    <DownloadPageBox>
       <Typography variant='h6'>{status}</Typography>
       {status === 'Hang on, Your Resume is on the way' && <CircularProgress />}
       <Box
@@ -48,7 +50,7 @@ const DownloadPage = ({
           Download
         </Button>
       </Box>
-    </Box>
+    </DownloadPageBox>
   )
 }
 export default DownloadPage

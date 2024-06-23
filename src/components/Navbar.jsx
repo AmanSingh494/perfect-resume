@@ -5,26 +5,36 @@ import styled from 'styled-components'
 import { Link, useNavigate } from 'react-router-dom'
 import perfectResumeLogo from '../assets/img/perfect-resume-logo.png'
 // import MenuIcon from '@mui/icons-material/Menu'
-// Import other components you might need (e.g., Button, Link)
+const NavBtn = styled(Button)`
+  && {
+    font-family: var(--font-secondary);
+    font-weight: 650;
+  }
+`
 const LogoImg = styled.img`
   height: 45px;
   @media (max-width: 768px) {
     height: 55px;
   }
 `
-const AppBar = styled.div`
-  position: sticky;
+const AppBar = styled.div.withConfig({
+  shouldForwardProp: (prop, defaultValidatorFn) => !['current'].includes(prop)
+})`
+  position: ${({ current }) => (current === `home` ? `relative` : `sticky`)};
   top: 0;
   left: 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: var(--color-primary);
-  color: white;
+  color: ${({ current }) =>
+    current === `home` ? `var(--color-primary)` : `white`};
+  background-color: ${({ current }) =>
+    current === `home` ? `transparent` : `var(--color-primary)`};
   padding: 8px 50px;
-  box-shadow: 0px 0px 12px 1px #000000;
   gap: 7vw;
   z-index: 10;
+  box-shadow: ${({ current }) =>
+    current === `home` ? `none` : `0px 0px 12px 1px #000000`};
   @media (max-width: 768px) {
     padding: 10px 14px;
     align-items: center;
@@ -61,27 +71,29 @@ const Navbar = ({ current }) => {
   const [open, setOpen] = useState(false)
   const navigate = useNavigate()
   return (
-    <AppBar>
-      <LogoImg src={perfectResumeLogo} alt='logo' />
+    <AppBar current={current}>
+      <Link to={'/'}>
+        <LogoImg src={perfectResumeLogo} alt='logo' />
+      </Link>
       <LinksContainer>
-        <Button
+        <NavBtn
           color='inherit'
           onClick={() => {
             navigate('/')
           }}
         >
           Home
-        </Button>
-        <Button color='inherit'>About</Button>
-        <Button color='inherit'>Contact</Button>
+        </NavBtn>
+        <NavBtn color='inherit'>About</NavBtn>
+        <NavBtn color='inherit'>Contact</NavBtn>
       </LinksContainer>
       <StyledHamburgerMenu
-        color={'white'}
+        color={current === 'home' ? 'black' : 'white'}
         isOpen={open}
         menuClicked={() => setOpen(!open)}
         width={18}
         height={15}
-        strokeWidth={1}
+        strokeWidth={3}
         rotate={0}
         borderRadius={0}
         animationDuration={0.5}

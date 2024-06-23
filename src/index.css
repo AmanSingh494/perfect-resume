@@ -32,7 +32,9 @@ a {
   --font-mid-bold: 600;
   --font-ex-bold: 700;
   --font-light: lighter;
-  --font-primary: 'Josefin Sans', sans-serif;
+  --font-primary: 'Merriweather', serif;
+  --font-secondary: 'Montserrat', sans-serif;
+  --font-tertiary: 'Josefin Sans', sans-serif;
   --color-primary: #153448;
   --color-secondary: #3c5b6f;
   --color-tertiary: #948979;
