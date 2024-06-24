@@ -13,10 +13,10 @@ const MadeByDiv = styled.div`
 const MadeByText = styled.p`
   text-align: center;
   /* font-size: var(--font-ex-large); */
-  font-family: var(--font-primary);
+  font-family: var(--font-secondary);
   font-weight: var(--font-mid-bold);
-  background-color: var(--color-primary);
-  color: white;
+  border: 2px solid black;
+  background-color: white;
   width: 100vw;
 `
 const HeartIcon = styled.span`
@@ -27,7 +27,7 @@ const Footer = () => {
     <FooterContainer>
       <MadeByDiv>
         <MadeByText>
-          MADE WITH <HeartIcon>♥</HeartIcon> BY AMAN
+          CRAFTED WITH <HeartIcon>♥</HeartIcon> BY AMAN &copy; 2024
         </MadeByText>
       </MadeByDiv>
     </FooterContainer>

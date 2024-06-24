@@ -9,6 +9,10 @@ const DownloadPageBox = styled.div`
   min-height: 80vh;
   gap: 20px;
   text-align: center;
+  padding: 0 240px;
+  @media (max-width: 768px) {
+    padding: 0 30px;
+  }
 `
 const DownloadPage = ({
   status,
