@@ -3,9 +3,10 @@ import styled from 'styled-components'
 import interviewImage from '../assets/img/interview-image.jpg'
 import bagOpen from '../assets/img/bag-open.jpg'
 import bagClose from '../assets/img/bag-close.jpg'
+import folderImg from '../assets/img/folderImg.png'
 import resumeExample1 from '../assets/img/resume-example1.jpg'
 import resumeExample2 from '../assets/img/resume-example2.jpg'
-import paper from '../assets/img/parchment-yellow.png'
+import paper from '../assets/img/paper.png'
 import landingPageBackgroundImg from '../assets/img/landing-page-background-img.png'
 import { Button } from '@mui/material'
 import { Link } from 'react-router-dom'
@@ -18,7 +19,7 @@ const LandingPageDiv = styled.div`
 const StyledBackground = styled.img`
   position: absolute;
   top: 13vh;
-  opacity: 0.2;
+  opacity: 0.17;
   z-index: -1;
   /* max-width: 70vw; */
   height: 80vh;
@@ -33,10 +34,11 @@ const PrimaryText = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 80vh;
+  height: 85vh;
   padding: 0 10px;
   @media (max-width: 768px) {
     align-items: flex-start;
+    gap: 10px;
   }
 `
 const PrimeHeading = styled.h1`
@@ -47,35 +49,42 @@ const PrimeHeading = styled.h1`
   text-align: center;
   @media (max-width: 768px) {
     text-align: start;
-    font-size: 3.5rem;
+    font-size: 3rem;
+    font-family: var(--font-secondary);
   }
 `
 const PrimarySubHeading = styled.h3`
   font-size: var(--font-medium);
-  font-family: var(--font-primary);
+  font-family: var(--font-secondary);
   font-weight: 670;
   color: var(--color-primary);
   text-align: center;
   @media (max-width: 768px) {
-    font-size: 1.7rem;
-    text-align: start;
+    font-size: 1.3rem;
+    text-align: end;
+    align-self: flex-end;
+    background-color: var(--color-primary);
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
   }
 `
 const PrimaryDescription = styled.h4`
-  font-size: var(--font-small);
-  font-family: var(--font-primary);
+  font-family: var(--font-tertiary);
+  font-size: var(--font-mid-medium);
   color: #636363;
   text-align: center;
   width: 70vw;
-  line-height: 15px;
-  padding: 10px 0;
+  line-height: 17px;
+  padding: 30px 0;
+  font-weight: var(--font-mid-bold);
   @media (max-width: 768px) {
-    padding: 30px 0;
+    padding: 5px 0;
     width: 90vw;
     text-align: start;
     font-size: 1rem;
     line-height: 17px;
-    letter-spacing: 0.7px;
+    letter-spacing: 0.3px;
   }
 `
 //Reason section
@@ -84,7 +93,7 @@ const ReasonContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 10vh 0;
+  padding: 20vh 0;
   gap: 20px;
 `
 const ReasonHeading = styled.h1`
@@ -97,12 +106,18 @@ const ReasonHeading = styled.h1`
   transform: translateX(-100px);
   opacity: 0;
 `
-const BagOpenDiv = styled.div`
-  position: absolute;
-  top: 40px;
-  transition: all 0.3s linear;
-`
-const BagCloseDiv = styled.div`
+// const BagOpenDiv = styled.div`
+//   position: absolute;
+//   top: 40px;
+//   transition: all 0.3s linear;
+// `
+// const BagCloseDiv = styled.div`
+//   position: absolute;
+//   top: 40px;
+//   transition: all 0.3s linear;
+// `
+const FolderImg = styled.img`
+  height: 200px;
   position: absolute;
   top: 40px;
   transition: all 0.3s linear;
@@ -123,7 +138,7 @@ const PaperDiv = styled.div`
   width: 30vw;
   transform: scale(0);
   transition: all 1s linear;
-  height: 65vh;
+  height: 72vh;
   @media (max-width: 768px) {
     width: 80vw;
     height: 55vh;
@@ -138,15 +153,15 @@ const PaperText = styled.div`
   display: flex;
   align-items: center;
   padding: 10px;
-  /* font-size: var(--font-medium); */
+  font-size: 0.9rem;
   z-index: -4;
   font-family: var(--font-primary);
   gap: 5px;
 `
 const PaperImg = styled.img`
   position: absolute;
-  height: 65vh;
-  width: 30vw;
+  height: 72vh;
+  width: 33vw;
   top: 0;
   z-index: -5;
   @media (max-width: 768px) {
@@ -228,6 +243,23 @@ const UsagePoints = styled.p`
   color: var(--color-primary);
   text-align: center;
 `
+
+// Feedback Section
+const FeedbackContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+`
+const FeedbackHeading = styled.h1`
+  font-size: var(--font-large);
+  font-family: var(--font-primary);
+  font-weight: var(--font-mid-bold);
+  color: var(--color-primary);
+  text-align: center;
+`
+
 const StyledButton = styled(Button)`
   && {
     background: var(--color-tertiary);
@@ -242,8 +274,8 @@ const StyledButton = styled(Button)`
 `
 const LandingPage = () => {
   //setting up refs for manipulating the dom
-  const bagOpenRef = useRef(null)
-  const bagCloseRef = useRef(null)
+  // const bagOpenRef = useRef(null)
+  // const bagCloseRef = useRef(null)
   const paperDivRef = useRef(null)
   const primartyTextRef = useRef(null)
   const reasonContainerRef = useRef(null)
@@ -279,8 +311,8 @@ const LandingPage = () => {
             paperDivRef.current.style.animation =
               'movePaper 1s ease-in-out forwards'
 
-            bagCloseRef.current.style.opacity = 0
-            bagOpenRef.current.style.opacity = 1
+            // bagCloseRef.current.style.opacity = 0 bag animation replaced with folder
+            // bagOpenRef.current.style.opacity = 1
           } else {
             console.log('up')
             reasonHeadingRef.current.style.animation =
@@ -288,8 +320,8 @@ const LandingPage = () => {
             paperDivRef.current.style.animation =
               'movePaperBack 1s ease-in-out forwards'
             setTimeout(() => {
-              bagCloseRef.current.style.opacity = 1
-              bagOpenRef.current.style.opacity = 0
+              // bagCloseRef.current.style.opacity = 1
+              // bagOpenRef.current.style.opacity = 0
             }, 500)
           }
         }
@@ -307,11 +339,11 @@ const LandingPage = () => {
 
     //timer for bag opening animation effect using useref hook
 
-    const openTimer = setTimeout(() => {
-      if (bagCloseRef.current) {
-        bagCloseRef.current.style.opacity = 0
-      }
-    }, 3000)
+    // const openTimer = setTimeout(() => {
+    //   if (bagCloseRef.current) {
+    //     bagCloseRef.current.style.opacity = 0
+    //   }
+    // }, 3000)
 
     //animation for scaling the paper
     const paperDivTimer = setTimeout(() => {
@@ -324,7 +356,7 @@ const LandingPage = () => {
     // Cleanup the timer if the component unmounts before the timer fires
     return () => {
       // clearTimeout(scrollTimer)
-      clearTimeout(openTimer)
+      // clearTimeout(openTimer)
       clearTimeout(paperDivTimer)
       window.removeEventListener('scroll', scrollTextAnimation)
     }
@@ -339,9 +371,11 @@ const LandingPage = () => {
         </PrimeHeading>
         <PrimarySubHeading>RESUME MADE EASY</PrimarySubHeading>
         <PrimaryDescription>
-          PERFECT RESUME IS AN EASY TO USE TOOL THROUGH WHICH YOU CAN CONVERT
-          THE HEFTY TASK OF CREATING A RESUME INTO A SIMPLE AND EFFICIENT ONE.
-          IT IS A ONE STOP SOLUTION FOR ALL YOUR RESUME NEEDS.
+          Perfect Resume is a user-friendly web app that creates professional
+          resumes effortlessly. Simply fill out intuitive forms, and our service
+          generates a polished resume for you—all at no cost. Enjoy a seamless
+          experience with customizable templates, ensuring your resume stands
+          out. Start building your career success today, easily and for free!
         </PrimaryDescription>
         <StyledButton>
           <Link style={{ color: 'white' }} to='/create-resume'>
@@ -356,12 +390,7 @@ const LandingPage = () => {
           WHY TO USE PERFECT RESUME ?
         </ReasonHeading>
         <AnimationDiv>
-          <BagOpenDiv ref={bagOpenRef}>
-            <img src={bagOpen} alt='bag that is open' />
-          </BagOpenDiv>
-          <BagCloseDiv ref={bagCloseRef}>
-            <img src={bagClose} alt='bag that is close' />
-          </BagCloseDiv>
+          <FolderImg src={folderImg} alt='cartoon of a folder'></FolderImg>
           <PaperDiv ref={paperDivRef}>
             <PaperTextDiv>
               <PaperText>
@@ -408,7 +437,7 @@ const LandingPage = () => {
       </ExamplesContainer>
 
       {/* Usage Guidelines Section */}
-      <UsageContainer>
+      {/* <UsageContainer>
         <UsageHeading>HOW TO GET THE MOST OUT OF PERFECT RESUME ?</UsageHeading>
         <UsagePointsDiv>
           <UsagePoints>
@@ -427,7 +456,12 @@ const LandingPage = () => {
             <p>DOWNLOAD YOUR RESUME</p>
           </UsagePoints>
         </UsagePointsDiv>
-      </UsageContainer>
+      </UsageContainer> */}
+
+      {/* Feedback Section */}
+      {/* <FeedbackContainer>
+        <FeedbackHeading>YOUR FEEDBACK IS VALUABLE</FeedbackHeading>
+      </FeedbackContainer> */}
     </LandingPageDiv>
   )
 }

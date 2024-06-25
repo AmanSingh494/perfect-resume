@@ -36,7 +36,7 @@ const StepNumber = styled(Typography)`
 
 const StepName = styled(Typography)`
   && {
-    font-family: var(--font-primary);
+    font-family: var(--font-secondary);
     font-size: var(--font-mid-medium);
   }
 `

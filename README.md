@@ -1,70 +1,130 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Perfect Resume :mortar_board:
 
-## Available Scripts
+ Perfect Resume is a user-friendly web app that creates professional
+          resumes effortlessly. Simply fill out intuitive forms, and our service
+          generates a polished resume for you—all at no cost. Enjoy a seamless
+          experience with customizable templates, ensuring your resume stands
+          out. Start building your career success today, easily and for free!
 
-In the project directory, you can run:
 
-### `npm start`
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/AmanSingh494/perfect-resume?logoColor=%234a1ec1)  ![GitHub commit activity](https://img.shields.io/github/commit-activity/t/AmanSingh494/perfect-resume) ![Contributors](https://img.shields.io/github/contributors/AmanSingh494/perfect-resume) [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB) ![CSS](https://img.shields.io/badge/CSS-1572B6?style=for-the-badge&logo=css3&logoColor=white) ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black) ![Material-UI](https://img.shields.io/badge/Material--UI-0081CB?style=for-the-badge&logo=material-ui&logoColor=white)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
+## Tech Stack :hammer_and_wrench:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+**Client:** React, Redux, TailwindCSS
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Live Demo 🚀
 
-### `npm run eject`
+[![landing-page-screenshot](./src/assets/img/landing-page-screenshot.jpg)](https://perfect-resume.crafted-concepts.tech)
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Table of contents
+- [Installation](#installation)
+- [Usage](#usage)
+- [Features](#features)
+- [Contributing](#contributing)
+- [License](#license)
+## Installation 💻
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+1. Clone the repository:
+    ```sh
+    git clone https://github.com/AmanSingh494/perfect-resume.git
+    ```
+2. Navigate to the project directory:
+    ```sh
+    cd perfect-resume
+    ```
+3. Install dependencies:
+    ```sh
+    npm install
+    ```
+4.  Check [Perfect Resume Backend](https://github.com/Amansingh494/perfect-resume-backend) for setting up the backend.
+5. Change the environment variable in the env.development.local file according to your backend.
+6. Run the application:
+    ```sh
+    npm start
+    ```
+    
+## Usage
+1. Start the application:
+    ```sh
+    npm start
+    ```
+2. Open your browser and navigate to `http://localhost:3000`
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### Example
+Here’s an example of how to use the application:
+1. When you start the application, you will see the landing page-
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+![landing-page-screenshot](./src/assets/img/landing-page-screenshot.jpg)
 
-## Learn More
+2. Click on the create resume button to start creating a resume, you will see such an interface-
+![form-screenshot](./src/assets/img/form-screenshot.jpg)
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+3. Enter all the details and click on submit.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+4. Tada!! 🎉 Your resume will be ready in a few seconds.
 
-### Code Splitting
+## Features
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+This application offers a comprehensive suite of features designed to streamline the process of creating and managing professional resumes:
 
-### Analyzing the Bundle Size
+- **User-Friendly Interface**: Enjoy a clean, intuitive interface that simplifies navigation and resume building.
+- **Integration with Perfect Resume Backend**: Seamlessly connect with the Perfect Resume Backend for additional functionalities such as saving multiple resume versions, accessing advanced editing tools, and more.
+- **Responsive Design**: Access the application on any device, ensuring your resume looks great on both desktop and mobile screens.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Whether you're a job seeker looking to craft the perfect resume or a professional aiming to update your CV, our application provides all the tools you need to achieve a polished, professional look.
 
-### Making a Progressive Web App
+## Contributing :handshake:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+I welcome contributions to the Perfect Resume project! If you're looking to contribute, here's how you can help:
 
-### Advanced Configuration
+### Reporting Issues :warning:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+If you encounter any bugs or have suggestions for improvements, please file an issue through the GitHub issue tracker. Be sure to include a clear title, a detailed description, and steps to reproduce the issue if applicable.
 
-### Deployment
+### Submitting Changes
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+1. **Fork the Repository**: Start by forking the repository on GitHub.
+2. **Clone Your Fork**: Clone your fork to your local machine for development.
+    ```sh
+    git clone https://github.com/AmanSingh494/perfect-resume.git
+    cd perfect-resume
+    ```
+3. **Create a New Branch**: Create a branch for your changes. Naming it something descriptive can be helpful.
+    ```sh
+    git checkout -b feature/your-feature-name
+    ```
+4. **Make Your Changes**: Implement your changes, add new features, or fix bugs.
+5. **Test Your Changes**: Ensure your changes do not break any existing functionality. Add any new tests if necessary.
+6. **Commit Your Changes**: Commit your changes with a clear commit message.
+    ```sh
+    git commit -m "Add a concise and descriptive message about your change"
+    ```
+7. **Push to Your Fork**: Push your changes to your fork on GitHub.
+    ```sh
+    git push origin feature/your-feature-name
+    ```
+8. **Submit a Pull Request**: Go to the original project repository on GitHub and submit a pull request from your feature branch to the main project's `main` branch.
 
-### `npm run build` fails to minify
+### Code of Conduct
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Please note that this project is released with a Contributor Code of Conduct. By participating in this project, you agree to abide by its terms.
+
+### Getting Help
+
+If you need help with making contributions or setting up the project, feel free to reach out or ask questions in the project's discussions section on GitHub.
+
+I look forward to your contributions!
+
+## License
+
+Perfect Resume is open-sourced software licensed under the MIT license. The MIT license is a permissive license that is short and to the point. It lets people do anything they want with your code as long as they provide attribution back to you and don’t hold you liable.
+
+For more details, see the [LICENSE](./LICENSE) file in the repository.
