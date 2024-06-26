@@ -1,12 +1,15 @@
 
 # Perfect Resume :mortar_board:
 
+## Frontend
+
  Perfect Resume is a user-friendly web app that creates professional
           resumes effortlessly. Simply fill out intuitive forms, and our service
           generates a polished resume for you—all at no cost. Enjoy a seamless
           experience with awesome resumes, ensuring your resume stands
           out. Start building your career success today, easily and for free!
 
+The frontend is powered by a React application, complemented by a Node.js backend. Check backend on [Perfect Resume Backend](https://github.com/Amansingh494/perfect-resume-backend)
 
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/AmanSingh494/perfect-resume?logoColor=%234a1ec1)  ![GitHub commit activity](https://img.shields.io/github/commit-activity/t/AmanSingh494/perfect-resume) ![Contributors](https://img.shields.io/github/contributors/AmanSingh494/perfect-resume) [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
 
@@ -17,7 +20,7 @@
 
 ## Tech Stack :hammer_and_wrench:
 
-**Client:** React, Redux, TailwindCSS
+**Client:** React Js, Html5, CSS, Styled Components, Material UI
 
 
 ## Live Demo 🚀
