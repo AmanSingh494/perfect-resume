@@ -283,9 +283,7 @@ const LandingPage = () => {
   const lastScrollYRef = useRef(0) //crete a ref to store the last scroll position because a state variable may cause problems on re-renders
   useEffect(() => {
     const scrollTextAnimation = () => {
-      console.log('scroll animation')
       if (reasonContainerRef.current && reasonHeadingRef.current) {
-        console.log('ref current present')
         const reasonContainerTop =
           reasonContainerRef.current.getBoundingClientRect().top
         const reasonContainerBottom =
@@ -296,7 +294,6 @@ const LandingPage = () => {
           scrollPos >= reasonContainerTop &&
           scrollPos <= reasonContainerBottom
         ) {
-          console.log('scroll position in the range of reason container')
           const direction =
             window.scrollY > lastScrollYRef.current ? 'down' : 'up'
           // const scrollMeasure = Math.abs(
@@ -304,7 +301,6 @@ const LandingPage = () => {
           // )
           lastScrollYRef.current = window.scrollY
           if (direction === 'down') {
-            console.log('down')
             reasonHeadingRef.current.style.animation =
               'textSlideShow 0.5s linear forwards'
 
@@ -314,7 +310,6 @@ const LandingPage = () => {
             // bagCloseRef.current.style.opacity = 0 bag animation replaced with folder
             // bagOpenRef.current.style.opacity = 1
           } else {
-            console.log('up')
             reasonHeadingRef.current.style.animation =
               'textSlideHide 0.5s linear forwards'
             paperDivRef.current.style.animation =
