@@ -11,6 +11,7 @@ const MadeByDiv = styled.div`
   justify-content: center;
 `
 const MadeByText = styled.p`
+  letter-spacing: 3px;
   text-align: center;
   /* font-size: var(--font-ex-large); */
   font-family: var(--font-secondary);

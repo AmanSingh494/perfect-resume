@@ -131,38 +131,6 @@ const Form = ({ step, setStep }) => {
     }
   }, [downloadStatus, downloadUrl])
 
-  const handleSubmit = async (e) => {
-    try {
-      e.preventDefault()
-      setIsSubmitted(true)
-      const response = await fetch(process.env.REACT_APP_API_URL + '/submit', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          personalDetails,
-          achievements,
-          edu,
-          skill,
-          projects,
-          work,
-          course
-        })
-      })
-      if (response.ok) {
-        setResStatus('Successfully Generated Your Resume')
-        const blob = await response.blob()
-        const url = window.URL.createObjectURL(blob)
-        setDownloadUrl(url)
-      } else {
-        setResStatus('Oops!! Something went wrong. Please try again later.')
-        console.error('Request failed with status', response.status)
-      }
-    } catch (err) {
-      console.log(err)
-    }
-  }
   const changeStep = (x) => {
     setStep((current) => current + x)
   }

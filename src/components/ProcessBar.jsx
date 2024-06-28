@@ -1,26 +1,38 @@
 import React, { useEffect, useRef, useState } from 'react'
 import styled, { keyframes, css } from 'styled-components'
 import { Box, Typography } from '@mui/material'
-const Sidebar = styled(Box)`
-  position: sticky;
+
+//withConfig is used to not let the passed prop to be passed to the underlying dom element
+const Sidebar = styled(Box).withConfig({
+  shouldForwardProp: (prop, defaultValidatorFn) => !['isOpen'].includes(prop)
+})`
+  position: fixed;
   left: 0;
   top: 60px;
   display: flex;
-  flex-direction: column;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
   align-self: baseline;
-  gap: 1rem;
+  gap: 2rem;
   background-color: var(--color-secondary);
   color: white;
-  padding: 2vh 4vw;
-  height: calc(100vh - 60px);
+  padding: 2vh 1vw 2vh 4vw;
+  height: calc(100vh - 80px);
   box-sizing: border-box;
+  transform: ${({ isOpen }) => (isOpen ? 'translateX(0)' : 'translateX(-85%)')};
+  transition: transform 0.5s ease-in-out;
+  box-shadow: 10px 0px 20px 9px rgba(0, 0, 0, 0.2);
+  z-index: 9;
   @media (max-width: 768px) {
     display: none;
   }
 `
-
+const StepContainerDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1rem;
+`
 const StepContainer = styled(Box)`
   display: flex;
   align-items: center;
@@ -128,6 +140,33 @@ const PathWhite = styled.div.withConfig({
   z-index: -1;
   transition: height 1s linear;
 `
+
+//Styles for adding open - close functionality in the process bar using an arrow
+const ArrowDiv = styled.div.withConfig({
+  shouldForwardProp: (prop, defaultValidatorFn) => !['isOpen'].includes(prop)
+})`
+  background-color: #ffffff36;
+  border: 1px solid white;
+  border-radius: 5px;
+  transform: ${({ isOpen }) => (isOpen ? 'rotate(180deg)' : 'rotate(0deg)')};
+  /* transition: transform 0.5s ease-in-out; */
+`
+const BackdropDiv = styled.div.withConfig({
+  shouldForwardProp: (prop, defaultValidatorFn) => !['isOpen'].includes(prop)
+})`
+  display: ${({ isOpen }) => (isOpen ? 'block' : 'none')};
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: black;
+  height: 100vh;
+  width: 100vw;
+  /* overflow: visible; */
+  z-index: 8;
+  opacity: 0.3;
+`
 const ProcessBar = ({ step, setStep }) => {
   const steps = [
     'Personal Details',
@@ -138,6 +177,8 @@ const ProcessBar = ({ step, setStep }) => {
     'Achievements',
     'Additional Courses'
   ]
+  // creating isOpen state to keep track of open and closed processBar
+  const [isOpen, setIsOpen] = useState(false)
 
   // using useRef and useEffect hook to get the top of circle1 and circle2, difference between them is the height and then will mulitply it to get the height of the path
   const circle1Ref = useRef(null)
@@ -162,36 +203,58 @@ const ProcessBar = ({ step, setStep }) => {
     updatePositions()
     // Add event listener for window resize
     window.addEventListener('resize', updatePositions)
-    // Cleanup function to remove event listener
     return () => window.removeEventListener('resize', updatePositions)
   }, [])
-  return (
-    <Sidebar>
-      {steps.map((currentStep, index) => (
-        <StepContainer
-          key={index}
-          onClick={() => {
-            setStep(index + 1)
-            console.log(step)
-          }}
-        >
-          <Circle
-            ref={index === 0 ? circle1Ref : index === 1 ? circle2Ref : null}
-            active={step === index + 1}
-          />
-          <Step>
-            <StepNumber>{`Step ${index + 1}`}</StepNumber>
-            <StepName>{currentStep}</StepName>
-          </Step>
-        </StepContainer>
-      ))}
-      <PathBlack top={top} height={height} left={left} />
-      <PathWhite top={top} height={height} step={step} left={left} />
 
-      <Rectangle1 />
-      <Rectangle2 />
-      <Rectangle3 />
-    </Sidebar>
+  useEffect(() => {
+    if (isOpen) {
+      // Setting a timeout equal to the duration of the CSS transition to make sure the function runs after the bar has shown
+      const timer = setTimeout(() => {
+        updatePositions()
+      }, 500)
+
+      return () => clearTimeout(timer)
+    }
+  }, [isOpen])
+  return (
+    <>
+      <Sidebar isOpen={isOpen}>
+        <StepContainerDiv>
+          {steps.map((currentStep, index) => (
+            <StepContainer
+              key={index}
+              onClick={() => {
+                setStep(index + 1)
+                console.log(step)
+              }}
+            >
+              <Circle
+                ref={index === 0 ? circle1Ref : index === 1 ? circle2Ref : null}
+                active={step === index + 1}
+              />
+              <Step>
+                <StepNumber>{`Step ${index + 1}`}</StepNumber>
+                <StepName>{currentStep}</StepName>
+              </Step>
+            </StepContainer>
+          ))}
+        </StepContainerDiv>
+        <PathBlack top={top} height={height} left={left} />
+        <PathWhite top={top} height={height} step={step} left={left} />
+        <ArrowDiv isOpen={isOpen} onClick={() => setIsOpen(!isOpen)}>
+          <span
+            className='material-symbols-outlined'
+            style={{ padding: '15px 0', fontSize: '2rem' }}
+          >
+            chevron_right
+          </span>
+        </ArrowDiv>
+        <Rectangle1 />
+        <Rectangle2 />
+        <Rectangle3 />
+      </Sidebar>
+      <BackdropDiv isOpen={isOpen}></BackdropDiv>
+    </>
   )
 }
 

@@ -8,6 +8,7 @@ import styled from 'styled-components'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import LandingPage from './components/LandingPage'
 import Footer from './components/Footer'
+import PreviewBar from './components/PreviewBar'
 const Main = styled.div`
   display: flex;
   flex-direction: column;
@@ -39,6 +40,7 @@ function App() {
                 <Box display='flex' alignItems={'center'}>
                   <ProcessBar step={step} setStep={setStep} />
                   <Form step={step} setStep={setStep} />
+                  <PreviewBar />
                 </Box>
               </>
             }

@@ -99,8 +99,11 @@ const Navbar = ({ current }) => {
         animationDuration={0.5}
       />
       <StyledButton>
-        <Link style={{ color: 'white' }} to='/create-resume'>
-          Create Resume
+        <Link
+          style={{ color: 'white' }}
+          to={current === `home` ? `/create-resume` : `See Preview`}
+        >
+          {current === `home` ? `Create Resume` : `See Preview`}
         </Link>
       </StyledButton>
     </AppBar>
