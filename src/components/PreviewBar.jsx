@@ -13,6 +13,10 @@ const PreviewBarDiv = styled.div`
   width: 20vw;
   background-color: var(--color-secondary);
   color: white;
+  transform: ${({ isOpen }) => (isOpen ? 'translateX(0)' : 'translateX(80%)')};
+  @media (max-width: 768px) {
+    display: none;
+  }
 `
 
 const ArrowDiv = styled.div.withConfig({

@@ -2,6 +2,7 @@ import { Button, Box, Container, TextField } from '@mui/material'
 import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import DownloadPage from './DownloadPage.jsx'
+import { handleSubmit } from '../api/api.js'
 
 const Cont = styled.div`
   display: flex;
@@ -119,6 +120,7 @@ const Form = ({ step, setStep }) => {
 
   //use effect for download functionality
   useEffect(() => {
+    console.log(downloadStatus, downloadUrl)
     if (downloadStatus && downloadUrl) {
       const link = document.createElement('a')
       link.href = downloadUrl
@@ -134,7 +136,15 @@ const Form = ({ step, setStep }) => {
   const changeStep = (x) => {
     setStep((current) => current + x)
   }
-
+  //function created to send request after handleClick moved to api.js
+  const sendRequest = async (e) => {
+    handleSubmit(
+      e,
+      { personalDetails, achievements, edu, skill, projects, work, course },
+      setResStatus,
+      setDownloadUrl
+    )
+  }
   const handleInputChange = (index, e, _state, _stateChanger) => {
     const values = [..._state]
     const name = e.target.name
@@ -1005,7 +1015,7 @@ const Form = ({ step, setStep }) => {
                       </StyledButton>
                     </Box>
                     <Box>
-                      <StyledButton onClick={handleSubmit}>Submit</StyledButton>
+                      <StyledButton onClick={sendRequest}>Submit</StyledButton>
                     </Box>
                   </NavigationButtons>
                 </Cont>
