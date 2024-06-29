@@ -138,6 +138,7 @@ const Form = ({ step, setStep }) => {
   }
   //function created to send request after handleClick moved to api.js
   const sendRequest = async (e) => {
+    setIsSubmitted(true)
     handleSubmit(
       e,
       { personalDetails, achievements, edu, skill, projects, work, course },

@@ -37,7 +37,11 @@ function App() {
             element={
               <>
                 <Navbar current={'create-resume'} />
-                <Box display='flex' alignItems={'center'}>
+                <Box
+                  display='flex'
+                  alignItems={'center'}
+                  justifyContent={'center'}
+                >
                   <ProcessBar step={step} setStep={setStep} />
                   <Form step={step} setStep={setStep} />
                   <PreviewBar />
