@@ -17,10 +17,10 @@ const Sidebar = styled(Box).withConfig({
   background-color: var(--color-secondary);
   color: white;
   padding: 2vh 1vw 2vh 4vw;
-  height: calc(100vh - 80px);
+  height: calc(100vh - 60px);
   box-sizing: border-box;
   transform: ${({ isOpen }) => (isOpen ? 'translateX(0)' : 'translateX(-85%)')};
-  transition: transform 0.5s ease-in-out;
+  transition: transform 0.3s ease-in-out;
   box-shadow: 10px 0px 20px 9px rgba(0, 0, 0, 0.2);
   z-index: 9;
   @media (max-width: 768px) {
@@ -211,7 +211,7 @@ const ProcessBar = ({ step, setStep }) => {
       // Setting a timeout equal to the duration of the CSS transition to make sure the function runs after the bar has shown
       const timer = setTimeout(() => {
         updatePositions()
-      }, 500)
+      }, 300)
 
       return () => clearTimeout(timer)
     }

@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import DownloadPage from './DownloadPage.jsx'
 import { handleSubmit } from '../api/api.js'
+import html2canvas from 'html2canvas';
 
 const Cont = styled.div`
   display: flex;

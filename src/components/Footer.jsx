@@ -4,6 +4,7 @@ const FooterContainer = styled.div`
   position: fixed;
   bottom: 0;
   left: 0;
+  display: none;
 `
 const MadeByDiv = styled.div`
   display: flex;

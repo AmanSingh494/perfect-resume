@@ -9,6 +9,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import LandingPage from './components/LandingPage'
 import Footer from './components/Footer'
 import PreviewBar from './components/PreviewBar'
+import Temp1 from './components/Temp1'
 const Main = styled.div`
   display: flex;
   flex-direction: column;
@@ -46,6 +47,14 @@ function App() {
                   <Form step={step} setStep={setStep} />
                   <PreviewBar />
                 </Box>
+              </>
+            }
+          />
+          <Route
+            path='/preview'
+            element={
+              <>
+                <Temp1 />
               </>
             }
           />
