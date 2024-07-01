@@ -2,13 +2,14 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 
 const PreviewBarDiv = styled.div`
+  display: none !important;
   position: fixed;
   display: flex;
   align-items: center;
   padding: 2vh 4vw 2vh 1vw;
   right: 0;
   top: 60px;
-  display: flex;
+  /* display: flex; */
   height: 100vh;
   width: 20vw;
   background-color: var(--color-secondary);
