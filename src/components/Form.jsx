@@ -3,8 +3,10 @@ import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import DownloadPage from './DownloadPage.jsx'
 import { handleSubmit } from '../api/api.js'
-import html2canvas from 'html2canvas';
-
+import html2canvas from 'html2canvas'
+import { useDispatch, useSelector } from 'react-redux'
+import { setPersonalDetails } from '../redux/slices/personalDetailsSlice.js'
+import { addEdu, setEdu } from '../redux/slices/eduSlice.js'
 const Cont = styled.div`
   display: flex;
   align-items: center;
@@ -81,6 +83,19 @@ const ResponsiveDiv = styled.div`
   }
 `
 const Form = ({ step, setStep }) => {
+  //dispatch to use actions on state
+  const dispatch = useDispatch()
+
+  const personalDetails = useSelector((state) => state.personalDetails)
+  const edu = useSelector((state) => state.edu)
+  const [inputCounts, setInputCounts] = useState({
+    edu: 1,
+    skill: 1,
+    work: 1,
+    project: 1,
+    course: 1,
+    achievement: 1
+  })
   const formRef = useRef(null)
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [resStatus, setResStatus] = useState(
@@ -88,11 +103,11 @@ const Form = ({ step, setStep }) => {
   )
   const [downloadStatus, setDownloadStatus] = useState(false)
   const [downloadUrl, setDownloadUrl] = useState(null)
-  const [personalDetails, setPersonalDetails] = useState(
-    Array.from({ length: 1 }, () => ({}))
-  )
+  // const [personalDetails, setPersonalDetails] = useState(
+  //   Array.from({ length: 1 }, () => ({}))
+  // )
   const [eduCount, setEduCount] = useState(1)
-  const [edu, setEdu] = useState(Array.from({ length: eduCount }, () => ({})))
+  // const [edu, setEdu] = useState(Array.from({ length: eduCount }, () => ({})))
   const [skillCount, setSkillCount] = useState(1)
   const [skill, setSkill] = useState(
     Array.from({ length: skillCount }, () => ({}))
@@ -154,9 +169,10 @@ const Form = ({ step, setStep }) => {
     _stateChanger(values)
   }
 
-  const handleAddClick = (count, countChanger, _state, _stateChanger) => {
-    countChanger(count + 1)
-    _stateChanger([..._state, {}])
+  const handleAddClick = (count, addReducerFn) => {
+    dispatch(addReducerFn())
+    setInputCounts((prev) => ({ ...prev, [count]: prev[count] + 1 }))
+    console.log(inputCounts[count])
   }
   const handleDeleteClick = (
     count,
@@ -170,27 +186,28 @@ const Form = ({ step, setStep }) => {
     values.splice(index, 1)
     _stateChanger(values)
   }
-  const handleImageChange = (e) => {
-    const file = e.target.files[0]
-    e.preventDefault()
-    if (!file) {
-      console.log('No file uploaded')
-      return
-    } else {
-      console.log(file)
-      const formData = new FormData()
-      formData.append('image', file)
+  // const handleImageChange = (e) => {
+  //   const file = e.target.files[0]
+  //   e.preventDefault()
+  //   if (!file) {
+  //     console.log('No file uploaded')
+  //     return
+  //   } else {
+  //     console.log(file)
+  //     const formData = new FormData()
+  //     formData.append('image', file)
 
-      try {
-        fetch('https://perfect-resume-backend.onrender.com/upload', {
-          method: 'POST',
-          body: formData
-        })
-      } catch (err) {
-        console.log(err)
-      }
-    }
-  }
+  //     try {
+  //       fetch('https://perfect-resume-backend.onrender.com/upload', {
+  //         method: 'POST',
+  //         body: formData
+  //       })
+  //     } catch (err) {
+  //       console.log(err)
+  //     }
+  //   }
+  // }
+
   return (
     <>
       {isSubmitted ? (
@@ -230,13 +247,13 @@ const Form = ({ step, setStep }) => {
                           id='name'
                           label='Name'
                           name='name'
-                          value={personalDetails[0].name || ''}
+                          value={personalDetails.name || ''}
                           onChange={(event) =>
-                            handleInputChange(
-                              0,
-                              event,
-                              personalDetails,
-                              setPersonalDetails
+                            dispatch(
+                              setPersonalDetails({
+                                field: 'name',
+                                value: event.target.value
+                              })
                             )
                           }
                         />
@@ -248,13 +265,13 @@ const Form = ({ step, setStep }) => {
                           label='Email'
                           type='email'
                           name='email'
-                          value={personalDetails[0].email || ''}
+                          value={personalDetails.email || ''}
                           onChange={(event) =>
-                            handleInputChange(
-                              0,
-                              event,
-                              personalDetails,
-                              setPersonalDetails
+                            dispatch(
+                              setPersonalDetails({
+                                field: 'email',
+                                value: event.target.value
+                              })
                             )
                           }
                         />
@@ -266,13 +283,13 @@ const Form = ({ step, setStep }) => {
                           label='Phone Number'
                           type='tel'
                           name='phone'
-                          value={personalDetails[0].phone || ''}
+                          value={personalDetails.phone || ''}
                           onChange={(event) =>
-                            handleInputChange(
-                              0,
-                              event,
-                              personalDetails,
-                              setPersonalDetails
+                            dispatch(
+                              setPersonalDetails({
+                                field: 'phone',
+                                value: event.target.value
+                              })
                             )
                           }
                         />
@@ -284,13 +301,13 @@ const Form = ({ step, setStep }) => {
                           id='dob'
                           type='date'
                           name='dob'
-                          value={personalDetails[0].dob || ''}
+                          value={personalDetails.dob || ''}
                           onChange={(event) =>
-                            handleInputChange(
-                              0,
-                              event,
-                              personalDetails,
-                              setPersonalDetails
+                            dispatch(
+                              setPersonalDetails({
+                                field: 'dob',
+                                value: event.target.value
+                              })
                             )
                           }
                         />
@@ -308,13 +325,13 @@ const Form = ({ step, setStep }) => {
                           id='address'
                           label='Address'
                           name='address'
-                          value={personalDetails[0].address || ''}
+                          value={personalDetails.address || ''}
                           onChange={(event) =>
-                            handleInputChange(
-                              0,
-                              event,
-                              personalDetails,
-                              setPersonalDetails
+                            dispatch(
+                              setPersonalDetails({
+                                field: 'address',
+                                value: event.target.value
+                              })
                             )
                           }
                         />
@@ -325,13 +342,13 @@ const Form = ({ step, setStep }) => {
                           id='about'
                           label='About Me'
                           name='about'
-                          value={personalDetails[0].about || ''}
+                          value={personalDetails.about || ''}
                           onChange={(event) =>
-                            handleInputChange(
-                              0,
-                              event,
-                              personalDetails,
-                              setPersonalDetails
+                            dispatch(
+                              setPersonalDetails({
+                                field: 'about',
+                                value: event.target.value
+                              })
                             )
                           }
                         />
@@ -342,13 +359,13 @@ const Form = ({ step, setStep }) => {
                           id='linktree'
                           label='Linktree link'
                           name='linktree'
-                          value={personalDetails[0].linktree || ''}
+                          value={personalDetails.linktree || ''}
                           onChange={(event) =>
-                            handleInputChange(
-                              0,
-                              event,
-                              personalDetails,
-                              setPersonalDetails
+                            dispatch(
+                              setPersonalDetails({
+                                field: 'linktree',
+                                value: event.target.value
+                              })
                             )
                           }
                         />
@@ -390,7 +407,7 @@ const Form = ({ step, setStep }) => {
                   <Box>
                     <Heading>Education</Heading>
                   </Box>
-                  {Array.from({ length: eduCount }, (_, index) => (
+                  {Array.from({ length: inputCounts.edu }, (_, index) => (
                     <ResponsiveDiv>
                       <InputBox>
                         <TextField
@@ -399,9 +416,15 @@ const Form = ({ step, setStep }) => {
                           label='Course / Exam'
                           key={`course-${index}`}
                           value={edu[index].course || ''}
-                          onChange={(event) =>
-                            handleInputChange(index, event, edu, setEdu)
-                          }
+                          onChange={(e) => {
+                            dispatch(
+                              setEdu({
+                                index,
+                                field: 'course',
+                                value: e.target.value
+                              })
+                            )
+                          }}
                         />
                         <TextField
                           style={{ width: '150px' }}
@@ -409,9 +432,15 @@ const Form = ({ step, setStep }) => {
                           label='Institution'
                           key={`institution-${index}`}
                           value={edu[index].institution || ''}
-                          onChange={(event) =>
-                            handleInputChange(index, event, edu, setEdu)
-                          }
+                          onChange={(e) => {
+                            dispatch(
+                              setEdu({
+                                index,
+                                field: 'institution',
+                                value: e.target.value
+                              })
+                            )
+                          }}
                         />
                         <TextField
                           style={{ width: '150px' }}
@@ -419,9 +448,15 @@ const Form = ({ step, setStep }) => {
                           label='Year of passing'
                           key={`year-${index}`}
                           value={edu[index].year || ''}
-                          onChange={(event) =>
-                            handleInputChange(index, event, edu, setEdu)
-                          }
+                          onChange={(e) => {
+                            dispatch(
+                              setEdu({
+                                index,
+                                field: 'year',
+                                value: e.target.value
+                              })
+                            )
+                          }}
                         />
                         <TextField
                           style={{ width: '150px' }}
@@ -429,9 +464,15 @@ const Form = ({ step, setStep }) => {
                           label='Percentage / CGPA'
                           key={`marks-${index}`}
                           value={edu[index].marks || ''}
-                          onChange={(event) =>
-                            handleInputChange(index, event, edu, setEdu)
-                          }
+                          onChange={(e) => {
+                            dispatch(
+                              setEdu({
+                                index,
+                                field: 'marks',
+                                value: e.target.value
+                              })
+                            )
+                          }}
                         />
                       </InputBox>
                       <DeleteBtn
@@ -458,9 +499,7 @@ const Form = ({ step, setStep }) => {
                     </Box>
                     <Box>
                       <StyledButton
-                        onClick={() =>
-                          handleAddClick(eduCount, setEduCount, edu, setEdu)
-                        }
+                        onClick={() => handleAddClick('edu', addEdu)}
                       >
                         Add input
                       </StyledButton>

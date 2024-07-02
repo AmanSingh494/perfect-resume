@@ -93,7 +93,7 @@ const mapWork = (arr, section) => {
   }
   return (
     <div className='work-tempOne'>
-      <p class='font-medium-tempOne titillium-web-semibold-tempOne'>
+      <p className='font-medium-tempOne titillium-web-semibold-tempOne'>
         {' '}
         {section}
       </p>
