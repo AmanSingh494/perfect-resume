@@ -6,7 +6,25 @@ import { handleSubmit } from '../api/api.js'
 import html2canvas from 'html2canvas'
 import { useDispatch, useSelector } from 'react-redux'
 import { setPersonalDetails } from '../redux/slices/personalDetailsSlice.js'
-import { addEdu, setEdu } from '../redux/slices/eduSlice.js'
+import { addEdu, removeEdu, setEdu } from '../redux/slices/eduSlice.js'
+import { addSkill, removeSkill, setSkill } from '../redux/slices/skillsSlice.js'
+import {
+  addProject,
+  removeProject,
+  setProject
+} from '../redux/slices/projectsSlice.js'
+import {
+  addAchievement,
+  removeAchievement,
+  setAchievement
+} from '../redux/slices/achievementsSlice.js'
+import {
+  addCourse,
+  removeCourse,
+  setCourse
+} from '../redux/slices/additionalCourseSlice.js'
+import { addWork, removeWork, setWork } from '../redux/slices/workSlice.js'
+
 const Cont = styled.div`
   display: flex;
   align-items: center;
@@ -66,7 +84,9 @@ const DeleteBtn = styled.span`
     left: 60vw;
   }
 `
-const ResponsiveTextfield = styled(TextField)(({ width, responsiveWidth }) => ({
+const ResponsiveTextfield = styled(TextField).withConfig({
+  shouldForwardProp: (prop) => !['width', 'responsiveWidth'].includes(prop)
+})(({ width, responsiveWidth }) => ({
   '&&': {
     width: width,
     '@media (max-width:768px)': {
@@ -88,6 +108,12 @@ const Form = ({ step, setStep }) => {
 
   const personalDetails = useSelector((state) => state.personalDetails)
   const edu = useSelector((state) => state.edu)
+  const skill = useSelector((state) => state.skills)
+  const work = useSelector((state) => state.work)
+  const projects = useSelector((state) => state.projects)
+  const course = useSelector((state) => state.additionalCourse)
+  const achievements = useSelector((state) => state.achievements)
+
   const [inputCounts, setInputCounts] = useState({
     edu: 1,
     skill: 1,
@@ -103,40 +129,9 @@ const Form = ({ step, setStep }) => {
   )
   const [downloadStatus, setDownloadStatus] = useState(false)
   const [downloadUrl, setDownloadUrl] = useState(null)
-  // const [personalDetails, setPersonalDetails] = useState(
-  //   Array.from({ length: 1 }, () => ({}))
-  // )
-  const [eduCount, setEduCount] = useState(1)
-  // const [edu, setEdu] = useState(Array.from({ length: eduCount }, () => ({})))
-  const [skillCount, setSkillCount] = useState(1)
-  const [skill, setSkill] = useState(
-    Array.from({ length: skillCount }, () => ({}))
-  )
-  const [workCount, setWorkCount] = useState(1)
-  const [work, setWork] = useState(
-    Array.from({ length: workCount }, () => ({}))
-  )
-  const [projectCount, setProjectCount] = useState(1)
-  const [projects, setProjects] = useState(
-    Array.from({ length: projectCount }, () => ({}))
-  )
-  const [courseCount, setCourseCount] = useState(1)
-  const [course, setCourse] = useState(
-    Array.from({ length: courseCount }, () => ({}))
-  )
-  const [achievementCount, setAchievementsCount] = useState(1)
-  const [achievements, setAchievements] = useState(
-    Array.from({ length: achievementCount }, () => ({}))
-  )
-  // const [customSectionCount, setCustomSectionCount] = useState(1)
-  // const [customSection, setCustomSection] = useState(
-  //   Array.from({ length: customSectionCount }, () => ({}))
-  // )
-  // const [image, setImage] = useState(null)
 
   //use effect for download functionality
   useEffect(() => {
-    console.log(downloadStatus, downloadUrl)
     if (downloadStatus && downloadUrl) {
       const link = document.createElement('a')
       link.href = downloadUrl
@@ -162,29 +157,20 @@ const Form = ({ step, setStep }) => {
       setDownloadUrl
     )
   }
-  const handleInputChange = (index, e, _state, _stateChanger) => {
-    const values = [..._state]
-    const name = e.target.name
-    values[index][name] = e.target.value
-    _stateChanger(values)
-  }
+  // const handleInputChange = (index, e, _state, _stateChanger) => {
+  //   const values = [..._state]
+  //   const name = e.target.name
+  //   values[index][name] = e.target.value
+  //   _stateChanger(values)
+  // }
 
   const handleAddClick = (count, addReducerFn) => {
     dispatch(addReducerFn())
     setInputCounts((prev) => ({ ...prev, [count]: prev[count] + 1 }))
-    console.log(inputCounts[count])
   }
-  const handleDeleteClick = (
-    count,
-    countChanger,
-    index,
-    _state,
-    _stateChanger
-  ) => {
-    countChanger(count - 1)
-    const values = [..._state]
-    values.splice(index, 1)
-    _stateChanger(values)
+  const handleDeleteClick = (count, index, removeReducerFn) => {
+    dispatch(removeReducerFn({ index }))
+    setInputCounts((prev) => ({ ...prev, [count]: prev[count] - 1 }))
   }
   // const handleImageChange = (e) => {
   //   const file = e.target.files[0]
@@ -251,7 +237,7 @@ const Form = ({ step, setStep }) => {
                           onChange={(event) =>
                             dispatch(
                               setPersonalDetails({
-                                field: 'name',
+                                field: event.target.name,
                                 value: event.target.value
                               })
                             )
@@ -269,7 +255,7 @@ const Form = ({ step, setStep }) => {
                           onChange={(event) =>
                             dispatch(
                               setPersonalDetails({
-                                field: 'email',
+                                field: event.target.name,
                                 value: event.target.value
                               })
                             )
@@ -287,7 +273,7 @@ const Form = ({ step, setStep }) => {
                           onChange={(event) =>
                             dispatch(
                               setPersonalDetails({
-                                field: 'phone',
+                                field: event.target.name,
                                 value: event.target.value
                               })
                             )
@@ -305,7 +291,7 @@ const Form = ({ step, setStep }) => {
                           onChange={(event) =>
                             dispatch(
                               setPersonalDetails({
-                                field: 'dob',
+                                field: event.target.name,
                                 value: event.target.value
                               })
                             )
@@ -329,7 +315,7 @@ const Form = ({ step, setStep }) => {
                           onChange={(event) =>
                             dispatch(
                               setPersonalDetails({
-                                field: 'address',
+                                field: event.target.name,
                                 value: event.target.value
                               })
                             )
@@ -346,7 +332,7 @@ const Form = ({ step, setStep }) => {
                           onChange={(event) =>
                             dispatch(
                               setPersonalDetails({
-                                field: 'about',
+                                field: event.target.name,
                                 value: event.target.value
                               })
                             )
@@ -363,26 +349,13 @@ const Form = ({ step, setStep }) => {
                           onChange={(event) =>
                             dispatch(
                               setPersonalDetails({
-                                field: 'linktree',
+                                field: event.target.name,
                                 value: event.target.value
                               })
                             )
                           }
                         />
                       </Box>
-                      {/* <Box padding={'19px 25px'} border={'0.5px solid #b6b0b0'}>
-                        <input
-                          type='file'
-                          name='imageUpload'
-                          id='imageUpload'
-                          accept='image/jpg, image/png'
-                          style={{ display: 'none' }}
-                          onChange={handleImageChange}
-                        />
-                        <label htmlFor='imageUpload' className='imageUpload'>
-                          Upload your image here
-                        </label>
-                      </Box> */}
                     </Box>
                   </Box>
 
@@ -408,7 +381,7 @@ const Form = ({ step, setStep }) => {
                     <Heading>Education</Heading>
                   </Box>
                   {Array.from({ length: inputCounts.edu }, (_, index) => (
-                    <ResponsiveDiv>
+                    <ResponsiveDiv key={`edu-div-${index}`}>
                       <InputBox>
                         <TextField
                           style={{ width: '150px' }}
@@ -420,7 +393,7 @@ const Form = ({ step, setStep }) => {
                             dispatch(
                               setEdu({
                                 index,
-                                field: 'course',
+                                field: e.target.name,
                                 value: e.target.value
                               })
                             )
@@ -436,7 +409,7 @@ const Form = ({ step, setStep }) => {
                             dispatch(
                               setEdu({
                                 index,
-                                field: 'institution',
+                                field: e.target.name,
                                 value: e.target.value
                               })
                             )
@@ -452,7 +425,7 @@ const Form = ({ step, setStep }) => {
                             dispatch(
                               setEdu({
                                 index,
-                                field: 'year',
+                                field: e.target.name,
                                 value: e.target.value
                               })
                             )
@@ -468,7 +441,7 @@ const Form = ({ step, setStep }) => {
                             dispatch(
                               setEdu({
                                 index,
-                                field: 'marks',
+                                field: e.target.name,
                                 value: e.target.value
                               })
                             )
@@ -478,13 +451,8 @@ const Form = ({ step, setStep }) => {
                       <DeleteBtn
                         className='material-symbols-outlined'
                         onClick={() => {
-                          handleDeleteClick(
-                            eduCount,
-                            setEduCount,
-                            index,
-                            edu,
-                            setEdu
-                          )
+                          // the count, that is the first parameter has to be passed as a string
+                          handleDeleteClick('edu', index, removeEdu)
                         }}
                       >
                         delete
@@ -521,38 +489,44 @@ const Form = ({ step, setStep }) => {
                     alignItems={'center'}
                     gap={2}
                   >
-                    {Array.from({ length: skillCount }, (_, index) => (
-                      <ResponsiveDiv>
+                    {Array.from({ length: inputCounts.skill }, (_, index) => (
+                      <ResponsiveDiv key={`skill-div-${index}`}>
                         <InputBox>
                           <TextField
                             label='Skill'
                             name='skill'
                             key={`skill-${index}`}
                             value={skill[index].skill || ''}
-                            onChange={(event) =>
-                              handleInputChange(index, event, skill, setSkill)
-                            }
+                            onChange={(e) => {
+                              dispatch(
+                                setSkill({
+                                  index,
+                                  field: e.target.name,
+                                  value: e.target.value
+                                })
+                              )
+                            }}
                           />
                           <TextField
                             label='Level'
                             name='level'
                             key={`level-${index}`}
                             value={skill[index].level || ''}
-                            onChange={(event) =>
-                              handleInputChange(index, event, skill, setSkill)
-                            }
+                            onChange={(e) => {
+                              dispatch(
+                                setSkill({
+                                  index,
+                                  field: e.target.name,
+                                  value: e.target.value
+                                })
+                              )
+                            }}
                           />
                         </InputBox>
                         <DeleteBtn
                           className='material-symbols-outlined'
                           onClick={() => {
-                            handleDeleteClick(
-                              skillCount,
-                              setSkillCount,
-                              index,
-                              skill,
-                              setSkill
-                            )
+                            handleDeleteClick('skill', index, removeSkill)
                           }}
                         >
                           delete
@@ -568,14 +542,7 @@ const Form = ({ step, setStep }) => {
                     </Box>
                     <Box>
                       <StyledButton
-                        onClick={() =>
-                          handleAddClick(
-                            skillCount,
-                            setSkillCount,
-                            skill,
-                            setSkill
-                          )
-                        }
+                        onClick={() => handleAddClick('skill', addSkill)}
                       >
                         Add input
                       </StyledButton>
@@ -604,22 +571,23 @@ const Form = ({ step, setStep }) => {
                     alignItems={'center'}
                     gap={2}
                   >
-                    {Array.from({ length: projectCount }, (_, index) => (
-                      <ResponsiveDiv>
+                    {Array.from({ length: inputCounts.project }, (_, index) => (
+                      <ResponsiveDiv key={`project-div-${index}`}>
                         <InputBox>
                           <ResponsiveTextfield
                             label='Company / Project Name'
                             name='company'
                             key={`name-${index}`}
                             value={projects[index].company || ''}
-                            onChange={(event) =>
-                              handleInputChange(
-                                index,
-                                event,
-                                projects,
-                                setProjects
+                            onChange={(e) => {
+                              dispatch(
+                                setProject({
+                                  index,
+                                  field: e.target.name,
+                                  value: e.target.value
+                                })
                               )
-                            }
+                            }}
                             width='100px'
                             responsiveWidth='200px'
                           />
@@ -628,14 +596,15 @@ const Form = ({ step, setStep }) => {
                             name='position'
                             key={`position-${index}`}
                             value={projects[index].position || ''}
-                            onChange={(event) =>
-                              handleInputChange(
-                                index,
-                                event,
-                                projects,
-                                setProjects
+                            onChange={(e) => {
+                              dispatch(
+                                setProject({
+                                  index,
+                                  field: e.target.name,
+                                  value: e.target.value
+                                })
                               )
-                            }
+                            }}
                             width='100px'
                             responsiveWidth='200px'
                           />
@@ -644,14 +613,15 @@ const Form = ({ step, setStep }) => {
                             name='start'
                             key={`start-${index}`}
                             value={projects[index].start || ''}
-                            onChange={(event) =>
-                              handleInputChange(
-                                index,
-                                event,
-                                projects,
-                                setProjects
+                            onChange={(e) => {
+                              dispatch(
+                                setProject({
+                                  index,
+                                  field: e.target.name,
+                                  value: e.target.value
+                                })
                               )
-                            }
+                            }}
                             width='100px'
                             responsiveWidth='200px'
                           />
@@ -660,14 +630,15 @@ const Form = ({ step, setStep }) => {
                             name='end'
                             key={`end-${index}`}
                             value={projects[index].end || ''}
-                            onChange={(event) =>
-                              handleInputChange(
-                                index,
-                                event,
-                                projects,
-                                setProjects
+                            onChange={(e) => {
+                              dispatch(
+                                setProject({
+                                  index,
+                                  field: e.target.name,
+                                  value: e.target.value
+                                })
                               )
-                            }
+                            }}
                             width='100px'
                             responsiveWidth='200px'
                           />
@@ -676,27 +647,22 @@ const Form = ({ step, setStep }) => {
                             name='exp'
                             key={`exp-${index}`}
                             value={projects[index].exp || ''}
-                            onChange={(event) =>
-                              handleInputChange(
-                                index,
-                                event,
-                                projects,
-                                setProjects
+                            onChange={(e) => {
+                              dispatch(
+                                setProject({
+                                  index,
+                                  field: e.target.name,
+                                  value: e.target.value
+                                })
                               )
-                            }
+                            }}
                             style={{ width: '200px' }}
                           />
                         </InputBox>
                         <DeleteBtn
                           className='material-symbols-outlined'
                           onClick={() => {
-                            handleDeleteClick(
-                              projectCount,
-                              setProjectCount,
-                              index,
-                              projects,
-                              setProjects
-                            )
+                            handleDeleteClick('project', index, removeProject)
                           }}
                         >
                           delete
@@ -712,14 +678,7 @@ const Form = ({ step, setStep }) => {
                     </Box>
                     <Box>
                       <StyledButton
-                        onClick={() =>
-                          handleAddClick(
-                            projectCount,
-                            setProjectCount,
-                            projects,
-                            setProjects
-                          )
-                        }
+                        onClick={() => handleAddClick('project', addProject)}
                       >
                         Add input
                       </StyledButton>
@@ -748,17 +707,23 @@ const Form = ({ step, setStep }) => {
                     alignItems={'center'}
                     gap={2}
                   >
-                    {Array.from({ length: workCount }, (_, index) => (
-                      <ResponsiveDiv>
+                    {Array.from({ length: inputCounts.work }, (_, index) => (
+                      <ResponsiveDiv key={`work-div-${index}`}>
                         <InputBox>
                           <ResponsiveTextfield
                             label='Company Name'
                             name='company'
                             key={`company-${index}`}
                             value={work[index].company || ''}
-                            onChange={(event) =>
-                              handleInputChange(index, event, work, setWork)
-                            }
+                            onChange={(e) => {
+                              dispatch(
+                                setWork({
+                                  index,
+                                  field: e.target.name,
+                                  value: e.target.value
+                                })
+                              )
+                            }}
                             width='100px'
                             responsiveWidth='200px'
                           />
@@ -767,9 +732,15 @@ const Form = ({ step, setStep }) => {
                             name='position'
                             key={`position-${index}`}
                             value={work[index].position || ''}
-                            onChange={(event) =>
-                              handleInputChange(index, event, work, setWork)
-                            }
+                            onChange={(e) => {
+                              dispatch(
+                                setWork({
+                                  index,
+                                  field: e.target.name,
+                                  value: e.target.value
+                                })
+                              )
+                            }}
                             width='100px'
                             responsiveWidth='200px'
                           />
@@ -778,9 +749,15 @@ const Form = ({ step, setStep }) => {
                             name='start'
                             key={`start-${index}`}
                             value={work[index].start || ''}
-                            onChange={(event) =>
-                              handleInputChange(index, event, work, setWork)
-                            }
+                            onChange={(e) => {
+                              dispatch(
+                                setWork({
+                                  index,
+                                  field: e.target.name,
+                                  value: e.target.value
+                                })
+                              )
+                            }}
                             width='100px'
                             responsiveWidth='200px'
                           />
@@ -789,9 +766,15 @@ const Form = ({ step, setStep }) => {
                             name='end'
                             key={`end-${index}`}
                             value={work[index].end || ''}
-                            onChange={(event) =>
-                              handleInputChange(index, event, work, setWork)
-                            }
+                            onChange={(e) => {
+                              dispatch(
+                                setWork({
+                                  index,
+                                  field: e.target.name,
+                                  value: e.target.value
+                                })
+                              )
+                            }}
                             width='100px'
                             responsiveWidth='200px'
                           />
@@ -800,22 +783,22 @@ const Form = ({ step, setStep }) => {
                             name='exp'
                             key={`exp-${index}`}
                             value={work[index].exp || ''}
-                            onChange={(event) =>
-                              handleInputChange(index, event, work, setWork)
-                            }
+                            onChange={(e) => {
+                              dispatch(
+                                setWork({
+                                  index,
+                                  field: e.target.name,
+                                  value: e.target.value
+                                })
+                              )
+                            }}
                             style={{ width: '200px' }}
                           />
                         </InputBox>
                         <DeleteBtn
                           className='material-symbols-outlined'
                           onClick={() => {
-                            handleDeleteClick(
-                              workCount,
-                              setWorkCount,
-                              index,
-                              work,
-                              setWork
-                            )
+                            handleDeleteClick('work', index, removeWork)
                           }}
                         >
                           delete
@@ -831,9 +814,7 @@ const Form = ({ step, setStep }) => {
                     </Box>
                     <Box>
                       <StyledButton
-                        onClick={() =>
-                          handleAddClick(workCount, setWorkCount, work, setWork)
-                        }
+                        onClick={() => handleAddClick('work', addWork)}
                       >
                         Add input
                       </StyledButton>
@@ -858,86 +839,91 @@ const Form = ({ step, setStep }) => {
                     flexDirection={'column'}
                     gap={2}
                   >
-                    {Array.from({ length: achievementCount }, (_, index) => (
-                      <ResponsiveDiv>
-                        <InputBox>
-                          <TextField
-                            style={{ width: '150px' }}
-                            label='Achievement / Prize'
-                            name='name'
-                            key={`name-${index}`}
-                            value={achievements[index].name || ''}
-                            onChange={(event) =>
-                              handleInputChange(
+                    {Array.from(
+                      { length: inputCounts.achievement },
+                      (_, index) => (
+                        <ResponsiveDiv key={`achievement-div-${index}`}>
+                          <InputBox>
+                            <TextField
+                              style={{ width: '150px' }}
+                              label='Achievement / Prize'
+                              name='name'
+                              key={`name-${index}`}
+                              value={achievements[index].name || ''}
+                              onChange={(e) => {
+                                dispatch(
+                                  setAchievement({
+                                    index,
+                                    field: e.target.name,
+                                    value: e.target.value
+                                  })
+                                )
+                              }}
+                            />
+                            <TextField
+                              style={{ width: '150px' }}
+                              label='Name of the Event'
+                              name='event'
+                              key={`event-${index}`}
+                              value={achievements[index].event || ''}
+                              onChange={(e) => {
+                                dispatch(
+                                  setAchievement({
+                                    index,
+                                    field: e.target.name,
+                                    value: e.target.value
+                                  })
+                                )
+                              }}
+                            />
+                            <TextField
+                              style={{ width: '150px' }}
+                              label='Organised by'
+                              name='organiser'
+                              key={`organiser-${index}`}
+                              value={achievements[index].organiser || ''}
+                              onChange={(e) => {
+                                dispatch(
+                                  setAchievement({
+                                    index,
+                                    field: e.target.name,
+                                    value: e.target.value
+                                  })
+                                )
+                              }}
+                            />
+                            <TextField
+                              style={{ width: '150px' }}
+                              label='Year'
+                              name='year'
+                              key={`year-${index}`}
+                              value={achievements[index].year || ''}
+                              onChange={(e) => {
+                                dispatch(
+                                  setAchievement({
+                                    index,
+                                    field: e.target.name,
+                                    value: e.target.value
+                                  })
+                                )
+                              }}
+                            />
+                          </InputBox>
+                          <DeleteBtn
+                            className='material-symbols-outlined'
+                            onClick={() => {
+                              handleDeleteClick(
+                                'achievement',
                                 index,
-                                event,
-                                achievements,
-                                setAchievements
+                                removeAchievement
                               )
-                            }
-                          />
-                          <TextField
-                            style={{ width: '150px' }}
-                            label='Name of the Event'
-                            name='event'
-                            key={`event-${index}`}
-                            value={achievements[index].event || ''}
-                            onChange={(event) =>
-                              handleInputChange(
-                                index,
-                                event,
-                                achievements,
-                                setAchievements
-                              )
-                            }
-                          />
-                          <TextField
-                            style={{ width: '150px' }}
-                            label='Organised by'
-                            name='organiser'
-                            key={`organiser-${index}`}
-                            value={achievements[index].organiser || ''}
-                            onChange={(event) =>
-                              handleInputChange(
-                                index,
-                                event,
-                                achievements,
-                                setAchievements
-                              )
-                            }
-                          />
-                          <TextField
-                            style={{ width: '150px' }}
-                            label='Year'
-                            name='year'
-                            key={`year-${index}`}
-                            value={achievements[index].year || ''}
-                            onChange={(event) =>
-                              handleInputChange(
-                                index,
-                                event,
-                                achievements,
-                                setAchievements
-                              )
-                            }
-                          />
-                        </InputBox>
-                        <DeleteBtn
-                          className='material-symbols-outlined'
-                          onClick={() => {
-                            handleDeleteClick(
-                              achievementCount,
-                              setAchievementsCount,
-                              index,
-                              achievements,
-                              setAchievements
-                            )
-                          }}
-                        >
-                          delete
-                        </DeleteBtn>
-                      </ResponsiveDiv>
-                    ))}{' '}
+                            }}
+                          >
+                            delete
+                          </DeleteBtn>
+                        </ResponsiveDiv>
+                      )
+                    )}{' '}
                   </Box>
                   <NavigationButtons>
                     <Box>
@@ -948,12 +934,7 @@ const Form = ({ step, setStep }) => {
                     <Box>
                       <StyledButton
                         onClick={() =>
-                          handleAddClick(
-                            achievementCount,
-                            setAchievementsCount,
-                            achievements,
-                            setAchievements
-                          )
+                          handleAddClick('achievement', addAchievement)
                         }
                       >
                         Add input
@@ -984,17 +965,23 @@ const Form = ({ step, setStep }) => {
                     alignItems={'center'}
                     gap={2}
                   >
-                    {Array.from({ length: courseCount }, (_, index) => (
-                      <ResponsiveDiv>
+                    {Array.from({ length: inputCounts.course }, (_, index) => (
+                      <ResponsiveDiv key={`course-div-${index}`}>
                         <InputBox>
                           <TextField
                             label='Course Name'
                             name='course'
                             key={`course-${index}`}
                             value={course[index].course || ''}
-                            onChange={(event) =>
-                              handleInputChange(index, event, course, setCourse)
-                            }
+                            onChange={(e) => {
+                              dispatch(
+                                setCourse({
+                                  index,
+                                  field: e.target.name,
+                                  value: e.target.value
+                                })
+                              )
+                            }}
                             style={{ width: '150px' }}
                           />
                           <TextField
@@ -1002,9 +989,15 @@ const Form = ({ step, setStep }) => {
                             name='duration'
                             key={`duration-${index}`}
                             value={course[index].duration || ''}
-                            onChange={(event) =>
-                              handleInputChange(index, event, course, setCourse)
-                            }
+                            onChange={(e) => {
+                              dispatch(
+                                setCourse({
+                                  index,
+                                  field: e.target.name,
+                                  value: e.target.value
+                                })
+                              )
+                            }}
                             style={{ width: '150px' }}
                           />
                           <TextField
@@ -1012,22 +1005,22 @@ const Form = ({ step, setStep }) => {
                             name='exp'
                             key={`exp-${index}`}
                             value={course[index].exp || ''}
-                            onChange={(event) =>
-                              handleInputChange(index, event, course, setCourse)
-                            }
+                            onChange={(e) => {
+                              dispatch(
+                                setCourse({
+                                  index,
+                                  field: e.target.name,
+                                  value: e.target.value
+                                })
+                              )
+                            }}
                             style={{ width: '200px' }}
                           />
                         </InputBox>
                         <DeleteBtn
                           className='material-symbols-outlined'
                           onClick={() => {
-                            handleDeleteClick(
-                              courseCount,
-                              setCourseCount,
-                              index,
-                              course,
-                              setCourse
-                            )
+                            handleDeleteClick('course', index, removeCourse)
                           }}
                         >
                           delete
@@ -1043,14 +1036,7 @@ const Form = ({ step, setStep }) => {
                     </Box>
                     <Box>
                       <StyledButton
-                        onClick={() =>
-                          handleAddClick(
-                            courseCount,
-                            setCourseCount,
-                            course,
-                            setCourse
-                          )
-                        }
+                        onClick={() => handleAddClick('course', addCourse)}
                       >
                         Add input
                       </StyledButton>

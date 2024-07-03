@@ -13,10 +13,14 @@ export const eduSlice = createSlice({
     addEdu: (state) => [
       ...state,
       { course: '', institution: '', year: '', marks: '' }
-    ]
+    ],
+    removeEdu: (state, action) => {
+      const { index } = action.payload
+      state.splice(index, 1)
+    }
   }
 })
 
-export const { setEdu, addEdu } = eduSlice.actions
+export const { setEdu, addEdu, removeEdu } = eduSlice.actions
 
 export default eduSlice.reducer
