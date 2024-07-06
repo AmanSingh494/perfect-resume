@@ -389,27 +389,27 @@ const LandingPage = () => {
           <PaperDiv ref={paperDivRef}>
             <PaperTextDiv>
               <PaperText>
-                <span class='material-symbols-outlined'>nearby</span>
+                <span className='material-symbols-outlined'>nearby</span>
                 <p>NO SUBSCRIPTION REQUIRED</p>
               </PaperText>
               <PaperText>
-                <span class='material-symbols-outlined'>nearby</span>
+                <span className='material-symbols-outlined'>nearby</span>
                 <p>NO CLICK BAITS</p>
               </PaperText>
               <PaperText>
-                <span class='material-symbols-outlined'>nearby</span>
+                <span className='material-symbols-outlined'>nearby</span>
                 <p>SAVES TIME AND EFFORT</p>
               </PaperText>
               <PaperText>
-                <span class='material-symbols-outlined'>nearby</span>
+                <span className='material-symbols-outlined'>nearby</span>
                 <p>EASY TO USE</p>
               </PaperText>
               <PaperText>
-                <span class='material-symbols-outlined'>nearby</span>
+                <span className='material-symbols-outlined'>nearby</span>
                 <p>ONE CLICK DOWNLOAD</p>
               </PaperText>
               <PaperText>
-                <span class='material-symbols-outlined'>nearby</span>
+                <span className='material-symbols-outlined'>nearby</span>
                 <p>NO WATERMARK ON RESUME</p>
               </PaperText>
             </PaperTextDiv>
@@ -436,18 +436,18 @@ const LandingPage = () => {
         <UsageHeading>HOW TO GET THE MOST OUT OF PERFECT RESUME ?</UsageHeading>
         <UsagePointsDiv>
           <UsagePoints>
-            <span class='material-symbols-outlined'>nearby</span>
+            <span className='material-symbols-outlined'>nearby</span>
             <p>
               MAKE SURE TO BE READY WITH ALL YOUR PERSONAL AND ACADEMIC DETAILS,
               YOUR WORK EXPERIENCE AND WORK EXPERIENCE
             </p>
           </UsagePoints>
           <UsagePoints>
-            <span class='material-symbols-outlined'>nearby</span>
+            <span className='material-symbols-outlined'>nearby</span>
             <p>SELECT A TEMPLATE</p>
           </UsagePoints>
           <UsagePoints>
-            <span class='material-symbols-outlined'>nearby</span>
+            <span className='material-symbols-outlined'>nearby</span>
             <p>DOWNLOAD YOUR RESUME</p>
           </UsagePoints>
         </UsagePointsDiv>

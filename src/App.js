@@ -10,13 +10,13 @@ import LandingPage from './components/LandingPage'
 import Footer from './components/Footer'
 import PreviewBar from './components/PreviewBar'
 import Temp1 from './components/Temp1'
+import MainContainer from './components/MainContainer'
 const Main = styled.div`
   display: flex;
   flex-direction: column;
   position: relative;
 `
 function App() {
-  const [step, setStep] = useState(1)
   useEffect(() => {
     document.title = 'Perfect Resume'
   }, [])
@@ -38,15 +38,7 @@ function App() {
             element={
               <>
                 <Navbar current={'create-resume'} />
-                <Box
-                  display='flex'
-                  alignItems={'center'}
-                  justifyContent={'center'}
-                >
-                  <ProcessBar step={step} setStep={setStep} />
-                  <Form step={step} setStep={setStep} />
-                  <PreviewBar />
-                </Box>
+                <MainContainer />
               </>
             }
           />

@@ -5,10 +5,7 @@ import styled from 'styled-components'
 // Function to map and render education items as filled in by the user
 const mapEdu = (arr) => {
   // Early return if the first item is empty or any property is empty
-  if (
-    !arr.length ||
-    arr.some((item) => Object.values(item).some((value) => value === ''))
-  ) {
+  if (!arr.length || Object.values(arr[0])[0] === '') {
     return null
   }
 
@@ -54,10 +51,7 @@ const mapEdu = (arr) => {
 }
 
 const mapCourse = (arr) => {
-  if (
-    !arr.length ||
-    arr.some((item) => Object.values(item).some((value) => value === ''))
-  ) {
+  if (!arr.length || Object.values(arr[0])[0] === '') {
     return null
   }
   return (
@@ -85,10 +79,7 @@ const mapCourse = (arr) => {
 
 // Function to map and render work experience
 const mapWork = (arr, section) => {
-  if (
-    !arr.length ||
-    arr.some((item) => Object.values(item).some((value) => value === ''))
-  ) {
+  if (!arr.length || Object.values(arr[0])[0] === '') {
     return null
   }
   return (
@@ -120,10 +111,7 @@ const mapWork = (arr, section) => {
 
 // Function to map and render achievements
 const mapAchievements = (arr) => {
-  if (
-    !arr.length ||
-    arr.some((item) => Object.values(item).some((value) => value === ''))
-  ) {
+  if (!arr.length || Object.values(arr[0])[0] === '') {
     return null
   }
   return (
@@ -154,10 +142,7 @@ const mapAchievements = (arr) => {
 
 // Function to map and render skills
 const mapSkill = (arr) => {
-  if (
-    !arr.length ||
-    arr.some((item) => Object.values(item).some((value) => value === ''))
-  ) {
+  if (!arr.length || Object.values(arr[0])[0] === '') {
     return null
   }
   return (
@@ -189,15 +174,14 @@ const MainDiv = styled.main``
 const Temp1 = ({ formData }) => {
   const { personalDetails, achievements, edu, skill, projects, work, course } =
     formData
-  const { personName, email, phone, address, dob, about, linktree } =
-    personalDetails[0]
+  const { name, email, phone, address, dob, about, linktree } = personalDetails
   return (
     <MainDiv>
       <div className='main-tempOne'>
         <div className='header-tempOne'>
           <div>
             <p className='titillium-web-semibold-tempOne font-large-tempOne'>
-              {personName}
+              {name}
             </p>
           </div>
           <div className='header-details-tempOne font-small-tempOne'>
