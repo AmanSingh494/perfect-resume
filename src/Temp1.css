@@ -1,0 +1,144 @@
+@import url('https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap');
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Titillium Web', sans-serif;
+}
+
+:root {
+  --font-large-tempOne: 0.8rem;
+  --font-medium-tempOne: 0.45rem;
+  --font-small-tempOne: 0.35rem;
+  --font-ex-small-tempOne: 0.3rem;
+  --font-bold-tempOne: 700;
+  --font-light-tempOne: lighter;
+}
+
+/* utilities */
+.font-large-tempOne {
+  font-size: var(--font-large-tempOne);
+}
+
+.font-medium-tempOne {
+  font-size: var(--font-medium-tempOne);
+}
+
+.font-small-tempOne {
+  font-size: var(--font-small-tempOne);
+}
+
+.font-ex-small-tempOne {
+  font-size: var(--font-ex-small-tempOne);
+}
+
+.font-bold-tempOne {
+  font-weight: var(--font-bold-tempOne);
+}
+
+.font-light-tempOne {
+  font-weight: var(--font-light-tempOne);
+}
+.black-div-tempOne {
+  height: 1px;
+  background-color: black;
+  width: auto;
+}
+
+.main-tempOne {
+  max-height: 80vh;
+  overflow-y: scroll;
+  min-width: 28vw;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background-color: white;
+  color: black;
+  padding: 10px;
+  transition: all 0.3s linear;
+  @media (max-width: 768px) {
+    min-width: 90vw;
+  }
+}
+
+.header-tempOne {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-details-tempOne {
+  display: flex;
+  gap: 5px;
+}
+
+.all-lists-tempOne {
+  display: flex;
+  flex-direction: column;
+  margin: 5px 0;
+}
+
+.list-heading-tempOne {
+  display: flex;
+  justify-content: space-between;
+}
+
+.indented-list-tempOne {
+  margin-left: 30px;
+}
+
+/* education */
+.education-section-tempOne {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.education-tempOne {
+  display: flex;
+  flex-direction: column;
+}
+
+.education-list-tempOne {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.education-item-tempOne {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #000;
+  padding: 10px;
+  text-align: center;
+}
+
+.titillium-web-light-tempOne {
+  font-family: 'Titillium Web', sans-serif;
+  font-weight: 300;
+  font-style: normal;
+}
+
+.titillium-web-regular-tempOne {
+  font-family: 'Titillium Web', sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.titillium-web-semibold-tempOne {
+  font-family: 'Titillium Web', sans-serif;
+  font-weight: 600;
+  font-style: normal;
+}
+
+.titillium-web-bold-tempOne {
+  font-family: 'Titillium Web', sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.titillium-web-black-tempOne {
+  font-family: 'Titillium Web', sans-serif;
+  font-weight: 900;
+  font-style: normal;
+}

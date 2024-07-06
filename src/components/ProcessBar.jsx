@@ -17,14 +17,17 @@ const Sidebar = styled(Box).withConfig({
   background-color: var(--color-secondary);
   color: white;
   padding: 2vh 1vw 2vh 4vw;
-  height: calc(100vh - 80px);
+  height: calc(100vh - 60px);
   box-sizing: border-box;
   transform: ${({ isOpen }) => (isOpen ? 'translateX(0)' : 'translateX(-85%)')};
-  transition: transform 0.5s ease-in-out;
+  transition: transform 0.3s ease-in-out;
   box-shadow: 10px 0px 20px 9px rgba(0, 0, 0, 0.2);
   z-index: 9;
   @media (max-width: 768px) {
-    display: none;
+    /* display: none; */
+    padding: 2vh 4vw;
+    transform: ${({ isOpen }) =>
+      isOpen ? 'translateX(0)' : 'translateX(-100%)'};
   }
 `
 const StepContainerDiv = styled.div`
@@ -102,6 +105,11 @@ const Rectangle2 = styled.div`
   transform: rotate(60deg);
   top: 215px;
   left: -35px;
+  @media (max-width: 768px) {
+    top: auto;
+    bottom: 120px !important;
+    left: 56px;
+  }
 `
 const Rectangle3 = styled.div`
   position: absolute;
@@ -150,6 +158,9 @@ const ArrowDiv = styled.div.withConfig({
   border-radius: 5px;
   transform: ${({ isOpen }) => (isOpen ? 'rotate(180deg)' : 'rotate(0deg)')};
   /* transition: transform 0.5s ease-in-out; */
+  @media (max-width: 768px) {
+    display: none;
+  }
 `
 const BackdropDiv = styled.div.withConfig({
   shouldForwardProp: (prop, defaultValidatorFn) => !['isOpen'].includes(prop)
@@ -167,7 +178,7 @@ const BackdropDiv = styled.div.withConfig({
   z-index: 8;
   opacity: 0.3;
 `
-const ProcessBar = ({ step, setStep }) => {
+const ProcessBar = ({ step, setStep, isOpen, setIsOpen }) => {
   const steps = [
     'Personal Details',
     'Education',
@@ -178,7 +189,7 @@ const ProcessBar = ({ step, setStep }) => {
     'Additional Courses'
   ]
   // creating isOpen state to keep track of open and closed processBar
-  const [isOpen, setIsOpen] = useState(false)
+  // const [isOpen, setIsOpen] = useState(false) //now passed as a prop
 
   // using useRef and useEffect hook to get the top of circle1 and circle2, difference between them is the height and then will mulitply it to get the height of the path
   const circle1Ref = useRef(null)
@@ -211,7 +222,7 @@ const ProcessBar = ({ step, setStep }) => {
       // Setting a timeout equal to the duration of the CSS transition to make sure the function runs after the bar has shown
       const timer = setTimeout(() => {
         updatePositions()
-      }, 500)
+      }, 300)
 
       return () => clearTimeout(timer)
     }
