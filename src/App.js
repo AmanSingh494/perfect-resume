@@ -42,14 +42,6 @@ function App() {
               </>
             }
           />
-          <Route
-            path='/preview'
-            element={
-              <>
-                <Temp1 />
-              </>
-            }
-          />
         </Routes>
         <Footer />
       </Main>

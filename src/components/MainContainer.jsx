@@ -25,6 +25,7 @@ const OptionsCircle = styled.div`
   align-items: center;
   justify-content: center;
   background-color: var(--color-primary);
+  border: 3px solid var(--color-primary);
   border-radius: 50%;
   height: 50px;
   width: 50px;
@@ -39,6 +40,7 @@ const CloseCircle = styled.div`
   align-items: center;
   justify-content: center;
   background-color: var(--color-primary);
+  border: 3px solid var(--color-primary);
   border-radius: 50%;
   height: 50px;
   width: 50px;
@@ -55,6 +57,7 @@ const VisibilityCircle = styled.div`
   align-items: center;
   justify-content: center;
   background-color: var(--color-primary);
+  border: 3px solid var(--color-primary);
   border-radius: 50%;
   height: 50px;
   width: 50px;
@@ -70,6 +73,7 @@ const VisibilityOffCircle = styled.div`
   align-items: center;
   justify-content: center;
   background-color: var(--color-primary);
+  border: 3px solid var(--color-primary);
   border-radius: 50%;
   height: 50px;
   width: 50px;
@@ -85,6 +89,7 @@ const RouteCircle = styled.div`
   align-items: center;
   justify-content: center;
   background-color: var(--color-primary);
+  border: 3px solid var(--color-primary);
   border-radius: 50%;
   height: 50px;
   width: 50px;
@@ -181,23 +186,6 @@ const MainContainer = () => {
       }, 200)
     }
   }
-  // const handleVisibilityOffClick = () => {
-  //   setIsOpenPreviewBar(false)
-  //   if (
-  //     OptionsCircleRef.current &&
-  //     CloseCircleRef.current &&
-  //     VisibilityCircleRef.current &&
-  //     VisibilityOffCircleRef.current
-  //   ) {
-  //     VisibilityOffCircleRef.current.style.transform = 'translateX(0)'
-  //     setTimeout(() => {
-  //       VisibilityCircleRef.current.style.display = 'flex'
-  //       VisibilityOffCircleRef.current.style.display = 'none'
-  //       CloseCircleRef.current.style.transform = 'rotateY(0deg)'
-  //       OptionsCircleRef.current.style.display = 'flex'
-  //     }, 200)
-  //   }
-  // }
 
   const handleClickRoute = () => {
     if (isOpenProcessBar) {
@@ -224,7 +212,12 @@ const MainContainer = () => {
     }
   }
   return (
-    <Box display='flex' alignItems={'center'} justifyContent={'center'}>
+    <Box
+      display='flex'
+      alignItems={'center'}
+      justifyContent={'center'}
+      minHeight={'85vh'}
+    >
       <ProcessBar
         step={step}
         setStep={setStep}

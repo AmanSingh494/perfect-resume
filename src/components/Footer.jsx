@@ -1,10 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
 const FooterContainer = styled.div`
-  position: fixed;
+  position: relative;
   bottom: 0;
   left: 0;
-  display: none;
+  /* display: none; */
 `
 const MadeByDiv = styled.div`
   display: flex;
@@ -21,6 +21,9 @@ const MadeByText = styled.p`
   background-color: var(--color-primary);
   color: white;
   width: 100vw;
+  @media (max-width: 768px) {
+    font-size: 0.8rem;
+  }
 `
 const HeartIcon = styled.span`
   color: red;
