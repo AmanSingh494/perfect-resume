@@ -1,5 +1,5 @@
 import React from 'react'
-import '../Temp1.css'
+import '../../styles/Temp1.css'
 import styled from 'styled-components'
 
 // Function to map and render education items as filled in by the user
@@ -68,7 +68,9 @@ const mapCourse = (arr) => {
               <p>{item.duration}</p>
             </div>
             <div className='indented-list-tempOne'>
-              <li>{item.exp}</li>
+              {item.exp.map((exp, i) => (
+                <li key={i}>{exp}</li>
+              ))}
             </div>
           </div>
         ))}
@@ -85,7 +87,6 @@ const mapWork = (arr, section) => {
   return (
     <div className='work-tempOne'>
       <p className='font-medium-tempOne titillium-web-semibold-tempOne'>
-        {' '}
         {section}
       </p>
       <div className='black-div-tempOne'></div>
@@ -100,7 +101,9 @@ const mapWork = (arr, section) => {
             </div>
             <div className='indented-list-tempOne'>
               <li>Worked as {item.position}</li>
-              <li>{item.exp}</li>
+              {item.exp.map((exp, i) => (
+                <li key={i}>{exp}</li>
+              ))}
             </div>
           </div>
         ))}

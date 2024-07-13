@@ -1,25 +1,22 @@
 import { useEffect, useState } from 'react'
 import './index.css'
-import Form from './components/Form'
 import Navbar from './components/Navbar'
-import ProcessBar from './components/ProcessBar'
-import { Box } from '@mui/material'
 import styled from 'styled-components'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import LandingPage from './components/LandingPage'
-import Footer from './components/Footer'
-import PreviewBar from './components/PreviewBar'
-import Temp1 from './components/Temp1'
 import MainContainer from './components/MainContainer'
+import ExperiencesInput from './components/ExperiencesInput'
 const Main = styled.div`
   display: flex;
   flex-direction: column;
   position: relative;
 `
 function App() {
+  const [templateName, setTemplateName] = useState('temp1')
   useEffect(() => {
     document.title = 'Perfect Resume'
   }, [])
+
   return (
     <BrowserRouter>
       <Main>
@@ -29,7 +26,7 @@ function App() {
             element={
               <>
                 <Navbar current={'home'} />
-                <LandingPage />
+                <LandingPage setTemplateName={setTemplateName} />
               </>
             }
           />
@@ -38,12 +35,21 @@ function App() {
             element={
               <>
                 <Navbar current={'create-resume'} />
-                <MainContainer />
+                <MainContainer templateName={templateName} />
+              </>
+            }
+          />
+          <Route
+            path='/check-multiple-inputs'
+            element={
+              <>
+                <Navbar current={'create-resume'} />
+                <ExperiencesInput />
               </>
             }
           />
         </Routes>
-        <Footer />
+        {/* <Footer /> */}
       </Main>
     </BrowserRouter>
   )

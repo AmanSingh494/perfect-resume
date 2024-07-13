@@ -10,8 +10,11 @@ import { addEdu, removeEdu, setEdu } from '../redux/slices/eduSlice.js'
 import { addSkill, removeSkill, setSkill } from '../redux/slices/skillsSlice.js'
 import {
   addProject,
+  addProjectExp,
+  deleteProjectExp,
   removeProject,
-  setProject
+  setProject,
+  setProjectExp
 } from '../redux/slices/projectsSlice.js'
 import {
   addAchievement,
@@ -20,10 +23,21 @@ import {
 } from '../redux/slices/achievementsSlice.js'
 import {
   addCourse,
+  addCourseExp,
+  deleteCourseExp,
   removeCourse,
-  setCourse
+  setCourse,
+  setCourseExp
 } from '../redux/slices/additionalCourseSlice.js'
-import { addWork, removeWork, setWork } from '../redux/slices/workSlice.js'
+import {
+  addWork,
+  addWorkExp,
+  deleteWorkExp,
+  removeWork,
+  setWork,
+  setWorkExp
+} from '../redux/slices/workSlice.js'
+import ExperiencesInput from './ExperiencesInput.jsx'
 
 const Cont = styled.div`
   display: flex;
@@ -642,21 +656,12 @@ const Form = ({ step, setStep }) => {
                             width='100px'
                             responsiveWidth='200px'
                           />
-                          <TextField
-                            label='Experience / Acheivements'
-                            name='exp'
-                            key={`exp-${index}`}
-                            value={projects[index].exp || ''}
-                            onChange={(e) => {
-                              dispatch(
-                                setProject({
-                                  index,
-                                  field: e.target.name,
-                                  value: e.target.value
-                                })
-                              )
-                            }}
-                            style={{ width: '200px' }}
+                          <ExperiencesInput
+                            index={index}
+                            stateName={'projects'}
+                            stateChanger={setProjectExp}
+                            deleteFn={deleteProjectExp}
+                            addFn={addProjectExp}
                           />
                         </InputBox>
                         <DeleteBtn
@@ -778,21 +783,12 @@ const Form = ({ step, setStep }) => {
                             width='100px'
                             responsiveWidth='200px'
                           />
-                          <TextField
-                            label='Experience / Acheivements'
-                            name='exp'
-                            key={`exp-${index}`}
-                            value={work[index].exp || ''}
-                            onChange={(e) => {
-                              dispatch(
-                                setWork({
-                                  index,
-                                  field: e.target.name,
-                                  value: e.target.value
-                                })
-                              )
-                            }}
-                            style={{ width: '200px' }}
+                          <ExperiencesInput
+                            index={index}
+                            stateName={'work'}
+                            stateChanger={setWorkExp}
+                            deleteFn={deleteWorkExp}
+                            addFn={addWorkExp}
                           />
                         </InputBox>
                         <DeleteBtn
@@ -1000,21 +996,12 @@ const Form = ({ step, setStep }) => {
                             }}
                             style={{ width: '150px' }}
                           />
-                          <TextField
-                            label='Experience / Acheivements'
-                            name='exp'
-                            key={`exp-${index}`}
-                            value={course[index].exp || ''}
-                            onChange={(e) => {
-                              dispatch(
-                                setCourse({
-                                  index,
-                                  field: e.target.name,
-                                  value: e.target.value
-                                })
-                              )
-                            }}
-                            style={{ width: '200px' }}
+                          <ExperiencesInput
+                            index={index}
+                            stateName={'additionalCourse'}
+                            stateChanger={setCourseExp}
+                            deleteFn={deleteCourseExp}
+                            addFn={addCourseExp}
                           />
                         </InputBox>
                         <DeleteBtn

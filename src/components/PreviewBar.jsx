@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import Temp1 from './Temp1'
+import Temp1 from './preview-templates/Temp1'
 import { useSelector } from 'react-redux'
+import Temp2 from './preview-templates/Temp2'
 
 const PreviewBarDiv = styled.div.withConfig({
   shouldForwardProp: (prop) => !['isOpen'].includes(prop)
@@ -52,6 +53,7 @@ const ArrowDivSpan = styled.span`
   }
 `
 const PreviewBar = ({ isOpen, setIsOpen }) => {
+  const templateName = 'temp2'
   const personalDetails = useSelector((state) => state.personalDetails)
   const edu = useSelector((state) => state.edu)
   const skill = useSelector((state) => state.skills)
@@ -76,7 +78,11 @@ const PreviewBar = ({ isOpen, setIsOpen }) => {
           chevron_right
         </ArrowDivSpan>
       </ArrowDiv>
-      <Temp1 formData={formData} />
+      {templateName === 'temp1' ? (
+        <Temp1 formData={formData} />
+      ) : (
+        <Temp2 formData={formData} />
+      )}
     </PreviewBarDiv>
   )
 }

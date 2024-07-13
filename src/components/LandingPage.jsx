@@ -41,7 +41,7 @@ const PrimaryText = styled.div`
     gap: 10px;
   }
 `
-const PrimeHeading = styled.h1`
+const PrimaryHeading = styled.h1`
   font-size: var(--font-ex-large);
   font-family: var(--font-primary);
   font-weight: var(--font-ex-bold);
@@ -272,6 +272,28 @@ const StyledButton = styled(Button)`
     }
   }
 `
+
+const TemplateChoiceContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 100px;
+  background: white;
+  box-shadow: 0px 0px 6px 5px #e7e1e1;
+  height: 60vh;
+  width: 70vw;
+`
+const TemplateChoiceBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`
+const TemplateChoiceItem = styled.img`
+  height: 200px;
+`
 const LandingPage = () => {
   //setting up refs for manipulating the dom
   // const bagOpenRef = useRef(null)
@@ -361,9 +383,9 @@ const LandingPage = () => {
     <LandingPageDiv>
       <StyledBackground src={landingPageBackgroundImg} />
       <PrimaryText ref={primartyTextRef}>
-        <PrimeHeading>
+        <PrimaryHeading>
           WELCOME <p>TO</p> PERFECT RESUME
-        </PrimeHeading>
+        </PrimaryHeading>
         <PrimarySubHeading>RESUME MADE EASY</PrimarySubHeading>
         <PrimaryDescription>
           Perfect Resume is a user-friendly web app that creates professional
@@ -431,6 +453,15 @@ const LandingPage = () => {
         </ExamplesImgDiv>
       </ExamplesContainer>
 
+      {/* Template choice Container */}
+      <TemplateChoiceContainer>
+        <PrimarySubHeading>Choose Your Template</PrimarySubHeading>
+        <TemplateChoiceBox>
+          <a href={resumeExample1} target='_blank' rel='noopener noreferrer'>
+            <ExampleImg src={resumeExample1} alt='resumeExample1' />
+          </a>
+        </TemplateChoiceBox>
+      </TemplateChoiceContainer>
       {/* Usage Guidelines Section */}
       {/* <UsageContainer>
         <UsageHeading>HOW TO GET THE MOST OUT OF PERFECT RESUME ?</UsageHeading>

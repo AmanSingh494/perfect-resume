@@ -113,7 +113,7 @@ const Btn = styled.span`
   color: white;
 `
 
-const MainContainer = () => {
+const MainContainer = ({ templateName }) => {
   const [step, setStep] = useState(1)
   const [isOpenPreviewBar, setIsOpenPreviewBar] = useState(false)
   const [isOpenProcessBar, setIsOpenProcessBar] = useState(false)
@@ -225,7 +225,11 @@ const MainContainer = () => {
         setIsOpen={setIsOpenProcessBar}
       />
       <Form step={step} setStep={setStep} />
-      <PreviewBar isOpen={isOpenPreviewBar} setIsOpen={setIsOpenPreviewBar} />
+      <PreviewBar
+        isOpen={isOpenPreviewBar}
+        setIsOpen={setIsOpenPreviewBar}
+        templateName={templateName}
+      />
       <OptionsContainer>
         <RouteCircle ref={RouteCircleRef} onClick={handleClickRoute}>
           <Btn className='material-symbols-outlined'>route</Btn>
