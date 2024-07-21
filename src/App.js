@@ -12,7 +12,7 @@ const Main = styled.div`
   position: relative;
 `
 function App() {
-  const [templateName, setTemplateName] = useState('temp1')
+  const [templateName, setTemplateName] = useState('')
   useEffect(() => {
     document.title = 'Perfect Resume'
   }, [])
@@ -26,7 +26,10 @@ function App() {
             element={
               <>
                 <Navbar current={'home'} />
-                <LandingPage setTemplateName={setTemplateName} />
+                <LandingPage
+                  setTemplateName={setTemplateName}
+                  templateName={templateName}
+                />
               </>
             }
           />
@@ -36,15 +39,6 @@ function App() {
               <>
                 <Navbar current={'create-resume'} />
                 <MainContainer templateName={templateName} />
-              </>
-            }
-          />
-          <Route
-            path='/check-multiple-inputs'
-            element={
-              <>
-                <Navbar current={'create-resume'} />
-                <ExperiencesInput />
               </>
             }
           />

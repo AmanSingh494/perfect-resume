@@ -116,7 +116,7 @@ const ResponsiveDiv = styled.div`
     display: block;
   }
 `
-const Form = ({ step, setStep }) => {
+const Form = ({ step, setStep, templateName }) => {
   //dispatch to use actions on state
   const dispatch = useDispatch()
 
@@ -162,6 +162,7 @@ const Form = ({ step, setStep }) => {
     setStep((current) => current + x)
   }
   //function created to send request after handleClick moved to api.js
+
   const sendRequest = async (e) => {
     setIsSubmitted(true)
     handleSubmit(

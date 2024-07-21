@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import interviewImage from '../assets/img/interview-image.jpg'
 import bagOpen from '../assets/img/bag-open.jpg'
@@ -6,6 +6,7 @@ import bagClose from '../assets/img/bag-close.jpg'
 import folderImg from '../assets/img/folderImg.png'
 import resumeExample1 from '../assets/img/resume-example1.jpg'
 import resumeExample2 from '../assets/img/resume-example2.jpg'
+import resume2 from '../assets/img/resume2.jpg'
 import paper from '../assets/img/paper.png'
 import landingPageBackgroundImg from '../assets/img/landing-page-background-img.png'
 import { Button } from '@mui/material'
@@ -273,28 +274,98 @@ const StyledButton = styled(Button)`
   }
 `
 
-const TemplateChoiceContainer = styled.div`
-  display: flex;
+const TemplateChoiceContainer = styled.div.withConfig({
+  shouldForwardProp: (prop) => !['isOpen'].includes(prop)
+})`
+  display: ${({ isOpen }) => (isOpen ? 'flex' : 'none')};
   flex-direction: column;
   align-items: center;
   justify-content: center;
   position: fixed;
   top: 100px;
   background: white;
-  box-shadow: 0px 0px 6px 5px #e7e1e1;
-  height: 60vh;
-  width: 70vw;
+  gap: 4vh;
+  padding: 20px 30px 10px;
+  z-index: 9;
+  border-radius: 40px;
+  @media (max-width: 768px) {
+    /* border-radius: 0; */
+    gap: 4vh;
+    top: 25vh;
+  }
 `
 const TemplateChoiceBox = styled.div`
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 7vw;
+  @media (max-width: 768px) {
+    /* flex-direction: column; */
+    /* width: 70vw;
+    overflow-x: scroll; */
+  }
+`
+const TemplateChoiceItemBox = styled.div`
+  position: relative;
 `
 const TemplateChoiceItem = styled.img`
-  height: 200px;
+  height: 300px;
+  border: 2px solid var(--color-primary);
+  transition: all 0.3s linear;
+  position: relative;
+  z-index: 100;
+  &:hover {
+    transform: scale(1.8);
+    position: relative;
+    top: 0px;
+    z-index: 102;
+  }
+  @media (max-width: 768px) {
+    height: 200px;
+  }
 `
-const LandingPage = () => {
+const TickIcon = styled.span`
+  position: absolute;
+  top: -9px;
+  right: -10px;
+  font-size: 1.5rem;
+  color: green;
+  z-index: 101;
+`
+const TemplateChoiceHeading = styled.h3`
+  font-size: var(--font-medium);
+  font-family: var(--font-secondary);
+  font-weight: 670;
+  color: var(--color-primary);
+  text-align: center;
+  @media (max-width: 768px) {
+    font-size: 1.3rem;
+    padding: 5px;
+  }
+`
+const BackdropDiv = styled.div.withConfig({
+  shouldForwardProp: (prop) => !['isOpen'].includes(prop)
+})`
+  display: ${({ isOpen }) => (isOpen ? 'block' : 'none')};
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  height: 100vh;
+  width: 100vw;
+  z-index: 8;
+  backdrop-filter: blur(10px);
+`
+const CrossBtn = styled.span`
+  position: absolute;
+  top: 0;
+  right: -3vw;
+  cursor: pointer;
+`
+const LandingPage = ({ templateName, setTemplateName }) => {
+  const [choiceBoxIsOpen, setChoiceBoxIsOpen] = useState(false)
   //setting up refs for manipulating the dom
   // const bagOpenRef = useRef(null)
   // const bagCloseRef = useRef(null)
@@ -395,9 +466,14 @@ const LandingPage = () => {
           out. Start building your career success today, easily and for free!
         </PrimaryDescription>
         <StyledButton>
-          <Link style={{ color: 'white' }} to='/create-resume'>
+          <p
+            style={{ color: 'white' }}
+            onClick={() => {
+              setChoiceBoxIsOpen(true)
+            }}
+          >
             GET STARTED
-          </Link>
+          </p>
         </StyledButton>
       </PrimaryText>
 
@@ -454,14 +530,73 @@ const LandingPage = () => {
       </ExamplesContainer>
 
       {/* Template choice Container */}
-      <TemplateChoiceContainer>
-        <PrimarySubHeading>Choose Your Template</PrimarySubHeading>
+      <TemplateChoiceContainer isOpen={choiceBoxIsOpen}>
+        <TemplateChoiceHeading>Choose Your Template</TemplateChoiceHeading>
         <TemplateChoiceBox>
-          <a href={resumeExample1} target='_blank' rel='noopener noreferrer'>
-            <ExampleImg src={resumeExample1} alt='resumeExample1' />
-          </a>
+          <TemplateChoiceItemBox>
+            <TemplateChoiceItem
+              src={resumeExample1}
+              alt='resumeExample1'
+              onClick={() => {
+                setTemplateName('temp1')
+              }}
+            />
+            <TickIcon
+              style={{ display: templateName === 'temp1' ? 'block' : 'none' }}
+            >
+              <i
+                className='fa-solid fa-circle-check'
+                style={{ backgroundColor: 'white' }}
+              ></i>
+            </TickIcon>
+          </TemplateChoiceItemBox>
+          <TemplateChoiceItemBox>
+            <TemplateChoiceItem
+              src={resume2}
+              alt='resumeExample1'
+              onClick={() => {
+                setTemplateName('temp2')
+              }}
+            />
+            <TickIcon
+              style={{ display: templateName === 'temp2' ? 'block' : 'none' }}
+            >
+              <i
+                className='fa-solid fa-circle-check'
+                style={{ backgroundColor: 'white' }}
+              ></i>
+            </TickIcon>
+          </TemplateChoiceItemBox>
         </TemplateChoiceBox>
+        <StyledButton
+          disabled={templateName === '' ? true : false}
+          style={{
+            alignSelf: 'flex-end',
+            background:
+              templateName === '' ? '#9489798a' : 'var(--color-tertiary)',
+            fontSize: 'var(--font-small)'
+          }}
+        >
+          <Link style={{ color: 'white' }} to={'/create-resume'}>
+            Next
+          </Link>
+        </StyledButton>
+        <CrossBtn
+          className='material-symbols-outlined'
+          onClick={() => {
+            setChoiceBoxIsOpen(false)
+          }}
+        >
+          {' '}
+          close
+        </CrossBtn>
       </TemplateChoiceContainer>
+      <BackdropDiv
+        isOpen={choiceBoxIsOpen}
+        onClick={() => {
+          setChoiceBoxIsOpen(false)
+        }}
+      />
       {/* Usage Guidelines Section */}
       {/* <UsageContainer>
         <UsageHeading>HOW TO GET THE MOST OUT OF PERFECT RESUME ?</UsageHeading>

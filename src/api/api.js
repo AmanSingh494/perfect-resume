@@ -2,7 +2,6 @@
 
 const handleSubmit = async (e, formData, statusChanger, urlSetter) => {
   try {
-    console.log(formData)
     e.preventDefault()
     const response = await fetch(process.env.REACT_APP_API_URL + '/submit', {
       method: 'POST',

@@ -52,8 +52,7 @@ const ArrowDivSpan = styled.span`
     font-size: 1.5rem;
   }
 `
-const PreviewBar = ({ isOpen, setIsOpen }) => {
-  const templateName = 'temp2'
+const PreviewBar = ({ isOpen, setIsOpen, templateName }) => {
   const personalDetails = useSelector((state) => state.personalDetails)
   const edu = useSelector((state) => state.edu)
   const skill = useSelector((state) => state.skills)

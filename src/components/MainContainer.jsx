@@ -176,18 +176,40 @@ const MainContainer = ({ templateName }) => {
 
   const handleVisibilityClick = () => {
     setIsOpenPreviewBar(true)
+    if (isOpenProcessBar) {
+      setIsOpenProcessBar(false)
+      if (SlashDivRef.current && RouteCircleRef.current) {
+        RouteCircleRef.current.style.transform =
+          'translateX(-120px) rotateY(0deg)'
+        setTimeout(() => {
+          SlashDivRef.current.style.display = 'none'
+        }, 200)
+      }
+    }
     if (VisibilityCircleRef.current && VisibilityOffCircleRef.current) {
       VisibilityCircleRef.current.style.transform =
         'translateX(-60px) rotateY(180deg)'
       setTimeout(() => {
         VisibilityOffCircleRef.current.style.display = 'flex'
         VisibilityCircleRef.current.style.display = 'none'
-        VisibilityCircleRef.current.style.transform = 'rotateY(0deg)'
+        VisibilityCircleRef.current.style.transform =
+          'translateX(-60px) rotateY(0deg)'
       }, 200)
     }
   }
 
   const handleClickRoute = () => {
+    if (isOpenPreviewBar) {
+      setIsOpenPreviewBar(false)
+      if (VisibilityCircleRef.current && VisibilityOffCircleRef.current) {
+        VisibilityOffCircleRef.current.style.transform =
+          'translateX(-60px) rotateY(180deg)'
+        setTimeout(() => {
+          VisibilityOffCircleRef.current.style.display = 'none'
+          VisibilityCircleRef.current.style.display = 'flex'
+        }, 200)
+      }
+    }
     if (isOpenProcessBar) {
       setIsOpenProcessBar(false)
       if (
@@ -224,7 +246,7 @@ const MainContainer = ({ templateName }) => {
         isOpen={isOpenProcessBar}
         setIsOpen={setIsOpenProcessBar}
       />
-      <Form step={step} setStep={setStep} />
+      <Form step={step} setStep={setStep} templateName={templateName} />
       <PreviewBar
         isOpen={isOpenPreviewBar}
         setIsOpen={setIsOpenPreviewBar}

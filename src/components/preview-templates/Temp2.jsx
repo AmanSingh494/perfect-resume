@@ -64,6 +64,34 @@ const mapWork = (arr, section) => {
   )
 }
 
+const mapCourse = (arr, section) => {
+  if (!arr.length || Object.values(arr[0])[0] === '') {
+    return null
+  }
+  return (
+    <div className='work-section-tempTwo'>
+      <div className='heading-tempTwo font-medium-tempTwo font-bold-tempTwo'>
+        Additional Courses
+      </div>
+      <div className='line-div-tempTwo'></div>
+
+      {arr.map((item, index) => (
+        <div className='work-tempTwo box-tempTwo' key={index}>
+          <div className='work-year-tempTwo box-top-tempTwo box-item-tempTwo'>
+            <div className='work-tempTwo font-bold-tempTwo'>{item.course}</div>
+            <div className='year-tempTwo'>{item.duration}</div>
+          </div>
+          <div className='box-tempTwo list-tempTwo font-small-tempTwo'>
+            {item.exp.map((exp, i) => (
+              <li key={i}>{exp}</li>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  )
+}
+
 const mapSkill = (arr) => {
   if (!arr.length || Object.values(arr[0])[0] === '') {
     return null
@@ -76,7 +104,10 @@ const mapSkill = (arr) => {
       <div className='line-div-tempTwo'></div>
 
       {arr.map((item, index) => (
-        <div className='skills-tempTwo box-top-tempTwo' key={index}>
+        <div
+          className='skills-tempTwo box-top-tempTwo font-bold-tempTwo font-small-tempTwo'
+          key={index}
+        >
           <div className='skill-item-tempTwo'> {item.skill}</div>
           <div className='skill-item-tempTwo'> {item.level}</div>
         </div>
@@ -97,18 +128,18 @@ const mapAchievements = (arr) => {
       <div className='line-div-tempTwo'></div>
       {arr.map((item, index) => (
         <div className='achievements-tempTwo box-tempTwo' key={index}>
-          <div className='achievements-year-tempTwo box-top-tempTwo box-item-tempTwo'>
-            <div className='achievements-tempTwo font-bold-tempTwo'>
+          <div className='achievements-year-tempTwo box-top-tempTwo box-item-tempTwo '>
+            <div className='achievements-tempTwo font-small-tempTwo font-bold-tempTwo'>
               {item.event}
             </div>
 
-            <div className='year-tempTwo'>{item.year}</div>
+            <div className='year-tempTwo font-small-tempTwo'>{item.year}</div>
           </div>
           <div className='box-tempTwo list-tempTwo'>
             <li className='achievements-tempTwo'>
-              <span className='font-bold-tempTwo'>{item.name} position </span>{' '}
+              <span className='font-bold-tempTwo'>{item.name} position </span>
               in
-              {item.event} at {item.organiser}{' '}
+              {item.event} at {item.organiser}
             </li>
           </div>
         </div>
@@ -120,7 +151,7 @@ const mapAchievements = (arr) => {
 const Temp2 = ({ formData }) => {
   const { personalDetails, achievements, edu, skill, projects, work, course } =
     formData
-  const { name, email, phone, address, dob, about, linktree } = personalDetails
+  const { name, email, phone, about, linktree } = personalDetails
 
   return (
     <div className='main-container-tempTwo'>
@@ -131,7 +162,7 @@ const Temp2 = ({ formData }) => {
           {mapEdu(edu)}
           {mapWork(work, 'Work Experience')}
           {mapWork(projects, 'Projects / Internships')}
-          {mapWork(course, 'Additional Courses')}
+          {mapCourse(course)}
         </div>
         <div className='right-section-tempTwo font-mid-small-tempTwo'>
           <div className='contacts-section-tempTwo'>
@@ -142,15 +173,19 @@ const Temp2 = ({ formData }) => {
             <div className='contacts-tempTwo box-tempTwo'>
               <div className='contact-item-tempTwo'>
                 <span className='material-symbols-outlined'>call</span>
-                <span>{phone}</span>
+                <p className='font-small-tempTwo'>{phone}</p>
               </div>
               <div className='contact-item-tempTwo'>
                 <span className='material-symbols-outlined'>mail</span>
-                <a href='mailto{{email}}'>{email}</a>
+                <a href='mailto{{email}}' className='font-small-tempTwo'>
+                  {email}
+                </a>
               </div>
               <div className='contact-item-tempTwo'>
                 <span className='material-symbols-outlined'>link</span>
-                <a href={linktree}>My Linktree</a>
+                <a href={linktree} className='font-small-tempTwo'>
+                  My Linktree
+                </a>
               </div>
             </div>
           </div>
@@ -159,7 +194,7 @@ const Temp2 = ({ formData }) => {
               About
             </div>
             <div className='line-div-tempTwo'></div>
-            <p>{about}</p>
+            <p className='font-bold-tempTwo font-small-tempTwo'>{about}</p>
           </div>
           {mapSkill(skill)}
           {mapAchievements(achievements)}
